@@ -1,4 +1,11 @@
-# Decision Ledger — architecture (MVP)
+# Superseded — Decision Ledger
+
+> **Team pivot:** Canonical architecture is now **[../ARCHITECTURE.md](../ARCHITECTURE.md)** (勞權濾網 / Labor Filter).  
+> Product spec: **[../SPEC.md](../SPEC.md)**.
+
+---
+
+# Decision Ledger — architecture (MVP, archived)
 
 Hackathon: FUTUREMODE BUILDMODE Track **03 Future of Work**. ~36h. Host: **Vercel**.
 

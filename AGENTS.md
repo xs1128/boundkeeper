@@ -1,37 +1,123 @@
-# Repository Guidelines
+# Repository Guidelines — 勞權濾網 (Labor Filter)
 
-## Project Structure & Module Organization
+Worker-side Taiwan labor-law message filter. Analyzes **incoming** supervisor messages, flags risks, suggests replies. MVP = paste-in web app; stretch = LINE / Gmail adapters.
 
-This repository is currently an empty project scaffold. Keep the root focused on project-wide configuration and documentation. As implementation is added, use a predictable layout:
+**Read first:** [SPEC.md](SPEC.md) (product) · [ARCHITECTURE.md](ARCHITECTURE.md) (technical)
 
-- `src/` for application or library code.
-- `tests/` for automated tests that mirror the structure of `src/`.
-- `assets/` for static files such as images, fixtures, or sample data.
-- `docs/` for architecture notes and longer-form documentation.
+---
 
-Prefer small, cohesive modules. Do not commit generated output, dependency directories, secrets, or editor-specific files; add them to `.gitignore` first.
+## Project summary
 
-## Build, Test, and Development Commands
+| Item | Value |
+|------|--------|
+| Codename | Labor Filter / 勞權濾網 |
+| Track | FUTUREMODE BUILDMODE — Track 03 Future of Work |
+| Host | Vercel |
+| MVP | Paste message → analyze → risk + law refs + suggested reply |
+| Stretch | LINE LIFF or Messaging API; Gmail add-on or copy-helper |
+| Non-goals | Employer surveillance, legal advice claims, server-side message storage |
 
-No build system or package manager is configured yet. When introducing one, expose the common workflow through a small, documented command set and update this section and the README in the same change. Prefer conventional commands such as:
+---
 
-- `npm run dev` to start a local development server.
-- `npm test` to run the complete test suite.
-- `npm run build` to create a production artifact.
-- `npm run lint` to run static checks and formatting validation.
+## Project structure
 
-Until tooling is added, use `git status` and `git diff --check` before committing to catch unintended files and whitespace errors.
+```
+app/                 # Next.js App Router pages + API routes
+src/                 # Application logic (preferred over scattered lib/)
+  analysis/          # Core: analyzeMessage, prompts, schemas, rules
+  case-log/          # IndexedDB timeline + export
+  adapters/          # web, line, gmail — thin transports only
+tests/               # Mirror src/; must run without OpenAI for fixtures
+assets/
+  legal/             # Statute excerpts, category definitions (zh-TW)
+  fixtures/          # Planted supervisor messages for demo + tests
+docs/                # Hackathon research (may include superseded ideas)
+SPEC.md              # Product specification (canonical)
+ARCHITECTURE.md      # System design (canonical)
+```
 
-## Coding Style & Naming Conventions
+Keep the root focused on config and top-level docs. Do not commit `node_modules/`, `.env`, or generated output.
 
-Follow the formatter and linter configured for the chosen language; commit their configuration alongside the first source files. Use spaces rather than tabs unless the language standard requires otherwise. Choose descriptive names: `PascalCase` for types and components, `camelCase` for functions and variables, and `kebab-case` for documentation or asset filenames. Avoid unrelated formatting changes in feature commits.
+---
 
-## Testing Guidelines
+## Architecture rules (do not violate)
 
-Add tests with every behavior change or bug fix. Mirror source paths where practical and use names such as `tests/parser.test.ts` or the ecosystem-equivalent convention. Tests should be deterministic, isolated from external services by default, and include both expected behavior and important failure cases. Document any required integration-test setup.
+1. **Single analysis core** — All channels call `analyzeMessage()`. No forked legal logic in LINE/Gmail handlers.
+2. **Privacy default** — Do not persist supervisor message bodies in DB. Case log is client-side unless explicitly changed in SPEC.
+3. **Disclaimers required** — Every user-facing analysis includes fixed disclaimer text from SPEC §8.
+4. **Not legal advice** — Copy and UI must say 一般資訊, not 違法確定 or 你會贏.
+5. **Adapters are thin** — `adapters/line.ts` verifies webhook + formats reply only.
+6. **Demo reliability** — Planted fixtures must pass tests via rules or mocks without live LLM.
 
-## Commit & Pull Request Guidelines
+---
 
-There is no existing Git history from which to infer a convention. Use short, imperative commit subjects, optionally following Conventional Commits (for example, `feat: add prompt evaluator` or `fix: handle empty input`). Keep commits focused.
+## Build, test, and development
 
-Pull requests should explain the problem, summarize the solution, list verification performed, and link relevant issues. Include screenshots or sample output for user-visible changes, and call out configuration changes, migrations, or follow-up work.
+When tooling is scaffolded, prefer:
+
+- `pnpm dev` — local Next.js
+- `pnpm test` — unit tests (fixtures first)
+- `pnpm lint` — ESLint / typecheck
+- `pnpm build` — production build
+
+Until then: `git status` and `git diff --check` before commit.
+
+**Env vars (document in `.env.example` only):**
+
+- `OPENAI_API_KEY` — required for live analyze
+- `LINE_CHANNEL_ACCESS_TOKEN`, `LINE_CHANNEL_SECRET` — stretch
+- `LINE_LIFF_ID` — stretch
+
+Never commit secrets.
+
+---
+
+## Coding style
+
+- TypeScript strict mode when scaffolded
+- `PascalCase` types/components, `camelCase` functions, `kebab-case` doc filenames
+- Traditional Chinese for user-facing product copy; English for code identifiers and internal docs
+- Match existing patterns in each file; no drive-by refactors
+
+---
+
+## Testing guidelines
+
+- Add tests with behavior changes
+- **`tests/analysis/planted-fixtures.test.ts`** — each demo plant maps to expected primary category and minimum risk level
+- **`tests/analysis/legal-feedback.test.ts`** — harsh but legal manager message → low/none risk
+- Mock LLM in unit tests; one optional live smoke test before demo
+- Crisis/safety strings route to helplines without legal analysis
+
+---
+
+## AI / LLM implementation notes
+
+- Use Vercel AI SDK `generateObject` + Zod schema matching `AnalyzeResult` in ARCHITECTURE.md
+- System prompt: zh-TW labor context, 職安法職霸五要件, 勞基法 common scenarios, uncertainty calibration
+- Post-validate: always attach disclaimers; downgrade confidence when input is very short
+- Do not log full prompts or user messages to third-party analytics
+
+---
+
+## Commit and PR guidelines
+
+Short imperative subjects; Conventional Commits optional (`feat:`, `fix:`, `docs:`).
+
+PRs should state: problem, solution, verification (tests + demo steps), env changes.
+
+Hackathon submission: public Vercel preview URL + 3-min demo path from SPEC §10.
+
+---
+
+## Hackathon cuts (if behind schedule)
+
+Keep: paste UI, analyze API, 4 planted fixtures, disclaimer, one export path.  
+Cut: Gmail, RAG, PDF, Postgres, auth, metrics dashboard.  
+LINE: prefer LIFF embedding over full bot if webhook time is tight.
+
+---
+
+## Superseded docs
+
+`docs/ARCHITECTURE.md` and `docs/hackathon-brief.md` reference an earlier **Decision Ledger** concept. Do not implement that unless the team explicitly pivots back. Canonical product docs are **root** `SPEC.md` and `ARCHITECTURE.md`.

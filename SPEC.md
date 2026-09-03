@@ -1,6 +1,6 @@
 # SPEC — 勞權濾網 (Labor Filter)
 
-Worker-side copilot that analyzes **incoming** supervisor messages against Taiwan labor law, flags potential risks, and suggests safer replies. Optional stretch: connect to LINE, Gmail, or other channels.
+Worker-side workplace communication copilot that analyzes **incoming** supervisor messages against Taiwan labor law, flags potential risks, and helps workers respond, document, and escalate safely. It creates a new operating layer for worker–manager communication and worker-support organizations. Optional stretch: connect to LINE, Gmail, or other channels.
 
 **Hackathon:** FUTUREMODE BUILDMODE · Track 03 Future of Work · ~36h · Host: Vercel  
 **Status:** Idea locked for build; integrations are stretch goals.
@@ -35,6 +35,21 @@ Manager message  →  Labor Filter  →  Worker sees: risk + law refs + suggeste
 **We are not:** a lawyer, employer surveillance tool, or anonymous hotline replacement.  
 **We are:** general information + structured risk flags + reply coaching, with clear disclaimers and referral to 1955 / 勞工局 / legal counsel for formal action.
 
+### 2.1 Future of Work thesis
+
+AI productivity tools usually optimize work for employers. Labor Filter applies AI to the other side of the workplace: giving workers an immediate, private layer for understanding management communication and taking the next safe action.
+
+It changes a fragmented workplace workflow:
+
+```
+Before: receive message → guess the risk → search scattered sources → draft alone → seek help after harm
+After:  receive message → structured risk screen → safe reply → local record → shareable consultation summary
+```
+
+This transforms how workers, unions, and labor-support organizations collaborate around workplace communication without creating an employer monitoring system.
+
+**Track 03 fit:** workplace communication, knowledge access, and incident-response operations — not a generic legal Q&A chatbot.
+
 ---
 
 ## 3. Users
@@ -42,7 +57,7 @@ Manager message  →  Labor Filter  →  Worker sees: risk + law refs + suggeste
 | Persona | Need |
 |---------|------|
 | **Primary — 一般受雇勞工** | Paste or forward boss LINE/email/chat; understand if wording crosses legal lines; draft a professional response |
-| **Secondary — 工會 / 勞工團體** | Repeatable tool for members (future B2B2C) |
+| **Secondary — 工會 / 勞工團體** | Receive a consistent, structured case summary from members; reduce repeated intake and triage work (future B2B2C) |
 | **Out of scope (MVP)** | HR/compliance buyers, enterprise admin dashboards |
 
 ---
@@ -66,6 +81,7 @@ Manager message  →  Labor Filter  →  Worker sees: risk + law refs + suggeste
 
 - Append analysis to an **on-device or user-exported** timeline (timestamp, original text hash optional, analysis snapshot).
 - **Export** as PDF/JSON for potential 申訴 evidence pack (stretch: one-click template).
+- Structure exports so a worker can bring the same summary to a union, 1955, internal grievance channel, or lawyer without retelling the case from scratch.
 
 ### 4.3 Demo fixtures
 
@@ -114,6 +130,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) §6 for adapter design.
 ### FR-3 Reply coach
 
 - Output reply in **繁體中文**, professional tone, avoids escalation, preserves worker position (e.g. request written confirmation, cite need to check labor rules).
+- Optimize for continued workplace collaboration: clarify expectations, request written confirmation, and preserve boundaries without automatically accusing the sender of illegality.
 
 ### FR-4 Safety & compliance
 
@@ -143,7 +160,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) §6 for adapter design.
 
 **Disclaimer (footer, every result):**
 
-> 勞權濾網使用 AI 提供一般性勞動法資訊與溝通建議，不构成法律意見或律師代理。個案認定需綜合情境與證據。如需申訴或法律協助，請洽 1955 勞工諮詢申訴專線或專業律師。
+> 勞權濾網使用 AI 提供一般性勞動法資訊與溝通建議，不構成法律意見或律師代理。個案認定需綜合情境與證據。如需申訴或法律協助，請洽 1955 勞工諮詢申訴專線或專業律師。
 
 **Category definitions:** maintain in `assets/legal/category-definitions.zh-TW.md` when implemented.
 
@@ -156,8 +173,19 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) §6 for adapter design.
 | Demo time | ≤ 3 minutes |
 | Planted fixtures | ≥ 4/5 correct primary category |
 | False positive | Legal “ tough feedback” fixture → low/none risk |
-| Judge story | Worker empowerment + Taiwan law timing + privacy |
+| Workflow value | Message → risk explanation + editable reply in < 30s during demo |
+| Handoff value | Saved case → structured consultation export in < 30s during demo |
+| Judge story | AI changes workplace communication and worker-support operations; Taiwan law timing + privacy |
 | Stretch | Live LINE or Gmail path shown end-to-end |
+
+### 9.1 Impact hypothesis to validate
+
+- Reduce time spent searching labor-law sources and drafting a first response.
+- Improve consistency of case intake for unions and labor-support organizations.
+- Help workers preserve written context earlier, before details are lost.
+- Reduce unnecessary escalation by distinguishing harsh-but-legal feedback from genuine risk signals.
+
+These are product hypotheses, not proven claims. Demo and user interviews should report observed time or feedback rather than invented market savings.
 
 ---
 
@@ -167,15 +195,16 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) §6 for adapter design.
 2. **Paste** planted bullying message → flags 職場霸凌風險 + 職安法 ref + suggested reply (40s).
 3. **Paste** illegal overtime demand → 勞基法 overtime ref (30s).
 4. **Paste** legal performance feedback → low risk, explains difference (30s).
-5. **Case log** export → “evidence for 申訴” (20s).
+5. **Case log** export → same structured summary can be shared with a union / 1955 / counselor (20s).
 6. **Stretch:** forward same message via LINE bot (30s).
-7. Close: inverse of SideNote — **worker-side**, Taiwan-specific, July 2026 law (10s).
+7. Close: “Future of Work should improve worker agency, not only employer productivity.” **Worker-side**, Taiwan-specific, privacy-first (10s).
 
 ---
 
 ## 11. Out of scope (entire hackathon)
 
 - Employer dashboard or sender-side coaching
+- Team chat surveillance, employee scoring, or organization-wide message monitoring
 - Replacing 1955 or 勞工局 processes
 - Guaranteed legal outcomes
 - English-first product (TW worker market first)

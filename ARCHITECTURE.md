@@ -148,7 +148,7 @@ app/
   log/page.tsx                  # local case timeline (stretch)
   api/analyze/route.ts
   api/webhooks/line/route.ts    # stretch
-lib/
+src/
   analysis/
     analyze-message.ts          # core orchestrator
     prompts/system.zh-TW.ts
@@ -159,6 +159,7 @@ lib/
     store.ts                    # IndexedDB wrapper
     export.ts                   # PDF/JSON
   adapters/
+    types.ts                    # shared MessageAdapter contract
     web.ts
     line.ts                     # stretch
     gmail.ts                    # stretch

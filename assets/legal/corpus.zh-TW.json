@@ -2,13 +2,20 @@
   "schemaVersion": 1,
   "locale": "zh-TW",
   "verifiedAsOf": "2026-09-04",
-  "scopeZh": "TASK.md A1；僅涵蓋五類 demo 情境的一般資訊，不是完整法規庫。",
+  "scopeZh": "台灣受僱者收到之工作訊息風險篩檢；涵蓋霸凌、工時、調動、終止契約、性平、性騷擾、就業歧視、請假、工資、申訴報復與立即危險，不是完整法規庫。",
   "categoryLabels": {
     "workplace_bullying": "職場霸凌風險",
     "illegal_overtime": "加班與工資風險",
     "improper_transfer": "調動風險",
     "forced_resignation": "解僱／逼退壓力",
-    "legal_management": "一般管理回饋"
+    "legal_management": "一般管理回饋",
+    "sexual_harassment": "職場性騷擾風險",
+    "gender_discrimination": "性別／婚孕歧視風險",
+    "employment_discrimination": "就業歧視／招募隱私風險",
+    "leave_rights": "請假與休息權益風險",
+    "wage_violation": "薪資給付風險",
+    "retaliation": "申訴報復風險",
+    "unsafe_work": "危險作業風險"
   },
   "records": [
     {
@@ -756,6 +763,1475 @@
         "file": null,
         "lawNameZh": null,
         "articleNumber": null
+      }
+    },
+    {
+      "id": "lsa-22",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 22 條",
+      "articleNumber": "22",
+      "categoryIds": [
+        "wage_violation"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "工資原則上應全額直接給付勞工；法令另有規定或勞雇雙方另有約定者例外。",
+      "caveatsZh": [
+        "須核對扣款依據、真實合意及強制規定；依法代扣保費或稅款不能直接判為欠薪。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=22&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 法規版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 22 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "22"
+      }
+    },
+    {
+      "id": "lsa-23",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 23 條",
+      "articleNumber": "23",
+      "categoryIds": [
+        "wage_violation"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "工資應定期給付並提供各項計算明細；除特別約定或按月預付外，每月至少發給二次。雇主應保存工資清冊五年。",
+      "caveatsZh": [
+        "約定按月給薪不當然違規；須核對約定發薪日、實際入帳及薪資明細。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=23&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 法規版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 23 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "23"
+      }
+    },
+    {
+      "id": "lsa-26",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 26 條",
+      "articleNumber": "26",
+      "categoryIds": [
+        "wage_violation"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "雇主不得預扣勞工工資，作為違約金或賠償費用。",
+      "caveatsZh": [
+        "不能把設備損壞、客訴或未達業績直接當成可預扣工資的理由；已發生損害的責任、金額及處理方式仍須另行釐清。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=26&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 法規版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 26 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "26"
+      }
+    },
+    {
+      "id": "lsa-35",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 35 條",
+      "articleNumber": "35",
+      "categoryIds": [
+        "leave_rights"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "連續工作四小時，至少應有三十分鐘休息；輪班制或工作具連續性、緊急性時，雇主得在工作時間內另行調配。",
+      "caveatsZh": [
+        "須確認實際連續工作時間、是否能自由休息及法定調配例外；不得僅憑班表片段認定。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=35&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 法規版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 35 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "35"
+      }
+    },
+    {
+      "id": "lsa-36",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 36 條",
+      "articleNumber": "36",
+      "categoryIds": [
+        "leave_rights",
+        "illegal_overtime"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "一般每七日應有一日例假及一日休息日；法定彈性工時、指定行業調整及緊急事件另有條件。休息日出勤原則計入延長工時。",
+      "caveatsZh": [
+        "例假、休息日及國定假日不同；不能直接把週六、週日視為每位勞工的法定休假，也不能忽略特殊工時程序。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=36&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 法規版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 36 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "36"
+      }
+    },
+    {
+      "id": "lsa-37",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 37 條",
+      "articleNumber": "37",
+      "categoryIds": [
+        "leave_rights"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "依法指定應放假的紀念日、節日、勞動節及其他指定日，應予休假。",
+      "caveatsZh": [
+        "須核對事件當年的應放假日、適用對象及是否依法協商調移；本資料不提供年度假日曆。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=37&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 法規版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 37 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "37"
+      }
+    },
+    {
+      "id": "lsa-38",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 38 條",
+      "articleNumber": "38",
+      "categoryIds": [
+        "leave_rights",
+        "wage_violation"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "特別休假依同一雇主或事業單位年資給予，滿六個月起享有三日。期日原則由勞工排定，雇主有急迫經營需求得協商調整；年度終結或契約終止未休應給工資，依法協商遞延者另依規定處理。",
+      "caveatsZh": [
+        "須確認年資、特休日數與遞延約定；協商調整不等於可單方取消，未休不得逕行歸零。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=38&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 法規版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 38 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "38"
+      }
+    },
+    {
+      "id": "lsa-39",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 39 條",
+      "articleNumber": "39",
+      "categoryIds": [
+        "leave_rights",
+        "wage_violation",
+        "illegal_overtime"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "例假、休息日、法定休假及特休的工資應照給；雇主經勞工同意於休假日工作，應依本條加倍給薪。",
+      "caveatsZh": [
+        "不同假別出勤條件及加給不同；休息日加班費應搭配第24條，不能一律用本條計算所有加班。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=39&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 法規版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 39 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "39"
+      }
+    },
+    {
+      "id": "lsa-43",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 43 條",
+      "articleNumber": "43",
+      "categoryIds": [
+        "leave_rights"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "勞工因婚、喪、疾病或其他正當事由得請假；假期及事假以外期間的工資最低標準，由主管機關訂定。",
+      "caveatsZh": [
+        "須搭配勞工請假規則及性別平等工作法確認假別、條件與給薪；不是所有請假都全薪。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=43&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 法規版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 43 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "43"
+      }
+    },
+    {
+      "id": "lsa-74",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 74 條",
+      "articleNumber": "74",
+      "categoryIds": [
+        "retaliation"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "勞工得就違反勞動法令事項向雇主、主管機關或檢查機構申訴。雇主不得因此解僱、降調、減薪或作其他不利處分；違反此禁止的處分無效。",
+      "caveatsZh": [
+        "須確認申訴與不利處分的關聯；一般與申訴無關且有事實依據的管理，不因時間接近就當然屬報復。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=74&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 法規版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 74 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "74"
+      }
+    },
+    {
+      "id": "gewa-1",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 1 條",
+      "articleNumber": "1",
+      "categoryIds": [
+        "sexual_harassment"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "工作場所性騷擾事件原則依性別平等工作法處理；屬校園性騷擾事件者，依性別平等教育法處理。",
+      "caveatsZh": [
+        "不能只憑地點在學校就認定適用教育法；須核對當事人身分、關係及事件性質，校園程序未收錄完整。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=1&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 1 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "1"
+      }
+    },
+    {
+      "id": "gewa-2",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 2 條",
+      "articleNumber": "2",
+      "categoryIds": [
+        "sexual_harassment",
+        "gender_discrimination",
+        "leave_rights"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "性別平等工作法亦適用公務、教育及軍職人員，但部分申訴救濟條款不適用，其程序依各該人事法令；實習生於實習期間遭受性騷擾亦受本法保障。",
+      "caveatsZh": [
+        "本工具主要面向一般受僱勞工；公務、教育、軍職及技術生有特別程序或適用限制，不能直接套用一般勞工的全部權利。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=2&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 2 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "2"
+      }
+    },
+    {
+      "id": "gewa-7",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 7 條",
+      "articleNumber": "7",
+      "categoryIds": [
+        "gender_discrimination"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "招募、甄試、進用、分發、配置、考績及陞遷，不得因性別或性傾向而差別待遇；工作性質僅適合特定性別者例外。",
+      "caveatsZh": [
+        "須辨認差別待遇與性別或性傾向的關聯；不能僅憑刻板印象主張工作性質例外。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=7&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 7 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "7"
+      }
+    },
+    {
+      "id": "gewa-8",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 8 條",
+      "articleNumber": "8",
+      "categoryIds": [
+        "gender_discrimination"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "雇主提供教育、訓練或類似活動，不得因性別或性傾向而差別待遇。",
+      "caveatsZh": [
+        "依職務需求或與性別無關的資格安排訓練，須依具體事實判斷，不能只見名額差異就認定歧視。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=8&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 8 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "8"
+      }
+    },
+    {
+      "id": "gewa-9",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 9 條",
+      "articleNumber": "9",
+      "categoryIds": [
+        "gender_discrimination"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "雇主提供各項福利措施，不得因性別或性傾向而差別待遇。",
+      "caveatsZh": [
+        "須確認福利資格、比較對象及差異理由；不能把各種待遇差異都歸因於性別。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=9&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 9 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "9"
+      }
+    },
+    {
+      "id": "gewa-10",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 10 條",
+      "articleNumber": "10",
+      "categoryIds": [
+        "gender_discrimination",
+        "wage_violation",
+        "legal_management"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "薪資不得因性別或性傾向而差別待遇；相同工作或相同價值應同等薪資。年資、獎懲、績效等非性別因素的正當理由例外，且不得降他人薪資來規避。",
+      "caveatsZh": [
+        "不同薪資不必然是歧視；須核對工作價值、薪資構成及雇主提出的正當理由。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=10&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 10 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "10"
+      }
+    },
+    {
+      "id": "gewa-11",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 11 條",
+      "articleNumber": "11",
+      "categoryIds": [
+        "gender_discrimination",
+        "forced_resignation"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "退休、資遣、離職及解僱不得因性別或性傾向而差別待遇；不得約定結婚、懷孕、分娩或育兒即須離職或留職停薪，也不得以此為解僱理由。",
+      "caveatsZh": [
+        "須釐清雇主提出的實際理由及勞工真意；不能因懷孕期間收到工作要求就認定歧視。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=11&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 11 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "11"
+      }
+    },
+    {
+      "id": "gewa-12",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 12 條",
+      "articleNumber": "12",
+      "categoryIds": [
+        "sexual_harassment"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "性騷擾包括執行職務時性要求、性意味或性別歧視言行造成敵意、脅迫或冒犯環境，以及以性要求等交換僱用、薪資、考績或陞遷。利用指揮監督權勢或機會者屬權勢性騷擾，須依背景、關係、言行及相對人認知判斷。",
+      "caveatsZh": [
+        "性騷擾不以反覆發生為一般必要條件，也不以明確拒絕為前提。非工作時間適用本法須核對第3項：同一人持續騷擾的特定關係，或最高負責人／僱用人騷擾；公共場所不特定人事件的調查、調解與處罰另有分流。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=12&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 12 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "12"
+      }
+    },
+    {
+      "id": "gewa-13",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 13 條",
+      "articleNumber": "13",
+      "categoryIds": [
+        "sexual_harassment",
+        "legal_management"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "雇主有性騷擾防治義務；十至二十九人應公開申訴管道，三十人以上應公開防治、申訴及懲戒規範。知悉後應依是否接獲申訴採取立即有效的糾正與補救，包括保護、釐清或調查及必要協助。",
+      "caveatsZh": [
+        "未滿十人不代表免除防治及知悉後處理義務；應尊重被害人意願、公正調查，不要求被害人先與行為人對質或私下和解。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=13&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": "2024-03-08",
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 13 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "13"
+      }
+    },
+    {
+      "id": "gewa-14",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 14 條",
+      "articleNumber": "14",
+      "categoryIds": [
+        "leave_rights",
+        "gender_discrimination"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "女性受僱者因生理日工作有困難，每月得請生理假一日；全年前三日不併入病假，其餘併入病假。生理假薪資減半發給。",
+      "caveatsZh": [
+        "生理假與一般病假的計算及保護不同；依法半薪不等於歧視，第21條仍禁止影響全勤、考績或不利處分。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=14&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 14 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "14"
+      }
+    },
+    {
+      "id": "gewa-15",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 15 條",
+      "articleNumber": "15",
+      "categoryIds": [
+        "leave_rights",
+        "gender_discrimination"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "分娩前後有八星期產假，流產假依妊娠期間區分；安胎休養依相關法令辦理。產檢假七日，陪產檢及陪產假合計七日，這兩種假別薪資照給。",
+      "caveatsZh": [
+        "陪產檢與陪產是合計七日，不是各七日；產假及安胎薪資依相關法令與年資等條件，不能一律宣稱全薪。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=15&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 15 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "15"
+      }
+    },
+    {
+      "id": "gewa-16",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 16 條",
+      "articleNumber": "16",
+      "categoryIds": [
+        "leave_rights",
+        "gender_discrimination"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "任職滿六個月，於每一子女滿三歲前得申請育嬰留職停薪，期間不得逾二年；同時撫育多名子女另有合併計算規定。",
+      "caveatsZh": [
+        "須確認任職期間、子女年齡及已使用期間；申請單位、預告程序與津貼另有法規，本資料不計算津貼或完整申請時程。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=16&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 16 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "16"
+      }
+    },
+    {
+      "id": "gewa-17",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 17 條",
+      "articleNumber": "17",
+      "categoryIds": [
+        "leave_rights",
+        "gender_discrimination",
+        "forced_resignation"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "育嬰留職停薪期滿申請復職，雇主原則不得拒絕；只有列舉的經營或不可抗力事由，並經主管機關同意，才得例外處理，且須依規定通知及給付資遣費或退休金。",
+      "caveatsZh": [
+        "不能只因原職有人代理就拒絕復職；仍須核對法定例外及主管機關同意，不能直接保證一定回任。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=17&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 17 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "17"
+      }
+    },
+    {
+      "id": "gewa-18",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 18 條",
+      "articleNumber": "18",
+      "categoryIds": [
+        "leave_rights",
+        "gender_discrimination"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "子女未滿二歲需親自哺乳或集乳，除休息時間外每日另給六十分鐘；正常工時外加班達一小時以上，再給三十分鐘，均視為工作時間。",
+      "caveatsZh": [
+        "須確認子女年齡、親自哺集乳需求與加班時數；不能要求以特休抵充法定哺集乳時間。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=18&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 18 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "18"
+      }
+    },
+    {
+      "id": "gewa-19",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 19 條",
+      "articleNumber": "19",
+      "categoryIds": [
+        "leave_rights",
+        "gender_discrimination"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "僱用三十人以上的雇主，其受僱者為撫育未滿三歲子女，得請求每天減少一小時工作且不支薪，或調整工時；未滿三十人者須勞雇協商合意。",
+      "caveatsZh": [
+        "依法減少工時不支薪，與禁止不利處分不同；須查明雇用人數、子女年齡及請求內容。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=19&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 19 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "19"
+      }
+    },
+    {
+      "id": "gewa-20",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 20 條",
+      "articleNumber": "20",
+      "categoryIds": [
+        "leave_rights"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "家庭成員預防接種、嚴重疾病或重大事故須親自照顧，可請家庭照顧假；全年七日，併入事假計算，薪資依事假規定。",
+      "caveatsZh": [
+        "須符合親自照顧事由；不是額外於事假的七日全薪假，第21條的全勤與不利處分保護仍適用。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=20&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 20 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "20"
+      }
+    },
+    {
+      "id": "gewa-21",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 21 條",
+      "articleNumber": "21",
+      "categoryIds": [
+        "leave_rights",
+        "gender_discrimination"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "受僱者依第14至20條符合條件提出請求，雇主不得拒絕，也不得視為缺勤而影響全勤獎金、考績或作其他不利處分。",
+      "caveatsZh": [
+        "禁止不利處分不代表所有假別都全薪；仍按各假別規則給薪，且須核對各條申請條件。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=21&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 21 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "21"
+      }
+    },
+    {
+      "id": "gewa-32-1",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 32-1 條",
+      "articleNumber": "32-1",
+      "categoryIds": [
+        "sexual_harassment"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "性騷擾原則向雇主申訴；被申訴人為最高負責人或僱用人、雇主未處理，或不服調查或懲戒結果，可逕向地方主管機關申訴。",
+      "caveatsZh": [
+        "申訴期限依權勢、知悉及行為終了時間、未成年與離職等情形區分；本工具不計算截止日，宜儘速洽地方勞工主管機關確認。公務、教育及軍職另依人事程序。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=32-1&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": "2024-03-08",
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 32-1 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "32-1"
+      }
+    },
+    {
+      "id": "gewa-36",
+      "sourceKind": "statute",
+      "officialNameZh": "性別平等工作法",
+      "articleOrSection": "第 36 條",
+      "articleNumber": "36",
+      "categoryIds": [
+        "retaliation",
+        "sexual_harassment",
+        "gender_discrimination"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "雇主不得因受僱者提出性別平等工作法申訴，或協助他人申訴，而解僱、調職或作其他不利處分。",
+      "caveatsZh": [
+        "保護也包括協助他人申訴者；須確認處分與申訴或協助行為的因果關係。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=36&pcode=N0030014",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-08-16 法規版本",
+        "date": "2023-08-16",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030014",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，性別平等工作法第 36 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "性別平等工作法",
+        "articleNumber": "36"
+      }
+    },
+    {
+      "id": "esa-5",
+      "sourceKind": "statute",
+      "officialNameZh": "就業服務法",
+      "articleOrSection": "第 5 條",
+      "articleNumber": "5",
+      "categoryIds": [
+        "employment_discrimination"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "雇主不得以年齡、婚姻、身心障礙、種族、宗教、性別、性傾向等法定特徵歧視求職者或員工；招募僱用不得違反意願留置證件、要求非就業所需隱私、扣留財物或收保證金。",
+      "caveatsZh": [
+        "須確認差別待遇理由及其他法律例外；合理且必要的資格或身分核對不等於留置證件，也不是任何個人資料要求都違法。性別相關情境優先核對性別平等工作法。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=5&pcode=N0090001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2025-01-20 法規版本",
+        "date": "2025-01-20",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0090001",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，就業服務法第 5 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "就業服務法",
+        "articleNumber": "5"
+      }
+    },
+    {
+      "id": "minimum-wage-5",
+      "sourceKind": "statute",
+      "officialNameZh": "最低工資法（112.12.27制定）",
+      "articleOrSection": "第 5 條",
+      "articleNumber": "5",
+      "categoryIds": [
+        "wage_violation"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "勞雇議定工資不得低於最低工資；約定低於標準者，應以法定最低工資作為工資數額。",
+      "caveatsZh": [
+        "適用對象須核對是否為勞基法勞工；金額須依工作發生年度及月薪／時薪制度查核，本資料未收錄年度金額，不得以模型記憶補造。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=5&pcode=N0030028",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2023-12-27 法規版本",
+        "date": "2023-12-27",
+        "effectiveDate": "2024-01-01",
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030028",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，最低工資法（112.12.27制定）第 5 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "最低工資法（112.12.27制定）",
+        "articleNumber": "5"
+      }
+    },
+    {
+      "id": "osha-18",
+      "sourceKind": "statute",
+      "officialNameZh": "職業安全衛生法",
+      "articleOrSection": "第 18 條",
+      "articleNumber": "18",
+      "categoryIds": [
+        "unsafe_work",
+        "retaliation"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "工作場所有立即危險之虞，雇主或負責人應停止作業並使勞工退避。勞工發現立即危險，得在不危及他人下自行停工退避並立即報告主管；雇主原則不得因此不利處分。",
+      "caveatsZh": [
+        "須有立即發生危險之虞，不能把一般不滿當成停工依據；濫用停工權的例外須雇主舉證並經主管機關認定。先確保安全，不建議冒險蒐證。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=18&pcode=N0060001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2025-12-19 法規版本",
+        "date": "2025-12-19",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0060001",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，職業安全衛生法第 18 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-expansion-2026-09-04.json",
+        "lawNameZh": "職業安全衛生法",
+        "articleNumber": "18"
+      }
+    },
+    {
+      "id": "leave-4",
+      "sourceKind": "regulation",
+      "officialNameZh": "勞工請假規則",
+      "articleOrSection": "第 4 條",
+      "articleNumber": "4",
+      "categoryIds": [
+        "leave_rights",
+        "legal_management"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "普通傷病假未住院者一年合計三十日；住院及合併計算另有二年內一年限制。普通傷病假一年內未超過三十日部分原則半薪，保險給付不足半薪時由雇主補足。",
+      "caveatsZh": [
+        "病假半薪與全勤獎金比例扣除是不同事項；住院、癌症門診與安胎有特殊規則，應依證明及實際日數判斷。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=4&pcode=N0030006",
+      "publisherZh": "勞動部（發布）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2025-12-09 法規版本",
+        "date": "2025-12-09",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030006",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞工請假規則第 4 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-regulations-2026-09-04.json",
+        "lawNameZh": "勞工請假規則",
+        "articleNumber": "4"
+      }
+    },
+    {
+      "id": "leave-7",
+      "sourceKind": "regulation",
+      "officialNameZh": "勞工請假規則",
+      "articleOrSection": "第 7 條",
+      "articleNumber": "7",
+      "categoryIds": [
+        "leave_rights"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "須親自處理事故得請事假，一年合計十四日且不支薪；親自照顧家庭成員的事假，得選擇以小時為單位申請。",
+      "caveatsZh": [
+        "不是所有事假都能單方要求以小時計；家庭照顧假與照顧家庭成員事假應區分，後者全勤保護搭配第9條。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=7&pcode=N0030006",
+      "publisherZh": "勞動部（發布）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2025-12-09 法規版本",
+        "date": "2025-12-09",
+        "effectiveDate": "2026-01-01",
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030006",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞工請假規則第 7 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-regulations-2026-09-04.json",
+        "lawNameZh": "勞工請假規則",
+        "articleNumber": "7"
+      }
+    },
+    {
+      "id": "leave-9",
+      "sourceKind": "regulation",
+      "officialNameZh": "勞工請假規則",
+      "articleOrSection": "第 9 條",
+      "articleNumber": "9",
+      "categoryIds": [
+        "leave_rights",
+        "wage_violation",
+        "legal_management"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "婚假、喪假、公傷病假、公假、特定流產病假及照顧家庭成員的事假，不得影響全勤獎金；其他普通傷病假的全勤獎金扣發，應按請假日數比例計算，優於法令約定從其約定。",
+      "caveatsZh": [
+        "不能請一天普通病假就扣整月全勤，也不能宣稱普通病假一律不得扣全勤；各假別是否支薪另依規定。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=9&pcode=N0030006",
+      "publisherZh": "勞動部（發布）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2025-12-09 法規版本",
+        "date": "2025-12-09",
+        "effectiveDate": "2026-01-01",
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030006",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞工請假規則第 9 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-regulations-2026-09-04.json",
+        "lawNameZh": "勞工請假規則",
+        "articleNumber": "9"
+      }
+    },
+    {
+      "id": "leave-9-1",
+      "sourceKind": "regulation",
+      "officialNameZh": "勞工請假規則",
+      "articleOrSection": "第 9-1 條",
+      "articleNumber": "9-1",
+      "categoryIds": [
+        "leave_rights",
+        "legal_management"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "一年普通傷病假未超過十日，除法規另有規定外，雇主不得因此不利處分；雇主須證明處分與病假無關。超過十日仍須綜合工作能力、態度與績效，不能只看病假日數。",
+      "caveatsZh": [
+        "十日是特定不利處分保護門檻，不是全年病假上限；依法半薪及按比例扣全勤仍依第4、9條，不能混為違法報復。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=9-1&pcode=N0030006",
+      "publisherZh": "勞動部（發布）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2025-12-09 法規版本",
+        "date": "2025-12-09",
+        "effectiveDate": "2026-01-01",
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030006",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞工請假規則第 9-1 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-regulations-2026-09-04.json",
+        "lawNameZh": "勞工請假規則",
+        "articleNumber": "9-1"
+      }
+    },
+    {
+      "id": "leave-10",
+      "sourceKind": "regulation",
+      "officialNameZh": "勞工請假規則",
+      "articleOrSection": "第 10 條",
+      "articleNumber": "10",
+      "categoryIds": [
+        "leave_rights",
+        "legal_management"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "請假原則應事前口頭或書面說明理由與日數；急病或緊急事故可委託他人代辦。雇主得要求有關證明文件。",
+      "caveatsZh": [
+        "須按假別及特別規定判斷證明需求，不代表可索取所有病歷或與請假無關的隱私；合理補件不宜直接標為侵害。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=10&pcode=N0030006",
+      "publisherZh": "勞動部（發布）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2025-12-09 法規版本",
+        "date": "2025-12-09",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030006",
+        "notesZh": "版本日期為整部法規最後修正／制定日，不代表每條生效日。僅個別核對的生效日填值；性平第12條分項施行，保留空值並參照快照沿革。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞工請假規則第 10 條；勞權濾網摘要整理。",
+        "notesZh": "依官方原文摘要整理，保留來源、版本及授權顯名；不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-regulations-2026-09-04.json",
+        "lawNameZh": "勞工請假規則",
+        "articleNumber": "10"
       }
     }
   ]

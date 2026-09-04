@@ -2,7 +2,7 @@ import type { AnalyzeResult } from "./types";
 import { analyzeResultSchema } from "./schemas/analyze-result";
 import { FIXED_DISCLAIMER } from "./disclaimer";
 import { AnalysisError } from "./errors";
-import { BULLYING_ELEMENTS_NOTE, CATEGORY_IDS, CATEGORY_LABELS, legalRecords, legalRefFor, type CategoryId } from "./legal-context";
+import { BULLYING_ELEMENTS_NOTE, SEXUAL_HARASSMENT_NOTE, CATEGORY_IDS, CATEGORY_LABELS, legalRecords, legalRefFor, type CategoryId } from "./legal-context";
 
 export function postValidate(candidate: unknown, inputText: string, crisis = false): AnalyzeResult {
   const parsed = analyzeResultSchema.safeParse(candidate);
@@ -39,11 +39,11 @@ export function postValidate(candidate: unknown, inputText: string, crisis = fal
   if (!crisis) {
     const risks = result.categories.filter((category) => !["legal_management", "other"].includes(category.id));
     for (const category of risks) {
-      if (!records.some((record) => record.sourceKind === "statute" && record.categoryIds.includes(category.id))) {
+      if (!records.some((record) => ["statute", "regulation"].includes(record.sourceKind) && record.categoryIds.includes(category.id))) {
         throw new AnalysisError("INVALID_ANALYSIS");
       }
     }
-    if (["medium", "high"].includes(result.riskLevel) && !records.some((record) => record.sourceKind === "statute")) {
+    if (["medium", "high"].includes(result.riskLevel) && !records.some((record) => ["statute", "regulation"].includes(record.sourceKind))) {
       throw new AnalysisError("INVALID_ANALYSIS");
     }
   }
@@ -60,6 +60,7 @@ export function postValidate(candidate: unknown, inputText: string, crisis = fal
   }
   const notes = records.flatMap((record) => record.caveatsZh);
   if (seen.has("workplace_bullying")) notes.unshift(BULLYING_ELEMENTS_NOTE);
+  if (seen.has("sexual_harassment")) notes.unshift(SEXUAL_HARASSMENT_NOTE);
   if (crisis && result.elementsNote) notes.unshift(result.elementsNote);
   result.elementsNote = [...new Set(notes)].join("\n") || undefined;
   result.disclaimers = [FIXED_DISCLAIMER];
@@ -67,7 +68,7 @@ export function postValidate(candidate: unknown, inputText: string, crisis = fal
     result.disclaimers.push(`資料來源：${records.map((record) => record.reuse.attributionZh).join("；")}授權：政府資料開放授權條款第 1 版 https://data.gov.tw/license`);
   }
   const generatedText = [result.explanationZh, ...result.inputImprovementZh, ...result.nextStepsZh].join("\n");
-  if (/(違法確定|已(?:經)?(?:確定)?違法|已(?:經)?構成職場霸凌|你(?:一定|必定)?會贏|保證勝訴)/.test(generatedText)
+  if (/(違法確定|已(?:經)?(?:確定)?違法|(?:已(?:經)?|確定)構成(?:職場霸凌|性騷擾|性別歧視|就業歧視)|你(?:一定|必定)?會贏|保證勝訴)/.test(generatedText)
     || generatedText.length > 10000) {
     throw new AnalysisError("INVALID_ANALYSIS");
   }

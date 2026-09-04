@@ -2,6 +2,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { analyzeMessage } from "../../src/analysis/analyze-message";
 import { DEFAULT_GEMINI_MODEL, LIVE_TIMEOUT_MS } from "../../src/analysis/llm-analyze";
 import { FIXED_DISCLAIMER } from "../../src/analysis/disclaimer";
+import { plantedFixtures } from "../../src/analysis/fixtures/planted";
+import { legalRefFor } from "../../src/analysis/legal-context";
 
 const modelOutput = {
   riskLevel: "medium",
@@ -32,6 +34,32 @@ beforeEach(() => {
 afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
 
 describe("live pipeline with the real SDK and a mocked HTTP boundary", () => {
+  it.each(plantedFixtures.slice(5))("accepts curated expanded output for $id through the live SDK boundary", async (fixture) => {
+    const output = {
+      riskLevel: fixture.result.riskLevel,
+      categories: [{ id: fixture.expectedPrimaryCategory, confidence: "medium" }],
+      legalSourceIds: fixture.result.legalSourceIds,
+      explanationZh: fixture.result.explanationZh,
+      inputImprovementZh: fixture.result.inputImprovementZh,
+      nextStepsZh: fixture.result.nextStepsZh,
+    };
+    const fetch = vi.fn(async () => geminiResponse(output));
+    vi.stubGlobal("fetch", fetch);
+    const result = await analyzeMessage({ text: fixture.message, mode: "live" });
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(result.categories[0].id).toBe(fixture.expectedPrimaryCategory);
+    expect(result.legalRefs).toEqual(fixture.result.legalSourceIds.map(legalRefFor));
+    expect(result.disclaimers).toContain(FIXED_DISCLAIMER);
+    const [, options] = fetch.mock.calls[0] as unknown as [string, RequestInit];
+    const body = JSON.parse(options.body as string);
+    expect(JSON.stringify(body.systemInstruction)).toContain("gewa-12");
+    expect(JSON.stringify(body.systemInstruction)).toContain("leave-9-1");
+    expect(JSON.stringify(body.systemInstruction)).toContain("regulation");
+    if (fixture.expectedPrimaryCategory === "sexual_harassment") {
+      expect(result.elementsNote).toContain("不以反覆發生");
+      expect(result.elementsNote).not.toContain("職場霸凌須綜合");
+    }
+  });
   it("sends a structured Gemini API request using curated context and returns the public contract", async () => {
     const fetch = vi.fn(async () => geminiResponse()); vi.stubGlobal("fetch", fetch);
     const timer = vi.spyOn(AbortSignal, "timeout");

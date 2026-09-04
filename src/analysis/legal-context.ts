@@ -4,7 +4,9 @@ import { AnalysisError } from "./errors";
 
 export const CATEGORY_IDS = [
   "workplace_bullying", "illegal_overtime", "improper_transfer",
-  "forced_resignation", "legal_management", "other",
+  "forced_resignation", "legal_management", "sexual_harassment",
+  "gender_discrimination", "employment_discrimination", "leave_rights",
+  "wage_violation", "retaliation", "unsafe_work", "other",
 ] as const;
 export type CategoryId = typeof CATEGORY_IDS[number];
 export const CATEGORY_LABELS: Record<CategoryId | "crisis", string> = {
@@ -14,6 +16,9 @@ export const CATEGORY_LABELS: Record<CategoryId | "crisis", string> = {
 };
 export const BULLYING_ELEMENTS_NOTE =
   "職場霸凌須綜合勞動場所與執行職務、職務或權勢關係、是否逾越業務必要合理範圍、不當言行的持續性及身心健康危害；情節重大者不以持續發生為必要。單則訊息僅是風險線索，不能代替情境、證據及調查。";
+
+export const SEXUAL_HARASSMENT_NOTE =
+  "性騷擾與職場霸凌的構成條件不同，不以反覆發生或被害人曾明確拒絕為一般必要條件；仍須依工作關聯、權勢、言行、背景及當事人認知判斷。非工作時間、公共場所不特定人、校園事件及公務／教育／軍職的適用法規或程序須另行確認。不得要求被害人先私下對質或和解。";
 
 export const legalRecords = corpus.records;
 export function legalRefFor(id: string): AnalyzeResult["legalRefs"][number] {

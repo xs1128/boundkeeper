@@ -4,8 +4,7 @@ import { plantedFixtures } from "../../src/analysis/fixtures/planted";
 import { rulePrefilter } from "../../src/analysis/rules/prefilter";
 
 describe("calibrated management and bullying signals", () => {
-  it("keeps the firm but reasonable feedback fixture low or none", async () => {
-    const fixture = plantedFixtures.find((item) => item.expectedPrimaryCategory === "legal_management")!;
+  it.each(plantedFixtures.filter((item) => item.expectedPrimaryCategory === "legal_management"))("keeps $id low or none", async (fixture) => {
     const result = await analyzeMessage({ text: fixture.message, mode: "fixture" });
     expect(["none", "low"]).toContain(result.riskLevel);
     expect(result.categories.map((item) => item.id)).toEqual(["legal_management"]);

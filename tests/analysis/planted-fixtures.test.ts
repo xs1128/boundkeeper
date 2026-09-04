@@ -8,10 +8,10 @@ import sharedResult from "../../assets/fixtures/sanitized-analysis-result.json";
 afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
 describe("planted fixtures without credentials or network", () => {
   const ranks = { none: 0, low: 1, medium: 2, high: 3 };
-  it("has five unique scenarios and expected categories", () => {
-    expect(plantedFixtures).toHaveLength(5);
-    expect(new Set(plantedFixtures.map((fixture) => fixture.id)).size).toBe(5);
-    expect(new Set(plantedFixtures.map((fixture) => fixture.expectedPrimaryCategory)).size).toBe(5);
+  it("covers the original and expanded categories with unique positive and negative scenarios", () => {
+    expect(plantedFixtures).toHaveLength(22);
+    expect(new Set(plantedFixtures.map((fixture) => fixture.id)).size).toBe(plantedFixtures.length);
+    expect(new Set(plantedFixtures.map((fixture) => fixture.expectedPrimaryCategory)).size).toBe(12);
   });
   it.each(plantedFixtures)("classifies $id deterministically", async (fixture) => {
     vi.stubEnv("OPENAI_API_KEY", "");

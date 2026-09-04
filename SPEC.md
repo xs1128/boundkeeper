@@ -96,6 +96,10 @@ This transforms how workers, unions, and labor-support organizations collaborate
 - Storing messages on server by default
 - Traditional Chinese labor corpus RAG at production quality (use curated prompt + few-shot; RAG if time)
 
+### 4.5 Curated legal coverage (expanded 2026-09-04)
+
+The shared analysis core also covers workplace sexual harassment, gender/pregnancy discrimination, employment discrimination and recruitment privacy, leave/rest rights, wage payment, complaint retaliation, and immediately dangerous work. The corpus contains 48 selected articles from six laws, five articles from the Regulations of Leave-Taking of Workers, and three official guidance records. The 22 fixed scenarios include reasonable-management counterexamples. Source scope, exceptions, and research rationale are recorded in [workplace risk coverage](docs/workplace-risk-coverage.zh-TW.md). Coverage is selective; it does not imply complete labor-law review or measured live-model accuracy.
+
 ---
 
 ## 5. Stretch goals (if time)
@@ -142,6 +146,8 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) §6 for adapter design.
 
 - **Default:** analyze in browser or ephemeral server session; do not persist message body in DB.
 - If server LLM used: no training on user data; minimal retention (request ID + category only for demo metrics).
+- The web form automatically keeps the draft and latest completed analysis, including its source text, in the current tab's `sessionStorage`. Navigation and reload restore them without rerunning analysis. Closing the tab ends this temporary session; persistent case-log saving remains explicit.
+- Editing the draft keeps the last analysis visible with its original text. “清除對話” removes the draft and analysis from the temporary session and cancels any pending request; it does not delete saved case-log entries.
 
 ---
 

@@ -128,8 +128,8 @@ type AnalyzeResult = {
 
 | Data | MVP handling |
 |------|----------------|
-| Supervisor message body | Sent to LLM for analysis; **not** written to DB |
-| Analysis result | Returned to client; stored only if user saves to local case log |
+| Supervisor message body | Sent to LLM for analysis; **not** written to DB; draft and last analyzed text temporarily kept in the current tab's `sessionStorage` |
+| Analysis result | Latest result temporarily kept alongside its source text in `sessionStorage`; persistent local case-log storage requires explicit saving |
 | Case log | **IndexedDB** on device; export is user-initiated download |
 | Server logs | Request ID + latency + category IDs only; no message text |
 | LINE/Gmail tokens | Env vars; per-user tokens only if stretch OAuth implemented |

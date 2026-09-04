@@ -1,210 +1,210 @@
-# Build plan — 勞權濾網
+# Build Plan — 勞權濾網
 
-This plan divides the hackathon build into three independently executable workstreams. The canonical requirements are [`SPEC.md`](SPEC.md) and [`ARCHITECTURE.md`](ARCHITECTURE.md); do not use the superseded Decision Ledger documents under `docs/` as implementation guidance.
+這份計畫把 hackathon 開發拆成三條可以獨立進行的 workstream。需求一律以 [`SPEC.md`](SPEC.md) 與 [`ARCHITECTURE.md`](ARCHITECTURE.md) 為準；`docs/` 裡已淘汰的 Decision Ledger 文件不可作為實作依據。
 
-## Repository scout (2026-09-04)
+## Repo 現況盤點（2026-09-04）
 
-The repository is a compiling scaffold, not a working MVP yet.
+目前 repository 是可以 compile 的 scaffold，還不是能實際使用的 MVP。
 
-- `pnpm test`: passes, but only 4 scaffold assertions run; 4 test files are skipped/TODO.
-- `pnpm lint` and `pnpm build`: pass.
-- `/api/analyze` validates input, then returns `501` because `analyzeMessage()` is a stub.
-- The analysis pipeline, prompt, safety path, rules, post-validation, and fixture data are empty or throw `NotImplementedError`.
-- The web page can submit text but only renders a status string. `AnalysisResult` and `FixturePicker` are not wired into the flow.
-- Legal assets contain headings/placeholders only; there is no extracted, source-traceable corpus.
-- Case log storage, JSON/PDF export, LINE, and Gmail are placeholders.
-- `next-env.d.ts` already has an unrelated local generated change. Preserve it; do not include it in feature commits unless intentionally required by the build.
+- `pnpm test`：有通過，但目前只執行 4 個 scaffold assertions，另有 4 個 test files 是 skipped/TODO。
+- `pnpm lint` 與 `pnpm build`：皆通過。
+- `/api/analyze` 會驗證 input，但因為 `analyzeMessage()` 還是 stub，目前只會回傳 `501`。
+- Analysis pipeline、prompt、safety path、rules、post-validation 與 fixture data 目前不是空的，就是會拋出 `NotImplementedError`。
+- Web page 可以送出文字，但只會顯示 status string；`AnalysisResult` 與 `FixturePicker` 都還沒有接進完整 flow。
+- Legal assets 只有標題與 placeholder，尚無已抽取且可追溯來源的 corpus。
+- Case log storage、JSON/PDF export、LINE 與 Gmail 都還是 placeholder。
+- `next-env.d.ts` 已有一筆與本次工作無關的 generated change。請保留，不要放進 feature commit，除非 build 確實需要。
 
-## Shared contract — freeze before parallel work
+## Shared Contract — 開始平行開發前先 freeze
 
-All three workstreams must program against these existing contracts:
+三條 workstream 都必須依照以下既有 contract 開發：
 
-- Core entrypoint: `analyzeMessage(input: AnalyzeInput): Promise<AnalyzeResult>` in `src/analysis/analyze-message.ts`.
-- Result shape: `AnalyzeResult` in `src/analysis/types.ts` and `analyzeResultSchema` in `src/analysis/schemas/analyze-result.ts`.
-- Input limit: trimmed text from 1 to 8,000 characters.
-- Fixture call: `{ text, mode: "fixture" }` must never require a network call or `OPENAI_API_KEY`.
-- Every successful result, including fixture and crisis results, includes the exact `FIXED_DISCLAIMER`.
-- All transports call the shared core. No legal classification, law-copy, or risk heuristics may be added to UI or LINE files.
-- User-facing copy is Traditional Chinese and describes risk/general information, never a certain legal verdict.
+- Core entrypoint：`src/analysis/analyze-message.ts` 內的 `analyzeMessage(input: AnalyzeInput): Promise<AnalyzeResult>`。
+- Result shape：`src/analysis/types.ts` 內的 `AnalyzeResult`，以及 `src/analysis/schemas/analyze-result.ts` 內的 `analyzeResultSchema`。
+- Input limit：trim 後的文字長度為 1–8,000 個字元。
+- Fixture call：`{ text, mode: "fixture" }` 絕對不可發出 network request，也不可依賴 `OPENAI_API_KEY`。
+- 每一筆成功的 result，包括 fixture 與 crisis result，都必須包含完全一致的 `FIXED_DISCLAIMER`。
+- 所有 transport 都必須呼叫 shared core。UI 或 LINE files 不可自行加入 legal classification、法規文案或 risk heuristics。
+- User-facing copy 使用繁體中文，只能描述風險與一般資訊，不可宣稱已構成違法或做出確定的法律判斷。
 
-If the result contract must change, make one small contract-only commit first and notify the other workstreams before building on it. Prefer additive optional fields; do not rename existing fields during parallel work.
+若一定要修改 result contract，先建立一個小型、只修改 contract 的 commit，並在其他 workstream 繼續開發前通知所有人。優先新增 optional fields，不要在平行開發期間 rename 既有 fields。
 
-## Workstream A — analysis core and official legal data
+## Workstream A — Analysis Core 與官方 Legal Data
 
-**Goal:** make `analyzeMessage()` reliable online and deterministic for the demo fixtures, backed by traceable Taiwan legal sources.
+**目標：**讓 `analyzeMessage()` 在線上能穩定運作，同時確保 demo fixtures 可 deterministic 執行，並使用可追溯的台灣官方法規來源。
 
-**Own these paths:**
+**負責以下 paths：**
 
 - `src/analysis/**`
 - `assets/legal/**`
 - `assets/fixtures/**`
 - `tests/analysis/**`
-- AI-related dependency additions in `package.json` / `pnpm-lock.yaml`
+- `package.json` / `pnpm-lock.yaml` 中與 AI 有關的 dependency additions
 
-**Avoid editing:** `app/**`, `components/**`, `src/adapters/line.ts`, and `src/case-log/**`.
+**避免修改：**`app/**`、`components/**`、`src/adapters/line.ts`、`src/case-log/**`。
 
-### A1. Curate and normalize the legal corpus
+### A1. 整理並 normalize legal corpus
 
-- Use official, publicly accessible sources as the primary source: the national law database and Ministry of Labor / Occupational Safety and Health Administration guidance.
-- Cover only the categories required for the demo: workplace-bullying risk, overtime, transfer, dismissal/pressure to resign, and harsh-but-lawful management feedback. Add Gender Equality in Employment Act material only if a planted fixture uses it.
-- For every excerpt record: official title, article/section, short verbatim excerpt or faithful summary, canonical URL, issuing body, last-verified date, and applicable effective date/version.
-- Record source/licensing or reuse notes. Do not silently scrape a third-party legal commentary site into product data.
-- Keep a human-readable source inventory in `assets/legal/` and add a small machine-readable corpus (JSON or TypeScript) that rules/prompts can consume. Validate required metadata at test/build time.
-- Keep extraction/update code reproducible if automation is added. Extraction must produce reviewable data; it must not replace legal review.
-- Do not add vector search or production RAG unless A1–A4 and the full MVP are already green.
+- Primary source 一律使用官方且可公開取得的來源，例如全國法規資料庫，以及勞動部／職業安全衛生署的正式指引。
+- 只處理 demo 必要的 categories：職場霸凌風險、加班、調動、解僱／逼退，以及嚴厲但合法的管理回饋。只有 planted fixture 確實會使用時，才加入《性別平等工作法》資料。
+- 每一筆 excerpt record 都必須包含：官方名稱、條號／章節、簡短原文摘錄或忠實摘要、canonical URL、發布機關、last-verified date，以及適用的 effective date/version。
+- 紀錄 source licensing 或 reuse notes。不可把第三方法律評論網站內容直接 scrape 進 product data，卻沒有標明來源。
+- 在 `assets/legal/` 保留 human-readable source inventory，並新增一份 rules/prompts 可使用的小型 machine-readable corpus（JSON 或 TypeScript）。Test/build 時必須驗證必要 metadata。
+- 如果加入 extraction/update automation，程式必須可重現，產出也必須方便人工 review；automation 不可取代法律內容檢查。
+- 在 A1–A4 與完整 MVP 全部變綠之前，不要做 vector search 或 production RAG。
 
-### A2. Plant the deterministic demo set
+### A2. 建立 deterministic demo set
 
-- Add five fixtures: verbal bullying, illegal/unpaid overtime, unreasonable transfer, pressure to resign, and harsh-but-legal performance feedback.
-- Give each fixture an expected primary category and minimum risk. The lawful feedback fixture must be `none` or `low`.
-- Implement fixture/rule behavior without an OpenAI call. Exact fixture matching may select a curated result, while lightweight rules can supply hints for similar messages.
-- Ensure rules do not convert a single hostile message into a conclusive workplace-bullying finding; include the required multi-element/continuity caveat.
+- 新增 5 組 fixtures：言語霸凌、違法／未付費加班、不合理調動、逼迫自願離職，以及嚴厲但合法的績效回饋。
+- 每組 fixture 都要定義 expected primary category 與 minimum risk；合法回饋必須是 `none` 或 `low`。
+- Fixture/rule behavior 不可呼叫 OpenAI。可以用 exact fixture matching 選擇 curated result，並用 lightweight rules 為相似訊息提供 hints。
+- Rules 不可因為單一 hostile message 就斷言構成職場霸凌；result 必須附上多要件與持續性的 caveat。
 
-### A3. Implement the single analysis pipeline
+### A3. 實作 single analysis pipeline
 
-- Implement normalization, crisis detection, rule prefilter, live LLM analysis, post-validation, and output formatting in the order documented in `ARCHITECTURE.md`.
-- Add Vercel AI SDK + OpenAI integration using structured output validated by Zod. Keep the model configurable with a safe default.
-- Feed only curated legal context and rule hints into the live prompt. Require calibrated uncertainty and a de-escalating, rights-preserving Traditional Chinese reply.
-- Crisis phrases short-circuit to 1925/1995/1955 resources and skip ordinary legal analysis.
-- Post-validation must restore the fixed disclaimer, reject/repair unknown categories, downgrade confidence for very short inputs, and prevent empty reply/next-step output.
-- Never log the source message or full prompt.
+- 依照 `ARCHITECTURE.md` 的順序實作：normalization、crisis detection、rule prefilter、live LLM analysis、post-validation、output formatting。
+- 加入 Vercel AI SDK + OpenAI integration，使用 Zod 驗證 structured output。Model 必須可設定，並提供安全的 default。
+- Live prompt 只能使用 curated legal context 與 rule hints，並要求 calibrated uncertainty，以及能降溫、保留勞工立場的繁體中文 suggested reply。
+- 偵測到 crisis phrases 時，short-circuit 到 1925／1995／1955 資源，跳過一般 legal analysis。
+- Post-validation 必須補回 fixed disclaimer、reject/repair 不明 categories、降低極短 input 的 confidence，並避免 reply 或 next steps 為空。
+- 絕對不要 log 原始訊息或完整 prompt。
 
-### A4. Tests and handoff
+### A4. Tests 與 handoff
 
-- Convert `planted-fixtures.test.ts` and `legal-feedback.test.ts` from TODOs to offline tests.
-- Add focused tests for normalization, crisis routing, disclaimer enforcement, short-input confidence, schema validation, and legal-source metadata.
-- Mock the live model boundary; keep an optional, explicitly named live smoke test out of the default test command.
-- Publish one sanitized `AnalyzeResult` fixture that the web and LINE workstreams can import in their tests if useful.
+- 將 `planted-fixtures.test.ts` 與 `legal-feedback.test.ts` 從 TODO 改為可離線執行的 tests。
+- 為 normalization、crisis routing、disclaimer enforcement、short-input confidence、schema validation 與 legal-source metadata 加入 focused tests。
+- Mock live model boundary；optional live smoke test 必須有明確名稱，且不能包含在 default test command 中。
+- 提供一筆 sanitized `AnalyzeResult` fixture，讓 Web 與 LINE workstream 視需要在 tests 中共用。
 
-**Acceptance criteria:**
+**Acceptance Criteria：**
 
-- `pnpm test` runs all analysis tests without an API key.
-- At least 4/5 planted fixtures return the expected primary category; lawful feedback is not above low risk.
-- Fixture mode makes zero network requests.
-- Every returned result contains `FIXED_DISCLAIMER` and source-specific law references where relevant.
-- A live request either returns schema-valid output or a privacy-safe, user-friendly failure; it never fabricates a success response.
+- `pnpm test` 不需 API key 即可執行所有 analysis tests。
+- 至少 4/5 planted fixtures 回傳正確 primary category；合法回饋的 risk 不得高於 `low`。
+- Fixture mode 不會發出任何 network request。
+- 每筆 result 都含有 `FIXED_DISCLAIMER`；有法律風險時，需附具體法規來源。
+- Live request 只能回傳符合 schema 的 result，或 privacy-safe 且對使用者友善的 failure；不可假造成功 response。
 
-## Workstream B — complete and polish the product flow
+## Workstream B — 完成並 Polish Product Flow
 
-**Goal:** turn the scaffold into a mobile-first, judge-ready journey from paste to understanding, reply, save, and export.
+**目標：**把 scaffold 完成為 mobile-first、可直接向評審展示的完整 journey：貼上訊息、理解分析、編輯回覆、儲存與匯出。
 
-**Own these paths:**
+**負責以下 paths：**
 
-- `app/page.tsx`, `app/log/page.tsx`, `app/globals.css`, and presentation-only changes to `app/layout.tsx`
+- `app/page.tsx`、`app/log/page.tsx`、`app/globals.css`，以及 `app/layout.tsx` 中只影響 presentation 的修改
 - `components/**`
 - `src/case-log/**`
-- UI/case-log tests (add `tests/components/**` as needed and own `tests/case-log/**`)
+- UI/case-log tests；可視需要新增 `tests/components/**`，並負責 `tests/case-log/**`
 
-**Avoid editing:** `src/analysis/**`, `assets/legal/**`, `assets/fixtures/**`, API analysis logic, and LINE files.
+**避免修改：**`src/analysis/**`、`assets/legal/**`、`assets/fixtures/**`、API analysis logic 與 LINE files。
 
-### B1. Finish the primary analysis journey
+### B1. 完成主要 analysis journey
 
-- Wire `FixturePicker` to the planted fixture export and send `mode: "fixture"` for a selected demo fixture.
-- Parse successful `/api/analyze` responses as `AnalyzeResult`; render transport errors separately from legal results.
-- Implement all result sections in the specified order: risk/categories, plain-language explanation, collapsible legal references, editable suggested reply with copy feedback, next steps, and fixed disclaimer.
-- Use Traditional Chinese labels for risk levels. Do not show raw enum values to users.
-- Add loading, timeout/retry, empty, API error, and success states without erasing the pasted message.
-- Make clear that analysis does not happen until the user submits and that the message is not stored server-side by default.
+- 將 `FixturePicker` 接上 planted fixture export；選擇 demo fixture 後，送出 `mode: "fixture"`。
+- 將成功的 `/api/analyze` response parse 為 `AnalyzeResult`；transport errors 與 legal results 必須分開呈現。
+- 依指定順序完成所有 result sections：risk/categories、白話解釋、可收合的 legal references、可編輯且有 copy feedback 的 suggested reply、next steps、fixed disclaimer。
+- Risk level 使用繁體中文 label，不可直接向使用者顯示 raw enum value。
+- 完成 loading、timeout/retry、empty、API error 與 success states，而且不能清除使用者已貼上的訊息。
+- 清楚說明只有送出後才會分析，以及預設不會在 server 儲存訊息。
 
-### B2. Make the 3-minute demo resilient
+### B2. 提高 3-minute demo 的穩定度
 
-- Prioritize mobile layout, readable type, obvious hierarchy, accessible focus states, and reduced-motion support.
-- Fixture mode must remain demoable without OpenAI. Make the fixture selector understandable as example scenarios, not hidden test infrastructure.
-- Add copy-to-clipboard behavior with a fallback/error state.
-- Keep the fixed disclaimer visible on every result; the page footer alone is insufficient if a result can be captured or shared independently.
-- Do not make unproven impact claims or use “違法確定”, “你會贏”, or equivalent verdict language.
+- 優先處理 mobile layout、可讀的字體、清楚的 hierarchy、accessible focus states 與 reduced-motion support。
+- 沒有 OpenAI 時，fixture mode 仍必須能完整 demo。Fixture selector 應呈現為「範例情境」，不要像隱藏的 test infrastructure。
+- 加入 copy-to-clipboard behavior，並處理 fallback/error state。
+- 每筆 result 內都必須看得到 fixed disclaimer；如果 result 可以單獨截圖或分享，只放在 page footer 不夠。
+- 不可使用尚未證實的 impact claims，也不可出現「違法確定」、「你會贏」或同等語意的 verdict copy。
 
-### B3. Local-first case log and one export path
+### B3. Local-first case log 與單一 export path
 
-- Implement browser-only storage in `src/case-log/store.ts` (raw IndexedDB is acceptable to avoid dependency conflicts).
-- Save only after an explicit user action. Store the analysis snapshot and metadata needed by the timeline; do not store the original supervisor message body. If hashing is used, hash in the browser.
-- Complete `/log` with empty, loading, populated, and storage-error states.
-- Implement user-initiated JSON download first. PDF is a cut item until JSON export and the full demo flow work.
-- Exports must include the analysis, timestamp, fixed disclaimer, and a plain note that the export is a consultation aid rather than a legal determination.
+- 在 `src/case-log/store.ts` 實作 browser-only storage；可使用 raw IndexedDB，避免產生 dependency conflicts。
+- 只有使用者明確點擊儲存後才能寫入。保存 timeline 所需的 analysis snapshot 與 metadata，但不可儲存主管原始訊息。若需要 hash，必須在 browser 端產生。
+- 完成 `/log` 的 empty、loading、populated 與 storage-error states。
+- 先完成 user-initiated JSON download。JSON export 與完整 demo flow 完成前，PDF 都是 cut item。
+- Export 必須包含 analysis、timestamp、fixed disclaimer，以及「本資料僅供諮詢整理，不是法律認定」的白話說明。
 
-### B4. Tests and handoff
+### B4. Tests 與 handoff
 
-- Test loading/error/success rendering, all mandatory result sections, fixture selection, copy behavior, explicit-save behavior, and absence of message bodies in stored/exported records.
-- Use mocked `/api/analyze` responses matching the frozen contract; do not wait for live LLM availability.
+- 測試 loading/error/success rendering、所有必要 result sections、fixture selection、copy behavior、explicit-save behavior，以及 stored/exported records 中不存在原始訊息。
+- 使用符合 frozen contract 的 mocked `/api/analyze` responses，不需等待 live LLM 上線。
 
-**Acceptance criteria:**
+**Acceptance Criteria：**
 
-- A user can select a fixture, analyze it, understand the result, edit/copy a reply, save the result, open the case log, and download JSON.
-- The complete journey works at a 390 px viewport with keyboard navigation and without horizontal scrolling.
-- No original supervisor message body is written to browser or server persistence.
-- The result component independently renders the fixed disclaimer.
+- 使用者可以選 fixture、執行分析、理解 result、編輯／複製 reply、儲存 result、打開 case log，並下載 JSON。
+- 完整 journey 在 390 px viewport 可正常操作，支援 keyboard navigation，且不會水平捲動。
+- Browser 或 server persistence 都不可寫入主管原始訊息。
+- Result component 本身會獨立顯示 fixed disclaimer。
 
-## Workstream C — LINE integration
+## Workstream C — LINE Integration
 
-**Goal:** deliver one secure LINE path using the shared analysis core, without creating alternate legal behavior.
+**目標：**透過 shared analysis core 完成一條安全的 LINE 使用路徑，不建立另一套 legal behavior。
 
-**Own these paths:**
+**負責以下 paths：**
 
 - `src/adapters/line.ts`
 - `app/api/webhooks/line/route.ts`
-- `tests/adapters/line.test.ts` and route-focused LINE tests
-- `.env.example` and the LINE setup/runbook (create `docs/line-integration.md`)
+- `tests/adapters/line.test.ts` 與 LINE route tests
+- `.env.example` 與 LINE setup runbook（新增 `docs/line-integration.md`）
 
-**Avoid editing:** `src/analysis/**`, web UI/components, legal assets, case log, and Gmail. Gmail remains cut unless every required MVP criterion is complete.
+**避免修改：**`src/analysis/**`、Web UI/components、legal assets、case log 與 Gmail。除非所有 MVP 必要項目都完成，否則 Gmail 維持 cut。
 
-### C1. Choose the path once
+### C1. 只選一條 integration path
 
-- Default to a Messaging API bot because the existing webhook route is scaffolded and the demo script explicitly shows forwarding a message to a bot.
-- If channel credentials or public webhook setup are unavailable early, switch to LIFF embedding and reuse the web page. Record the choice and demo steps in the runbook; do not attempt both paths.
+- Default 採用 Messaging API bot，因為現有 webhook route 已經 scaffold，且 demo script 明確包含把訊息轉傳給 bot。
+- 如果早期無法取得 channel credentials 或建立 public webhook，改用 LIFF embedding 並 reuse Web page。需在 runbook 記錄選擇與 demo steps；不要同時做兩條路線。
 
-### C2. Implement a thin, secure adapter
+### C2. 實作 thin、secure adapter
 
-- Verify `x-line-signature` against the exact raw request body with HMAC-SHA256 and `LINE_CHANNEL_SECRET` before parsing or acknowledging events.
-- Handle text message events only. Safely ignore follow/unfollow, redelivery, image, sticker, and unsupported events.
-- Convert each supported event to `AdapterMessage`, call `analyzeMessage()` once, and format a concise Traditional Chinese reply from the returned fields.
-- Respect LINE reply-token lifetime and text limits. Split deterministically on section boundaries and cap output rather than truncating the disclaimer or producing invalid payloads.
-- Call LINE Reply API with `LINE_CHANNEL_ACCESS_TOKEN`; do not log message text, raw webhook bodies, tokens, or full analysis responses.
-- Return webhook HTTP responses promptly and consistently. Handle duplicate/redelivered events without double analysis/reply if practical within the stateless deployment constraint.
+- 必須使用 HMAC-SHA256 與 `LINE_CHANNEL_SECRET`，針對完全未修改的 raw request body 驗證 `x-line-signature`；驗證通過前不可 parse 或 acknowledge event。
+- 只處理 text message events。Follow/unfollow、redelivery、image、sticker 與其他 unsupported events 應安全忽略。
+- 將每個 supported event 轉為 `AdapterMessage`，呼叫一次 `analyzeMessage()`，再使用回傳 fields 組出精簡的繁體中文 reply。
+- 遵守 LINE reply-token lifetime 與 text limits。依 section boundaries deterministic split，必要時限制輸出長度，但不可截掉 disclaimer 或產生 invalid payload。
+- 使用 `LINE_CHANNEL_ACCESS_TOKEN` 呼叫 LINE Reply API；不可 log message text、raw webhook body、tokens 或完整 analysis response。
+- Webhook HTTP response 要快速且一致。在 stateless deployment 可行的範圍內，避免 duplicate/redelivered events 造成重複分析與回覆。
 
-### C3. Test and document without credentials
+### C3. 無 credentials 也能 test 與交接
 
-- Add signature verification tests using fixed secrets and raw payloads, including invalid/missing signatures.
-- Add event parsing, unsupported-event, message chunking/limit, API failure, and no-secret configuration tests.
-- Mock `analyzeMessage()` and `fetch`; tests must not call LINE or OpenAI.
-- Document LINE Developers console setup, required environment variables, webhook URL, verification command, local tunnel option, and a two-message demo script.
-- `.env.example` should list `OPENAI_API_KEY`, optional model configuration if used by Workstream A, `LINE_CHANNEL_ACCESS_TOKEN`, `LINE_CHANNEL_SECRET`, and `LINE_LIFF_ID` only if the LIFF path was selected. Never add real values.
+- 使用固定的 fake secrets 與 raw payloads 測試 signature verification，需包含 invalid/missing signature cases。
+- 加入 event parsing、unsupported event、message chunking/limit、API failure 與 missing-secret configuration tests。
+- Mock `analyzeMessage()` 與 `fetch`；tests 不可呼叫 LINE 或 OpenAI。
+- 文件需說明 LINE Developers console setup、必要 environment variables、webhook URL、verification command、local tunnel option，以及兩則訊息的 demo script。
+- `.env.example` 應列出 `OPENAI_API_KEY`、Workstream A 若有使用的 optional model config、`LINE_CHANNEL_ACCESS_TOKEN`、`LINE_CHANNEL_SECRET`；只有選擇 LIFF path 時才加入 `LINE_LIFF_ID`。不可填入真實值。
 
-**Acceptance criteria:**
+**Acceptance Criteria：**
 
-- Invalid signatures cannot reach `analyzeMessage()`.
-- A valid text event calls the shared core exactly once and sends a valid reply.
-- Unsupported events return success without throwing or leaking data.
-- All tests run offline with fake credentials.
-- The runbook lets another teammate reproduce the LINE demo.
+- Invalid signature 絕對不會執行到 `analyzeMessage()`。
+- Valid text event 只呼叫 shared core 一次，並送出有效 reply。
+- Unsupported events 會正常回 success，不會 throw 或洩漏資料。
+- 所有 tests 都能使用 fake credentials 離線執行。
+- 另一位 teammate 能只看 runbook 就重現 LINE demo。
 
-## Integration owner — merge and release gate
+## Integration Owner — Merge 與 Release Gate
 
-This is a short coordination role, not a fourth feature workstream. One teammate should own merge order and resolve contract/dependency conflicts.
+這是一個短期 coordination role，不是第四條 feature workstream。指定一位 teammate 負責 merge order 與 contract/dependency conflict resolution。
 
-1. Land any agreed shared-contract change.
-2. Merge Workstream A so the API and offline fixtures are real.
-3. Merge Workstream B and run the complete browser demo path.
-4. Merge Workstream C last; verify it only imports the shared core and contains no legal logic.
-5. Remove obsolete `NotImplementedError` branches and update scaffold tests that intentionally expected failure.
-6. Run `pnpm test`, `pnpm lint`, `pnpm build`, and `git diff --check`.
-7. Test the exact 3-minute flow from `SPEC.md` on a mobile viewport and the deployed Vercel URL.
-8. Confirm the deployment has only necessary environment variables and that logs contain no message bodies.
+1. 先合併已同意的 shared-contract changes。
+2. Merge Workstream A，讓 API 與 offline fixtures 先實際可用。
+3. Merge Workstream B，執行完整 browser demo path。
+4. 最後 merge Workstream C；確認它只 import shared core，沒有自行實作 legal logic。
+5. 移除過時的 `NotImplementedError` branches，並更新原本故意期待失敗的 scaffold tests。
+6. 執行 `pnpm test`、`pnpm lint`、`pnpm build` 與 `git diff --check`。
+7. 在 mobile viewport 與 deployed Vercel URL 上，實際走完 `SPEC.md` 的 3-minute flow。
+8. 確認 deployment 只有必要 environment variables，且 logs 中沒有任何 message bodies。
 
-## Shared definition of done
+## Shared Definition of Done
 
-- Paste flow works live and with offline fixtures.
-- Five planted fixtures exist; at least four classify correctly and lawful feedback stays none/low.
-- Every user-facing result contains the fixed disclaimer and calibrated language.
-- One local-only save + JSON export path works without persisting original message text.
-- No channel forks `analyzeMessage()` or embeds its own legal rules.
-- Crisis strings route to helplines without ordinary legal analysis.
-- LINE is demoed only after the web MVP is stable; Gmail, PDF, RAG, auth, metrics, and Postgres remain explicit cuts.
-- Tests, lint, build, and diff checks pass; the public preview completes the demo on mobile.
+- Paste flow 在 live mode 與 offline fixture mode 都能運作。
+- 已建立 5 組 planted fixtures；至少 4 組分類正確，合法回饋維持在 `none`/`low`。
+- 每一筆 user-facing result 都包含 fixed disclaimer 與 calibrated language。
+- 至少有一條 local-only save + JSON export path，而且不會保存主管原始訊息。
+- 所有 channel 都使用 `analyzeMessage()`，沒有自行建立 legal rules。
+- Crisis strings 直接導向 helplines，不進行一般 legal analysis。
+- Web MVP 穩定後才 demo LINE；Gmail、PDF、RAG、auth、metrics 與 Postgres 維持明確的 cut items。
+- Tests、lint、build 與 diff checks 全數通過；public preview 可在 mobile 完成 demo。
 
-## Suggested branch names
+## 建議 Branch Names
 
 - `feat/analysis-legal-corpus`
 - `feat/web-product-flow`
 - `feat/line-integration`
 
-Each branch should make small, scoped commits and include its verification commands in the final commit/PR note.
+每個 branch 都應使用小而明確的 scoped commits，並在最後一筆 commit／PR note 中列出 verification commands。

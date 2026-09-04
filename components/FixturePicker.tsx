@@ -6,21 +6,27 @@ type FixtureOption = {
 
 type FixturePickerProps = {
   fixtures: FixtureOption[];
-  onSelect: (text: string) => void;
+  onSelect: (fixture: FixtureOption | null) => void;
 };
 
 export function FixturePicker({ fixtures, onSelect }: FixturePickerProps) {
   return (
-    <label>
-      Demo 情境
+    <label className="fixture-picker">
+      範例情境
       <select
         defaultValue=""
         disabled={fixtures.length === 0}
-        onChange={(event) => onSelect(event.target.value)}
+        onChange={(event) => {
+          const fixture =
+            fixtures.find((item) => item.id === event.target.value) ?? null;
+          onSelect(fixture);
+        }}
       >
-        <option value="">尚未加入 fixtures</option>
+        <option value="">
+          {fixtures.length === 0 ? "範例情境準備中" : "選擇一個範例情境"}
+        </option>
         {fixtures.map((fixture) => (
-          <option key={fixture.id} value={fixture.text}>
+          <option key={fixture.id} value={fixture.id}>
             {fixture.label}
           </option>
         ))}

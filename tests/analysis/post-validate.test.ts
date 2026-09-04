@@ -16,21 +16,21 @@ describe("post-validation", () => {
     expect(validated.categories[0].labelZh).toBe("加班與工資風險");
     expect(JSON.stringify(validated)).not.toContain("模型宣稱");
   });
-  it("repairs blank reply and next steps and lowers short-input confidence", () => {
-    const raw = structuredClone(result); raw.suggestedReplyZh = " "; raw.nextStepsZh = [" "];
+  it("repairs blank improvement tips and next steps and lowers short-input confidence", () => {
+    const raw = structuredClone(result); raw.inputImprovementZh = [" "]; raw.nextStepsZh = [" "];
     raw.categories[0].confidence = "high";
     const checked = postValidate(raw, "加班？");
-    expect(checked.suggestedReplyZh.trim().length).toBeGreaterThan(0);
+    expect(checked.inputImprovementZh[0].trim().length).toBeGreaterThan(0);
     expect(checked.nextStepsZh[0].trim().length).toBeGreaterThan(0);
     expect(checked.categories[0].confidence).toBe("low");
-    expect(raw.suggestedReplyZh).toBe(" ");
+    expect(raw.inputImprovementZh).toEqual([" "]);
   });
   it.each([
     { categories: [{ id: "invented", labelZh: "未知", confidence: "high" }] },
     { categories: [{ id: "crisis", labelZh: "危機", confidence: "high" }] },
     { categories: [] }, { riskLevel: "critical" }, { explanationZh: " " },
     { legalRefs: [{ statute: "不存在", summaryZh: "假的", url: "https://example.com" }] },
-    { legalRefs: [] }, { suggestedReplyZh: "違法確定，你一定會贏。" },
+    { legalRefs: [] }, { inputImprovementZh: ["違法確定，你一定會贏。"] },
   ])("rejects invalid or ungrounded output: %j", (override) => {
     expect(() => postValidate({ ...result, ...override }, input)).toThrow();
   });

@@ -22,7 +22,7 @@ export type AnalyzeResult = {
     url?: string;
   }>;
   explanationZh: string;
-  suggestedReplyZh: string;
+  inputImprovementZh: string[];
   nextStepsZh: string[];
   disclaimers: string[];
   elementsNote?: string;

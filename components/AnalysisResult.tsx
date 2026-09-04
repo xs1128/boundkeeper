@@ -1,11 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
 import type { AnalyzeResult as AnalyzeResultData } from "@/src/analysis/types";
 import { FIXED_DISCLAIMER } from "@/src/analysis/disclaimer";
 import { Disclaimer } from "./Disclaimer";
 import { CONFIDENCE_LABELS, riskLevelLabel } from "./risk-labels";
-import { copyText } from "./copy-text";
 
 type AnalysisResultProps = {
   result: AnalyzeResultData;
@@ -25,26 +23,6 @@ function sourceUrl(value?: string) {
 }
 
 export function AnalysisResult({ result, onSave, isSaving = false, saveMessage }: AnalysisResultProps) {
-  const [reply, setReply] = useState(result.suggestedReplyZh);
-  const [copyStatus, setCopyStatus] = useState("");
-  const [isCopying, setIsCopying] = useState(false);
-  const replyRef = useRef<HTMLTextAreaElement>(null);
-
-  async function copyReply() {
-    setIsCopying(true);
-    setCopyStatus("");
-    try {
-      if (!await copyText(reply)) throw new Error("Clipboard unavailable");
-      setCopyStatus("已複製回覆。");
-    } catch {
-      replyRef.current?.focus();
-      replyRef.current?.select();
-      setCopyStatus("無法自動複製。已選取回覆，請使用裝置的複製功能。");
-    } finally {
-      setIsCopying(false);
-    }
-  }
-
   return (
     <section className="card analysis-result" aria-label="分析結果">
       <div className="result-section">
@@ -80,20 +58,13 @@ export function AnalysisResult({ result, onSave, isSaving = false, saveMessage }
             })}</ul>}
       </details>
       <div className="result-section">
-        <h2><label htmlFor="suggested-reply">建議回覆</label></h2>
-        <p className="input-help" id="reply-help">可依你的情況修改，再複製使用。</p>
-        <textarea
-          id="suggested-reply"
-          ref={replyRef}
-          aria-describedby="reply-help"
-          value={reply}
-          readOnly={isCopying || isSaving}
-          onChange={(event) => { setReply(event.target.value); setCopyStatus(""); }}
-        />
-        <button type="button" disabled={!reply.trim() || isCopying} onClick={() => void copyReply()}>
-          {isCopying ? "複製中…" : "複製回覆"}
-        </button>
-        <p className="input-help" role="status">{copyStatus}</p>
+        <h2>改進建議</h2>
+        <p className="input-help" id="improvement-help">
+          以下說明如何補充脈絡、釐清要求與調整回應方向，不是可直接複製貼上的回覆草稿。
+        </p>
+        <ol className="improvement-list" aria-describedby="improvement-help">
+          {result.inputImprovementZh.map((tip, index) => <li key={index}>{tip}</li>)}
+        </ol>
       </div>
       <div className="result-section">
         <h2>你可以做的事</h2>
@@ -107,8 +78,8 @@ export function AnalysisResult({ result, onSave, isSaving = false, saveMessage }
       </div>
       {onSave && (
         <div className="result-actions">
-          <p className="input-help">按下儲存後，分析摘要與編輯後的回覆只會保存在這台裝置，不含主管原始訊息。</p>
-          <button type="button" disabled={isSaving} onClick={() => void onSave({ ...result, suggestedReplyZh: reply })}>
+          <p className="input-help">按下儲存後，分析摘要只會保存在這台裝置，不含主管原始訊息。</p>
+          <button type="button" disabled={isSaving} onClick={() => void onSave(result)}>
             {isSaving ? "儲存中…" : "儲存到案件紀錄"}
           </button>
           {saveMessage && <p className="inline-status" role="status">{saveMessage}</p>}

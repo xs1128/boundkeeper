@@ -15,7 +15,7 @@ const fixtureSchema = z.object({
     riskLevel,
     legalSourceIds: z.array(z.string()).min(1),
     explanationZh: z.string().min(1),
-    suggestedReplyZh: z.string().min(1),
+    inputImprovementZh: z.array(z.string().min(1)).min(1),
     nextStepsZh: z.array(z.string().min(1)).min(1),
   }),
 });
@@ -30,7 +30,7 @@ export function matchPlantedFixture(text: string): AnalyzeResult | null {
     categories: [{ id: fixture.expectedPrimaryCategory, labelZh: CATEGORY_LABELS[fixture.expectedPrimaryCategory], confidence: "medium" }],
     legalRefs: fixture.result.legalSourceIds.map(legalRefFor),
     explanationZh: fixture.result.explanationZh,
-    suggestedReplyZh: fixture.result.suggestedReplyZh,
+    inputImprovementZh: [...fixture.result.inputImprovementZh],
     nextStepsZh: [...fixture.result.nextStepsZh],
     disclaimers: [],
   };

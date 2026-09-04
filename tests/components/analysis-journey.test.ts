@@ -209,21 +209,20 @@ describe("B1 analysis journey", () => {
 });
 
 describe("merged case-log integration", () => {
-  it("saves only on explicit request, with the edited reply and no original message", async () => {
+  it("saves only on explicit request, with the analysis snapshot and no original message", async () => {
     await render();
     await edit("主管原文唯一標記");
     await submit();
     expect(saveCaseEntry).not.toHaveBeenCalled();
-    await edit("保留我的編輯回覆", "#suggested-reply");
     await click('.result-actions button');
     expect(saveCaseEntry).toHaveBeenCalledTimes(1);
     const entry = vi.mocked(saveCaseEntry).mock.calls[0][0];
-    expect(entry.analysis.suggestedReplyZh).toBe("保留我的編輯回覆");
+    expect(entry.analysis.inputImprovementZh.length).toBeGreaterThan(0);
     expect(entry.analysis.disclaimers).toContain(FIXED_DISCLAIMER);
     expect(entry.messageHash).toMatch(/^[a-f0-9]{64}$/);
     expect(Object.keys(entry).sort()).toEqual(["analysis", "createdAt", "id", "messageHash"]);
     expect(serializeCaseLogExport([entry])).not.toContain("主管原文唯一標記");
-    expect(serializeCaseLogExport([entry])).toContain("保留我的編輯回覆");
+    expect(serializeCaseLogExport([entry])).toContain(entry.analysis.inputImprovementZh[0]);
     expect(container.textContent).toContain("已儲存到本機案件紀錄");
     await edit("下一則訊息");
     expect(container.querySelector('.result-actions')).toBeNull();
@@ -248,15 +247,14 @@ describe("merged case-log integration", () => {
     expect(query<HTMLTextAreaElement>('#manager-message').disabled).toBe(false);
   });
 
-  it("keeps analysis and edited reply when storage fails, allowing retry", async () => {
+  it("keeps analysis when storage fails, allowing retry", async () => {
     vi.mocked(saveCaseEntry).mockRejectedValueOnce(new Error("Storage unavailable"));
     await render();
     await select(fixtureOptions[0].id);
     await submit();
-    await edit("失敗後仍保留的回覆", "#suggested-reply");
     await click('.result-actions button');
     expect(container.textContent).toContain("無法寫入本機案件紀錄");
-    expect(query<HTMLTextAreaElement>('#suggested-reply').value).toBe("失敗後仍保留的回覆");
+    expect(container.querySelector('.analysis-result')).not.toBeNull();
     await click('.result-actions button');
     expect(saveCaseEntry).toHaveBeenCalledTimes(2);
     expect(container.textContent).toContain("已儲存到本機案件紀錄");
@@ -268,10 +266,11 @@ describe("B1 result", () => {
     await render(createElement(AnalysisResult, { result: { ...result, elementsNote: "需綜合情境判斷。" } }));
     const sections = [...container.querySelectorAll('.result-section')];
     expect(sections).toHaveLength(6);
-    ["風險與類別", "白話解釋", "可能涉及的法規", "建議回覆", "你可以做的事", FIXED_DISCLAIMER]
+    ["風險與類別", "白話解釋", "可能涉及的法規", "改進建議", "你可以做的事", FIXED_DISCLAIMER]
       .forEach((label, index) => expect(sections[index].textContent).toContain(label));
     expect(container.textContent).toContain("需綜合情境判斷。");
     result.categories.forEach((category) => expect(container.textContent).toContain(category.labelZh));
+    result.inputImprovementZh.forEach((tip) => expect(container.textContent).toContain(tip));
     result.nextStepsZh.forEach((step) => expect(container.textContent).toContain(step));
     result.disclaimers.forEach((disclaimer) => expect(container.textContent).toContain(disclaimer));
     expect(query<HTMLDetailsElement>('details').open).toBe(false);
@@ -285,30 +284,6 @@ describe("B1 result", () => {
   ] as const)("localizes risk %s as %s", async (riskLevel, label) => {
     await render(createElement(AnalysisResult, { result: { ...result, riskLevel } }));
     expect(query('.risk-badge').textContent).toBe(label);
-  });
-
-  it("copies the edited reply and clears feedback after further edits", async () => {
-    const writeText = vi.spyOn(navigator.clipboard, "writeText").mockResolvedValue();
-    await render(createElement(AnalysisResult, { result }));
-    await edit("我的修改回覆", "#suggested-reply");
-    await click('button');
-    expect(writeText).toHaveBeenCalledWith("我的修改回覆");
-    expect(container.textContent).toContain("已複製回覆");
-    await edit("另一版回覆", "#suggested-reply");
-    expect(container.textContent).not.toContain("已複製回覆");
-    await edit("   ", "#suggested-reply");
-    expect(query<HTMLButtonElement>('button').disabled).toBe(true);
-  });
-
-  it("selects reply for manual copying when clipboard access fails", async () => {
-    vi.spyOn(navigator.clipboard, "writeText").mockRejectedValue(new Error("Permission denied"));
-    await render(createElement(AnalysisResult, { result }));
-    await click('button');
-    expect(container.textContent).toContain("無法自動複製。已選取回覆");
-    const field = query<HTMLTextAreaElement>('#suggested-reply');
-    expect(document.activeElement).toBe(field);
-    expect(field.selectionStart).toBe(0);
-    expect(field.selectionEnd).toBe(field.value.length);
   });
 
   it("keeps the fixed disclaimer even if omitted, and does not render unsafe source links", async () => {

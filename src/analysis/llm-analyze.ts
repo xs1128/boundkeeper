@@ -34,7 +34,7 @@ export const modelResultSchema = z.object({
   })).min(1).max(6),
   legalSourceIds: z.array(z.enum(legalRecords.map((record) => record.id))).max(6),
   explanationZh: z.string().trim().min(1).max(2000),
-  suggestedReplyZh: z.string().max(1500),
+  inputImprovementZh: z.array(z.string().max(600)).min(1).max(5),
   nextStepsZh: z.array(z.string().max(600)).max(5),
 });
 
@@ -67,7 +67,7 @@ export async function llmAnalyze(input: AnalyzeInput, hints: RuleHint[]): Promis
       categories: value.categories.map((category) => ({ ...category, labelZh: CATEGORY_LABELS[category.id] })),
       legalRefs: value.legalSourceIds.map(legalRefFor),
       explanationZh: value.explanationZh,
-      suggestedReplyZh: value.suggestedReplyZh,
+      inputImprovementZh: value.inputImprovementZh,
       nextStepsZh: value.nextStepsZh,
       disclaimers: [],
     };

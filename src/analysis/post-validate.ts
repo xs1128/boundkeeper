@@ -50,7 +50,10 @@ export function postValidate(candidate: unknown, inputText: string, crisis = fal
   // Never forward model-authored statute names, URLs or legal summaries.
   result.legalRefs = records.map((record) => legalRefFor(record.id));
   result.explanationZh = result.explanationZh.trim();
-  result.suggestedReplyZh = result.suggestedReplyZh.trim() || "我想先確認具體要求、時程與相關安排，請提供書面說明，讓我了解後再回覆。";
+  result.inputImprovementZh = [...new Set(result.inputImprovementZh.map((tip) => tip.trim()).filter(Boolean))];
+  if (!result.inputImprovementZh.length) {
+    result.inputImprovementZh = ["回覆前先要求書面說明具體要求、時程與相關安排，避免在未確認前口頭承諾或認錯。"];
+  }
   result.nextStepsZh = [...new Set(result.nextStepsZh.map((step) => step.trim()).filter(Boolean))];
   if (!result.nextStepsZh.length) {
     result.nextStepsZh = ["先釐清工作要求與事件背景；若仍有勞動權益疑問，可洽 1955 或專業律師。"];
@@ -63,7 +66,7 @@ export function postValidate(candidate: unknown, inputText: string, crisis = fal
   if (records.length) {
     result.disclaimers.push(`資料來源：${records.map((record) => record.reuse.attributionZh).join("；")}授權：政府資料開放授權條款第 1 版 https://data.gov.tw/license`);
   }
-  const generatedText = [result.explanationZh, result.suggestedReplyZh, ...result.nextStepsZh].join("\n");
+  const generatedText = [result.explanationZh, ...result.inputImprovementZh, ...result.nextStepsZh].join("\n");
   if (/(違法確定|已(?:經)?(?:確定)?違法|已(?:經)?構成職場霸凌|你(?:一定|必定)?會贏|保證勝訴)/.test(generatedText)
     || generatedText.length > 10000) {
     throw new AnalysisError("INVALID_ANALYSIS");

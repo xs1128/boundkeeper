@@ -17,7 +17,7 @@ export const analyzeResultSchema = z.object({
     }),
   ),
   explanationZh: z.string(),
-  suggestedReplyZh: z.string(),
+  inputImprovementZh: z.array(z.string()).min(1),
   nextStepsZh: z.array(z.string()),
   disclaimers: z.array(z.string()),
   elementsNote: z.string().optional(),

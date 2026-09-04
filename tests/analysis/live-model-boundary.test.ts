@@ -8,7 +8,7 @@ const modelOutput = {
   categories: [{ id: "illegal_overtime", confidence: "high" }],
   legalSourceIds: ["lsa-24", "lsa-32"],
   explanationZh: "訊息可能涉及延長工作時間，仍須確認實際班表及加班費。",
-  suggestedReplyZh: "請確認工作時段及加班費的安排。",
+  inputImprovementZh: ["回覆時宜要求確認實際工作時段及加班費安排，避免口頭同意無薪加班。"],
   nextStepsZh: ["先核對工作時段、薪資明細及適用工時制度。"],
 };
 

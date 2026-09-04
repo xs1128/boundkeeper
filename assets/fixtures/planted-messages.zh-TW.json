@@ -119,5 +119,355 @@
         "若實際工作量與期限不相符，及早提出具體困難並討論調整。"
       ]
     }
+  },
+  {
+    "id": "sexual-quid-pro-quo",
+    "label": "性要求交換升遷",
+    "message": "今晚陪我上床，這次升遷我就給你；不配合就別想拿好考績。",
+    "expectedPrimaryCategory": "sexual_harassment",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "gewa-12",
+        "gewa-32-1",
+        "gewa-36"
+      ],
+      "explanationZh": "訊息把性要求與升遷、考績交換，可能涉及性騷擾及權勢關係；不需要等到反覆發生才尋求協助，仍須由完整情境與證據認定。",
+      "inputImprovementZh": [
+        "保留交換條件與工作關係的必要脈絡；不必先向行為人對質或同意私下和解。"
+      ],
+      "nextStepsZh": [
+        "可洽公司性騷擾申訴管道；若對方為最高負責人或僱用人、雇主未處理或不服結果，可洽地方勞工主管機關確認申訴與期限。"
+      ]
+    }
+  },
+  {
+    "id": "sexual-hostile-environment",
+    "label": "工作群組性意味羞辱",
+    "message": "開會時我要你站起來給大家看胸部，別那麼小題大作，這只是團隊玩笑。",
+    "expectedPrimaryCategory": "sexual_harassment",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "gewa-12",
+        "gewa-13"
+      ],
+      "explanationZh": "工作場合要求展示身體並以玩笑淡化，可能造成冒犯性工作環境；單次事件也需審視，不因稱為玩笑就排除風險。",
+      "inputImprovementZh": [
+        "釐清發生場合、言詞與工作關係；可描述受到的影響，不必為避免衝突而自責。"
+      ],
+      "nextStepsZh": [
+        "保留必要訊息，依意願尋求可信任的人、性騷擾申訴管道或地方勞工主管機關協助。"
+      ]
+    }
+  },
+  {
+    "id": "harassment-ignored",
+    "label": "雇主拒絕處理性騷擾",
+    "message": "你反映主管性騷擾的事我知道了，公司不調查，你自己跟他私下和解。",
+    "expectedPrimaryCategory": "sexual_harassment",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "gewa-13",
+        "gewa-32-1"
+      ],
+      "explanationZh": "雇主知悉後表明不處理並要求私下和解，可能涉及未履行糾正與補救義務；仍須核對通知及處理經過。",
+      "inputImprovementZh": [
+        "整理已向誰反映、何時反映及得到的回覆；不必以私下和解作為獲得處理的前提。"
+      ],
+      "nextStepsZh": [
+        "若雇主未處理，可向地方勞工主管機關諮詢申訴；必要時洽專業法律協助。"
+      ]
+    }
+  },
+  {
+    "id": "pregnancy-dismissal",
+    "label": "懷孕被要求離職",
+    "message": "你懷孕了會影響工作，這週把自願離職書交出來，公司不留孕婦。",
+    "expectedPrimaryCategory": "gender_discrimination",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "gewa-11"
+      ],
+      "explanationZh": "訊息直接以懷孕為由要求自請離職，可能涉及婚孕歧視及逼退；應釐清勞工真意與雇主實際終止理由。",
+      "inputImprovementZh": [
+        "要求雇主書面說明理由，避免在未理解權益前承諾自願離職。"
+      ],
+      "nextStepsZh": [
+        "保留必要訊息，可洽地方勞工主管機關或1955確認性平與終止契約權益。"
+      ]
+    }
+  },
+  {
+    "id": "gender-pay-gap",
+    "label": "同工因性別減薪",
+    "message": "你跟男同事做一樣的工作、年資績效也一樣，但女生薪水就是少五千。",
+    "expectedPrimaryCategory": "gender_discrimination",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "gewa-10"
+      ],
+      "explanationZh": "訊息明示相同條件下因性別降低薪資，可能涉及薪資歧視；仍需核對工作價值與薪資構成。",
+      "inputImprovementZh": [
+        "整理相同職務、年資、績效及薪資項目的資訊，要求書面說明差異理由。"
+      ],
+      "nextStepsZh": [
+        "可向地方勞工主管機關諮詢性別薪資差別待遇的申訴方式。"
+      ]
+    }
+  },
+  {
+    "id": "age-discrimination",
+    "label": "因年齡排除升遷",
+    "message": "能力和績效沒有問題，但你超過四十歲了，這次升遷只留給年輕人。",
+    "expectedPrimaryCategory": "employment_discrimination",
+    "minimumRiskLevel": "medium",
+    "result": {
+      "riskLevel": "medium",
+      "legalSourceIds": [
+        "esa-5"
+      ],
+      "explanationZh": "訊息以年齡排除機會，可能涉及就業歧視；須確認職務要求、比較對象及是否存在其他法定依據。",
+      "inputImprovementZh": [
+        "請雇主說明客觀資格與評選依據，保留原有績效及工作要求資料。"
+      ],
+      "nextStepsZh": [
+        "可洽地方勞工主管機關或1955確認就業歧視申訴管道。"
+      ]
+    }
+  },
+  {
+    "id": "retained-identity-document",
+    "label": "扣留證件與保證金",
+    "message": "到職後身分證正本由公司扣著，先交一萬元保證金，離職才一起退。",
+    "expectedPrimaryCategory": "employment_discrimination",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "esa-5"
+      ],
+      "explanationZh": "到職要求扣留身分證與保證金，可能涉及不當招募僱用措施；須區分核對後歸還與違反意願持續留置。",
+      "inputImprovementZh": [
+        "要求說明證件使用目的與返還安排，不要在訊息中補傳更多敏感資料。"
+      ],
+      "nextStepsZh": [
+        "可洽地方勞工主管機關或1955詢問返還證件及申訴方式。"
+      ]
+    }
+  },
+  {
+    "id": "sick-leave-penalty",
+    "label": "請一天病假扣整月全勤",
+    "message": "今年你第一次請普通病假，才一天也一樣，這個月全勤全部扣掉，考績直接打丙。",
+    "expectedPrimaryCategory": "leave_rights",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "leave-9",
+        "leave-9-1"
+      ],
+      "explanationZh": "請一天普通病假即扣整月全勤並降低考績，可能涉及比例扣發及病假不利處分問題；須核對年度日數與考核依據。",
+      "inputImprovementZh": [
+        "分別要求全勤計算明細與考績理由，不把依法半薪和整月全勤扣除混為一談。"
+      ],
+      "nextStepsZh": [
+        "保留假單、薪資明細及考核通知，可洽1955或地方勞工主管機關。"
+      ]
+    }
+  },
+  {
+    "id": "parental-leave-denied",
+    "label": "拒絕育嬰留停",
+    "message": "你到職兩年、孩子才一歲也不能請育嬰留職停薪，公司人手不夠，申請就扣考績。",
+    "expectedPrimaryCategory": "leave_rights",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "gewa-16",
+        "gewa-21"
+      ],
+      "explanationZh": "訊息可能涉及拒絕符合條件的育嬰留職停薪及不利考核；須查明已使用期間與實際申請情況。",
+      "inputImprovementZh": [
+        "書面釐清任職期間、子女年齡、申請期間與拒絕理由，避免先答應放棄權利。"
+      ],
+      "nextStepsZh": [
+        "可洽地方勞工主管機關確認育嬰留停申請與不利處分的救濟方式。"
+      ]
+    }
+  },
+  {
+    "id": "holiday-unpaid",
+    "label": "國定假日出勤不加薪",
+    "message": "明天是沒有調移的國定假日，排你上八小時班，只發平日工資，不會加給。",
+    "expectedPrimaryCategory": "wage_violation",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "lsa-39"
+      ],
+      "explanationZh": "未調移的國定假日出勤卻表示不加給，可能涉及假日工資；須確認適用假日、出勤同意與薪資制。",
+      "inputImprovementZh": [
+        "要求書面確認假別、是否有調移約定及出勤工資計算方式。"
+      ],
+      "nextStepsZh": [
+        "核對班表及薪資明細；如給付仍有疑問，可洽1955或地方勞工主管機關。"
+      ]
+    }
+  },
+  {
+    "id": "wage-damage-deduction",
+    "label": "先扣薪當損壞賠償",
+    "message": "設備損壞原因還沒查清楚，先從你這個月薪水扣兩萬元當賠償，不用討論。",
+    "expectedPrimaryCategory": "wage_violation",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "lsa-22",
+        "lsa-26"
+      ],
+      "explanationZh": "責任未釐清就預扣薪資作賠償，可能涉及工資全額給付與禁止預扣規定；損害責任應另行查明。",
+      "inputImprovementZh": [
+        "要求說明損害、責任及扣款依據，避免在未核對事實前承認賠償。"
+      ],
+      "nextStepsZh": [
+        "保留薪資明細與扣款通知，可洽地方勞工主管機關或1955。"
+      ]
+    }
+  },
+  {
+    "id": "complaint-retaliation",
+    "label": "協助性平申訴被報復",
+    "message": "你幫同事做性騷擾申訴證人，公司下個月就把你降職減薪，看誰還敢作證。",
+    "expectedPrimaryCategory": "retaliation",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "gewa-36",
+        "lsa-74"
+      ],
+      "explanationZh": "訊息把協助性平申訴與降職減薪直接連結，可能涉及申訴報復；協助他人申訴也受保護。",
+      "inputImprovementZh": [
+        "保留協助申訴及待遇變動的時間與書面理由，不必承諾撤回協助。"
+      ],
+      "nextStepsZh": [
+        "可向地方勞工主管機關確認性平申訴保護，必要時尋求法律協助。"
+      ]
+    }
+  },
+  {
+    "id": "immediate-work-danger",
+    "label": "立即危險仍強迫作業",
+    "message": "機台已經漏電、有立即危險也不准停工，先把今天產量做完再說。",
+    "expectedPrimaryCategory": "unsafe_work",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "osha-18"
+      ],
+      "explanationZh": "訊息可能涉及立即危險下仍要求持續作業；須先確認人員安全，無須為蒐證冒險留在現場。",
+      "inputImprovementZh": [
+        "先避免接觸危險設備，在不危及他人下退避並立即報告主管。"
+      ],
+      "nextStepsZh": [
+        "有立即危險先尋求現場救援或119；安全後可洽勞動檢查機構確認處理。"
+      ]
+    }
+  },
+  {
+    "id": "reasonable-sick-document",
+    "label": "合理請假補件（低風險）",
+    "message": "你昨天普通病假已先核准，請補上與這次請假有關的就醫證明，不用提供完整病歷。",
+    "expectedPrimaryCategory": "legal_management",
+    "minimumRiskLevel": "low",
+    "result": {
+      "riskLevel": "low",
+      "legalSourceIds": [
+        "leave-10"
+      ],
+      "explanationZh": "訊息先核准普通病假並要求相關就醫證明，依目前資訊可能屬合理請假程序；仍須按假別及資料必要性確認。",
+      "inputImprovementZh": [
+        "確認所需證明範圍與補件期限，不必提供與本次請假無關的病歷。"
+      ],
+      "nextStepsZh": [
+        "若要求範圍持續擴大或伴隨不利待遇，再向1955或主管機關諮詢。"
+      ]
+    }
+  },
+  {
+    "id": "performance-pay-difference",
+    "label": "依績效給薪（低風險）",
+    "message": "本次獎金依相同職務標準及實際績效計算，與性別無關；請確認附件各項評分，有疑問可提出。",
+    "expectedPrimaryCategory": "legal_management",
+    "minimumRiskLevel": "low",
+    "result": {
+      "riskLevel": "low",
+      "legalSourceIds": [
+        "gewa-10"
+      ],
+      "explanationZh": "目前訊息提供與性別無關的績效依據及確認機會，未見明確性別歧視線索；仍需核對實際評分及給付。",
+      "inputImprovementZh": [
+        "核對評分是否一致適用，具體提出與工作表現相關的疑問。"
+      ],
+      "nextStepsZh": [
+        "若發現同條件因性別不同待遇，可保留資料並尋求勞工主管機關協助。"
+      ]
+    }
+  },
+  {
+    "id": "harassment-prevention-notice",
+    "label": "性騷擾防治通知（低風險）",
+    "message": "明天下午有性騷擾防治訓練，公司禁止性要求交換升遷，申訴管道已公告，協助申訴也不得報復。",
+    "expectedPrimaryCategory": "legal_management",
+    "minimumRiskLevel": "none",
+    "result": {
+      "riskLevel": "none",
+      "legalSourceIds": [
+        "gewa-13"
+      ],
+      "explanationZh": "這是防治訓練與申訴管道通知，相關敏感詞出現在禁止及教育語境，不能僅憑關鍵字判為侵害。",
+      "inputImprovementZh": [
+        "確認訓練安排及申訴資訊即可；若實際行為與公告不符，再補充具體事件。"
+      ],
+      "nextStepsZh": [
+        "如確有事件，可依公告管道或向地方勞工主管機關尋求協助。"
+      ]
+    }
+  },
+  {
+    "id": "proportional-sick-pay",
+    "label": "病假依法比例給付（低風險）",
+    "message": "這次普通病假一天依法半薪，全勤獎金只按請假日數比例扣除，考績照實際表現，不因病假調降。",
+    "expectedPrimaryCategory": "legal_management",
+    "minimumRiskLevel": "low",
+    "result": {
+      "riskLevel": "low",
+      "legalSourceIds": [
+        "leave-4",
+        "leave-9",
+        "leave-9-1"
+      ],
+      "explanationZh": "普通病假依法半薪及按比例扣全勤，不當然構成違規或報復；仍須核對是否為受特別保護假別及實際計算。",
+      "inputImprovementZh": [
+        "分別核對病假工資、全勤扣除比例與有無優於法令的約定。"
+      ],
+      "nextStepsZh": [
+        "若實際被扣整月全勤或僅因病假遭降評，可向1955或地方勞工主管機關諮詢。"
+      ]
+    }
   }
 ]

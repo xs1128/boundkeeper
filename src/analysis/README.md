@@ -7,12 +7,12 @@ Implemented against root `TASK.md` A1–A4. The public `AnalyzeInput`, `AnalyzeR
 All adapters call `analyzeMessage(input)`. The core validates the same input schema as the Web adapter, normalizes text, checks crisis phrases, collects rule hints, chooses the fixture or live path, validates the result, and returns a fresh object matching the public schema.
 
 - Input: 1–8,000 characters after trimming. Normalization standardizes Unicode width, quotes and line endings, removes selected invisible separators, and checks length again. Mixed Chinese/English text is retained.
-- Fixture mode: only normalized exact matches of the five curated scenarios succeed. Unknown messages return `FIXTURE_NOT_FOUND`; there is no live fallback or generated guess. This path never loads the model module or needs credentials.
+- Fixture mode: only normalized exact matches of the 22 curated scenarios succeed. Unknown messages return `FIXTURE_NOT_FOUND`; there is no live fallback or generated guess. This path never loads the model module or needs credentials.
 - Crisis: conservative phrase detection precedes both modes, rules and model calls. It returns `crisis`, no legal references, safety steps and 1925/1995/1955 resources. It includes quoted threats and may trigger on educational or negated phrases; it is not a clinical assessment and cannot detect every crisis.
 - Live: Vercel AI SDK `generateObject` and `@ai-sdk/openai`, with a Zod provider schema. The model chooses curated source ids; the core supplies the actual legal names, summaries, URLs, caveats and attribution. User text and context are treated as untrusted data.
 - Post-validation: unknown categories, missing/irrelevant legal sources, contradictory high-risk management-only classifications, invalid structure and selected verdict phrases fail safely. Missing reply/next steps are repaired with neutral text. Inputs shorter than 20 non-whitespace characters receive low category confidence. Bullying references always retain the multi-element and serious single-event caveat.
 
-The phrase checks and structured-output validation do not prove semantic correctness. The five fixture results are deterministic curated examples, not a measured live-model accuracy rate.
+The phrase checks and structured-output validation do not prove semantic correctness. The curated fixture results are deterministic curated examples, not a measured live-model accuracy rate.
 
 ## Web and LINE integration
 
@@ -28,7 +28,7 @@ const result = await analyzeMessage({ text: fixture.message, mode: "fixture" });
 
 `assets/fixtures/sanitized-analysis-result.json` is a complete, fictional overtime result for consumer tests. A test compares it with the actual core output. It includes no original message, contact details or identifying information.
 
-Categories: the five corpus categories plus `other` for insufficient/unclear information and `crisis` for the safety path. The model cannot choose `crisis`. UI and LINE should render returned labels instead of inventing their own legal labels or heuristics.
+Categories: the 12 corpus categories plus `other` for insufficient/unclear information and `crisis` for the safety path. The model cannot choose `crisis`. UI and LINE should render returned labels instead of inventing their own legal labels or heuristics.
 
 The API route received a narrow integration change to remove the obsolete 501 branch and format safe failures. The Web adapter now imports the core input schema. `.env.example` documents the model override. The test alias mirrors the existing TypeScript alias. These small changes outside the main A paths are needed for a usable shared entry point and failure contract; no UI, LINE, case log or result-contract implementation was added.
 
@@ -87,7 +87,7 @@ The example shows the wire contract only. B owns input-validation messages, pend
 - A crisis is HTTP 200 with category `crisis` and empty `legalRefs`; render its explanation and resources without requiring a legal reference. `other` is also a valid category. Display `categories[].labelZh` from the response; B owns localized risk-level labels.
 - For component tests, import `assets/fixtures/sanitized-analysis-result.json` and parse with `analyzeResultSchema`. Clone before editing test data. B owns rendering tests and user-initiated local save/export; never append the submitted `text` to stored/exported records.
 
-`tests/analysis/web-handoff.test.ts` exercises all five picker options against the actual POST handler without credentials/provider calls, validates success and failure schemas, and covers the crisis response. The original `AnalyzeInput` / `AnalyzeResult` and HTTP response shapes are unchanged.
+`tests/analysis/web-handoff.test.ts` exercises all 22 picker options against the actual POST handler without credentials/provider calls, validates success and failure schemas, and covers the crisis response. The original `AnalyzeInput` / `AnalyzeResult` and HTTP response shapes are unchanged.
 
 ## Configuration and privacy
 
@@ -107,7 +107,7 @@ git diff --check
 
 Verified 2026-09-04: 61 tests passed across 8 test files; the 2 pre-existing non-analysis placeholders remain skipped. All five fixture categories matched, and the management fixture returned `none`. Type checking, lint, production build and whitespace checks passed. The pre-existing `next-env.d.ts` change was preserved after the build.
 
-Default tests require no API key and never contact OpenAI. They cover all five fixtures, false-positive management feedback, normalization, crisis routing, post-validation, legal metadata, the API route and the real SDK with a mocked HTTP boundary (including structured output, storage settings, model override, errors and timeout).
+Default tests require no API key and never contact OpenAI. They cover all curated fixtures, false-positive management feedback, normalization, crisis routing, post-validation, legal metadata, the API route and the real SDK with a mocked HTTP boundary (including structured output, storage settings, model override, errors and timeout).
 
 Optional paid live smoke test, excluded from the default `*.test.ts` pattern:
 
@@ -124,3 +124,12 @@ The remaining skipped Web-adapter and case-log test placeholders belong to later
 - [Official OpenAI documentation: GPT-4.1 Mini](https://developers.openai.com/api/docs/models/gpt-4.1-mini) confirms the snapshot and structured-output support. SDK behavior was verified against installed package definitions and the mocked HTTP integration test.
 - [衛福部 1925 安心專線](https://www.mohw.gov.tw/cp-2704-50587-1.html) and [衛福部心理支持資源](https://mohw.gov.tw/cp-2626-19209-1.html) support the 1925 and 1995 referral copy; [勞動部 1955 說明](https://www.mol.gov.tw/1607/1632/1640/44053/post) confirms coverage of local workers. Checked 2026-09-04.
 - Legal sources, effective dates, licensing and reproducible source extraction remain in `assets/legal/`.
+
+
+## Legal coverage expansion (2026-09-04)
+
+Seven added categories cover sexual harassment, gender/pregnancy discrimination, employment discrimination/recruitment privacy, leave/rest rights, wage payment, retaliation, and immediate workplace danger. The existing API shape and browser-safe fixture option mapping are unchanged. The corpus now has 56 records: 48 statutory articles, five binding regulation articles, and three guidance records. Post-validation requires a relevant statute or regulation for each risk category; guidance alone is insufficient.
+
+Sexual-harassment results always carry their own scope caveat instead of inheriting the bullying persistence test. The system prompt distinguishes ordinary sick-leave half pay and proportional attendance-bonus deductions from adverse treatment, recognizes reasonable-documentation and prevention-notice counterexamples, and forbids inventing annual minimum-wage amounts. Rule hints remain nondeterminative.
+
+The 17 additional fixtures run without credentials through both the core and actual API handler. Mocked SDK tests check source/category compatibility and prompt wiring; they do not measure real-model classification. See `docs/workplace-risk-coverage.zh-TW.md` for official sources and omitted areas. No new dependency, provider, environment variable, storage, or external complaint action is introduced.

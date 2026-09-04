@@ -26,4 +26,22 @@
 3. `lsa-16`：特定終止事由的預告期間。
 4. `lsa-17`、`pension-12`：舊制／新制資遣費不可混用。
 
-分析核心由 record 的 `officialNameZh + articleOrSection`、`summaryZh`、`canonicalUrl` 組成既有 `legalRefs`，並在 `elementsNote` 保留該情境適用的 `caveatsZh`，在 `disclaimers` 保留固定免責聲明及來源顯名。模型只選擇來源 id，不生成法律摘要或網址。
+## 性騷擾、性平與就業歧視
+
+- `gewa-1`、`gewa-2`、`gewa-12`：適用範圍與性騷擾定義；`gewa-13`、`gewa-32-1`：雇主處理義務及外部申訴。
+- `gewa-7` 至 `gewa-11`：招募、訓練、福利、同值同酬及婚孕離職歧視。
+- `esa-5`：就業歧視、證件及招募隱私。
+
+## 請假、休息與工資
+
+- `lsa-35` 至 `lsa-39`：工作中休息、例休、法定假日、特休與假日工資。
+- `lsa-43`、`leave-4`、`leave-7`、`leave-9`、`leave-9-1`、`leave-10`：病事假、2026全勤與病假保護、合理補件。
+- `gewa-14` 至 `gewa-21`：生理、產假、產檢、育嬰留停／復職、哺集乳、照顧與不利處分限制。
+- `lsa-22`、`lsa-23`、`lsa-26`、`minimum-wage-5`：給薪、明細、預扣賠償與最低工資原則。
+
+## 申訴報復與立即危險
+
+- `lsa-74`、`gewa-36`：勞動申訴及性平申訴／協助他人申訴的保護。
+- `osha-18`：立即危險的停止作業、退避、報告及不利處分限制。
+
+分析核心由 record 的 `officialNameZh + articleOrSection`、`summaryZh`、`canonicalUrl` 組成既有 `legalRefs`，並在 `elementsNote` 保留該情境適用的 `caveatsZh`，在 `disclaimers` 保留固定免責聲明及來源顯名。模型只選擇來源 id，不生成法律摘要或網址。法律與法規命令均可作相關風險的法規依據，官方指引不得單獨替代。

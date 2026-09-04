@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 
-import { act, createElement, type ReactElement } from "react";
+import { act, createElement, StrictMode, type ReactElement } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { MessageAnalyzer } from "@/components/MessageAnalyzer";
@@ -10,6 +10,8 @@ import { analyzeResultSchema } from "@/src/analysis/schemas/analyze-result";
 import { FIXED_DISCLAIMER } from "@/src/analysis/disclaimer";
 import { saveCaseEntry } from "@/src/case-log/store";
 import { serializeCaseLogExport } from "@/src/case-log/export";
+import { hashMessage } from "@/src/case-log/hash";
+import { CONVERSATION_SESSION_KEY } from "@/src/analysis/conversation-session";
 import sanitizedResult from "@/assets/fixtures/sanitized-analysis-result.json";
 
 vi.mock("@/src/case-log/store", () => ({ saveCaseEntry: vi.fn() }));
@@ -29,6 +31,12 @@ function query<T extends Element>(selector: string): T {
 
 async function render(element: ReactElement = createElement(MessageAnalyzer)) {
   await act(async () => root.render(element));
+}
+
+async function revisit() {
+  await act(async () => root.unmount());
+  root = createRoot(container);
+  await render();
 }
 
 async function edit(value: string, selector = "#manager-message") {
@@ -57,7 +65,15 @@ async function click(selector: string) {
   await act(async () => query<HTMLButtonElement>(selector).click());
 }
 
+async function waitForSave(count: number) {
+  // Web Crypto completes outside React's act queue.
+  await act(async () => {
+    await vi.waitFor(() => expect(saveCaseEntry).toHaveBeenCalledTimes(count));
+  });
+}
+
 beforeEach(() => {
+  sessionStorage.clear();
   vi.mocked(saveCaseEntry).mockReset().mockResolvedValue();
   container = document.createElement("div");
   document.body.append(container);
@@ -101,13 +117,15 @@ describe("B1 analysis journey", () => {
     expect(query<HTMLTextAreaElement>("#manager-message").value).toBe(fixture.text);
   });
 
-  it("switches edited fixtures to live mode and removes stale results", async () => {
+  it("switches edited fixtures to live mode and labels the retained analysis with its original text", async () => {
     await render();
     await select(fixtureOptions[0].id);
     await submit();
     await edit("修改過的主管訊息");
     expect(query<HTMLSelectElement>("select").value).toBe("");
-    expect(container.querySelector('[aria-label="分析結果"]')).toBeNull();
+    expect(query('[aria-label="分析結果"]').textContent).toContain(result.explanationZh);
+    expect(query('[aria-label="本次分析原文"]').textContent).toContain(fixtureOptions[0].text);
+    expect(container.textContent).toContain("輸入內容已變更，下方結果仍對應上次分析原文");
     expect(container.textContent).toContain("目前使用一般分析");
     await submit();
     expect(JSON.parse(fetchMock.mock.calls[1][1]!.body as string)).toEqual({ text: "修改過的主管訊息", mode: "live" });
@@ -208,6 +226,109 @@ describe("B1 analysis journey", () => {
   });
 });
 
+describe("conversation session", () => {
+  it("hydrates a stored session under StrictMode without replacing it with empty state", async () => {
+    const saved = JSON.stringify({ text: "先前草稿", fixtureId: "", completed: { sourceText: "先前原文", result } });
+    sessionStorage.setItem(CONVERSATION_SESSION_KEY, saved);
+    await render(createElement(StrictMode, null, createElement(MessageAnalyzer)));
+    expect(query<HTMLTextAreaElement>("#manager-message").value).toBe("先前草稿");
+    expect(query('[aria-label="本次分析原文"]').textContent).toContain("先前原文");
+    expect(sessionStorage.getItem(CONVERSATION_SESSION_KEY)).toBe(saved);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it.each(["invalid json", JSON.stringify({ text: 42 }), JSON.stringify({ text: "draft", fixtureId: "", completed: { result: {} } })])(
+    "discards an invalid snapshot without breaking the form: %s", async (saved) => {
+      sessionStorage.setItem(CONVERSATION_SESSION_KEY, saved);
+      await render();
+      expect(query<HTMLTextAreaElement>("#manager-message").value).toBe("");
+      expect(sessionStorage.getItem(CONVERSATION_SESSION_KEY)).toBeNull();
+      await edit("新訊息");
+      await submit();
+      expect(query('[aria-label="分析結果"]').textContent).toContain(result.explanationZh);
+    },
+  );
+
+  it("keeps analysis usable and explains unavailable session storage", async () => {
+    vi.stubGlobal("sessionStorage", {
+      getItem() { throw new Error("blocked"); },
+      setItem() { throw new Error("quota"); },
+      removeItem() { throw new Error("blocked"); },
+    });
+    await render();
+    expect(container.textContent).toContain("瀏覽器暫存無法使用");
+    await edit("仍可分析的訊息");
+    await submit();
+    expect(query('[aria-label="分析結果"]').textContent).toContain(result.explanationZh);
+    await click('[aria-label="清除對話"]');
+    expect(query<HTMLTextAreaElement>("#manager-message").value).toBe("");
+    expect(container.querySelector('[aria-label="分析結果"]')).toBeNull();
+  });
+
+  it("restores an unsent draft after leaving the page without submitting it", async () => {
+    await render();
+    await edit("尚未送出的訊息\n保留換行");
+    await revisit();
+    expect(query<HTMLTextAreaElement>("#manager-message").value).toBe("尚未送出的訊息\n保留換行");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("restores fixture selection, analysis, and a separately edited draft without another request", async () => {
+    await render();
+    await select(fixtureOptions[0].id);
+    await submit();
+    await revisit();
+    expect(query<HTMLSelectElement>("select").value).toBe(fixtureOptions[0].id);
+    expect(query('[aria-label="分析結果"]').textContent).toContain(result.explanationZh);
+    await edit("另一則尚未分析的訊息");
+    await revisit();
+    expect(query<HTMLTextAreaElement>("#manager-message").value).toBe("另一則尚未分析的訊息");
+    expect(query('[aria-label="本次分析原文"]').textContent).toContain(fixtureOptions[0].text);
+    expect(query('[aria-label="分析結果"]').textContent).toContain(FIXED_DISCLAIMER);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("clears draft and result permanently for this session while preserving unrelated storage", async () => {
+    sessionStorage.setItem("unrelated", "keep");
+    await render();
+    await select(fixtureOptions[0].id);
+    await submit();
+    await click('[aria-label="清除對話"]');
+    await revisit();
+    expect(query<HTMLTextAreaElement>("#manager-message").value).toBe("");
+    expect(query<HTMLSelectElement>("select").value).toBe("");
+    expect(container.querySelector('[aria-label="分析結果"]')).toBeNull();
+    expect(sessionStorage.length).toBe(1);
+    expect(sessionStorage.getItem("unrelated")).toBe("keep");
+    expect(saveCaseEntry).not.toHaveBeenCalled();
+  });
+
+  it("restores the draft after an interrupted request without restoring a loading state", async () => {
+    fetchMock.mockImplementationOnce(() => new Promise(() => {}));
+    await render();
+    await edit("分析尚未完成");
+    await submit();
+    await revisit();
+    expect(fetchMock.mock.calls[0][1]!.signal!.aborted).toBe(true);
+    expect(query<HTMLTextAreaElement>("#manager-message").value).toBe("分析尚未完成");
+    expect(query<HTMLButtonElement>('button[type="submit"]').disabled).toBe(false);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not restore a cleared conversation when an old request completes", async () => {
+    let finish!: (response: Response) => void;
+    fetchMock.mockImplementationOnce(() => new Promise((resolve) => { finish = resolve; }));
+    await render();
+    await edit("待清除訊息");
+    await submit();
+    await click('[aria-label="清除對話"]');
+    await act(async () => finish(new Response(JSON.stringify(result))));
+    await revisit();
+    expect(query<HTMLTextAreaElement>("#manager-message").value).toBe("");
+    expect(container.querySelector('[aria-label="分析結果"]')).toBeNull();
+  });
+});
+
 describe("merged case-log integration", () => {
   it("saves only on explicit request, with the analysis snapshot and no original message", async () => {
     await render();
@@ -215,6 +336,7 @@ describe("merged case-log integration", () => {
     await submit();
     expect(saveCaseEntry).not.toHaveBeenCalled();
     await click('.result-actions button');
+    await waitForSave(1);
     expect(saveCaseEntry).toHaveBeenCalledTimes(1);
     const entry = vi.mocked(saveCaseEntry).mock.calls[0][0];
     expect(entry.analysis.inputImprovementZh.length).toBeGreaterThan(0);
@@ -225,8 +347,11 @@ describe("merged case-log integration", () => {
     expect(serializeCaseLogExport([entry])).toContain(entry.analysis.inputImprovementZh[0]);
     expect(container.textContent).toContain("已儲存到本機案件紀錄");
     await edit("下一則訊息");
-    expect(container.querySelector('.result-actions')).toBeNull();
+    expect(container.querySelector('.result-actions')).not.toBeNull();
     expect(container.textContent).not.toContain("已儲存到本機案件紀錄");
+    await click('.result-actions button');
+    await waitForSave(2);
+    expect(vi.mocked(saveCaseEntry).mock.calls[1][0].messageHash).toBe(await hashMessage("主管原文唯一標記"));
   });
 
   it("prevents duplicate saves and input changes while saving", async () => {
@@ -236,6 +361,7 @@ describe("merged case-log integration", () => {
     await select(fixtureOptions[0].id);
     await submit();
     await click('.result-actions button');
+    await waitForSave(1);
     expect(query<HTMLButtonElement>('.result-actions button').disabled).toBe(true);
     expect(query<HTMLTextAreaElement>('#manager-message').disabled).toBe(true);
     expect(query<HTMLSelectElement>('select').disabled).toBe(true);
@@ -253,9 +379,11 @@ describe("merged case-log integration", () => {
     await select(fixtureOptions[0].id);
     await submit();
     await click('.result-actions button');
+    await waitForSave(1);
     expect(container.textContent).toContain("無法寫入本機案件紀錄");
     expect(container.querySelector('.analysis-result')).not.toBeNull();
     await click('.result-actions button');
+    await waitForSave(2);
     expect(saveCaseEntry).toHaveBeenCalledTimes(2);
     expect(container.textContent).toContain("已儲存到本機案件紀錄");
   });

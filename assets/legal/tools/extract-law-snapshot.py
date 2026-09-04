@@ -1,6 +1,6 @@
 """Extract selected official articles from a locally downloaded MOJ ZIP.
 
-Usage: python3 extract-law-snapshot.py archive.zip output.json
+Usage: python3 extract-law-snapshot.py archive.zip output.json [original|expansion|regulations]
 No network access. This creates evidence, never updates curated summaries.
 """
 
@@ -18,22 +18,36 @@ SELECTED = {
     "勞工退休金條例": ["12"],
 }
 
+EXPANSION = {
+    "勞動基準法": ["22", "23", "26", "35", "36", "37", "38", "39", "43", "74"],
+    "性別平等工作法": ["1", "2", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "32-1", "36"],
+    "就業服務法": ["5"],
+    "最低工資法（112.12.27制定）": ["5"],
+    "職業安全衛生法": ["18"],
+}
+REGULATIONS = {"勞工請假規則": ["4", "7", "9", "9-1", "10"]}
 
-def extract(archive_path: Path) -> dict:
+
+def extract(archive_path: Path, profile: str = "original") -> dict:
+    selected = {"original": SELECTED, "expansion": EXPANSION, "regulations": REGULATIONS}[profile]
+    is_regulation = profile == "regulations"
+    xml_name = "MingLing.xml" if is_regulation else "FalV.xml"
+    dataset_id = "18290" if is_regulation else "18289"
+    archive_kind = "CM" if is_regulation else "CF"
     archive_bytes = archive_path.read_bytes()
     with zipfile.ZipFile(archive_path) as archive:
-        xml_bytes = archive.read("FalV.xml")
+        xml_bytes = archive.read(xml_name)
     root = ET.fromstring(xml_bytes)
     result = {
-        "datasetUrl": "https://data.gov.tw/dataset/18289",
-        "downloadUrl": "https://sendlaw.moj.gov.tw/PublicData/GetFile.ashx?DType=XML&AuData=CF",
+        "datasetUrl": f"https://data.gov.tw/dataset/{dataset_id}",
+        "downloadUrl": f"https://sendlaw.moj.gov.tw/PublicData/GetFile.ashx?DType=XML&AuData={archive_kind}",
         "archiveSha256": hashlib.sha256(archive_bytes).hexdigest(),
         "xmlSha256": hashlib.sha256(xml_bytes).hexdigest(),
         "upstreamUpdateDate": root.attrib["UpdateDate"],
         "extractionNote": "Selected articles only; original article text and history retained. Not the complete law database.",
         "laws": [],
     }
-    for name, numbers in SELECTED.items():
+    for name, numbers in selected.items():
         matches = [law for law in root if law.findtext("法規名稱") == name]
         if len(matches) != 1:
             raise ValueError(f"Expected exactly one law: {name}")
@@ -60,9 +74,9 @@ def extract(archive_path: Path) -> dict:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        raise SystemExit("Usage: extract-law-snapshot.py archive.zip output.json")
-    data = extract(Path(sys.argv[1]))
+    if len(sys.argv) not in (3, 4) or (len(sys.argv) == 4 and sys.argv[3] not in ("original", "expansion", "regulations")):
+        raise SystemExit("Usage: extract-law-snapshot.py archive.zip output.json [original|expansion|regulations]")
+    data = extract(Path(sys.argv[1]), sys.argv[3] if len(sys.argv) == 4 else "original")
     # Refuse accidental overwrite of a reviewed snapshot.
     with Path(sys.argv[2]).open("x", encoding="utf-8") as output:
         output.write(json.dumps(data, ensure_ascii=False, indent=2) + "\n")

@@ -1,0 +1,762 @@
+{
+  "schemaVersion": 1,
+  "locale": "zh-TW",
+  "verifiedAsOf": "2026-09-04",
+  "scopeZh": "TASK.md A1；僅涵蓋五類 demo 情境的一般資訊，不是完整法規庫。",
+  "categoryLabels": {
+    "workplace_bullying": "職場霸凌風險",
+    "illegal_overtime": "加班與工資風險",
+    "improper_transfer": "調動風險",
+    "forced_resignation": "解僱／逼退壓力",
+    "legal_management": "一般管理回饋"
+  },
+  "records": [
+    {
+      "id": "osha-22-1",
+      "sourceKind": "statute",
+      "officialNameZh": "職業安全衛生法",
+      "articleOrSection": "第 22-1 條",
+      "articleNumber": "22-1",
+      "categoryIds": [
+        "workplace_bullying",
+        "legal_management"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "職場霸凌須結合執行職務的勞動場所、事業單位人員利用職務或權勢、超出業務必要合理範圍、不當言行及身心健康危害判斷。原則上具有持續性；情節重大者不以持續發生為必要。雇主有防治義務，10 人以上應設申訴管道，30 人以上應訂防治、申訴及懲處規範。",
+      "caveatsZh": [
+        "單則文字僅能提供風險線索，不得自行認定霸凌；也不能因只有一次就排除情節重大事件。合理管理回饋不能僅因語氣嚴厲而標為霸凌。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=22-1&pcode=N0060001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2025-12-19 修正公布版本",
+        "date": "2025-12-19",
+        "effectiveDate": "2026-07-01",
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0060001",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，職業安全衛生法第 22-1 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "職業安全衛生法",
+        "articleNumber": "22-1"
+      }
+    },
+    {
+      "id": "osha-22-2",
+      "sourceKind": "statute",
+      "officialNameZh": "職業安全衛生法",
+      "articleOrSection": "第 22-2 條",
+      "articleNumber": "22-2",
+      "categoryIds": [
+        "workplace_bullying"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "雇主知悉職場霸凌後，須按是否接獲被害勞工申訴，採取保護、協助、事實釐清及調查等適當措施。調查或協調須客觀、公正、公平，並遵守利益迴避；接獲申訴及處理結果須依規定登錄。",
+      "caveatsZh": [
+        "是否啟動程序及如何調查須依具體情況與子法辦理；工具不代為申訴，也不把當事人單方陳述當成調查結果。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=22-2&pcode=N0060001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2025-12-19 修正公布版本",
+        "date": "2025-12-19",
+        "effectiveDate": "2026-07-01",
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0060001",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，職業安全衛生法第 22-2 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "職業安全衛生法",
+        "articleNumber": "22-2"
+      }
+    },
+    {
+      "id": "osha-22-3",
+      "sourceKind": "statute",
+      "officialNameZh": "職業安全衛生法",
+      "articleOrSection": "第 22-3 條",
+      "articleNumber": "22-3",
+      "categoryIds": [
+        "workplace_bullying"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "職場霸凌申訴原則上向雇主提出；被申訴人為最高負責人時，可以直接向直轄市或縣市主管機關提出。",
+      "caveatsZh": [
+        "外部申訴有法定期限及程序；本摘要僅摘錄第 1 項，不能由「主管」一詞推定對方就是最高負責人。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=22-3&pcode=N0060001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2025-12-19 修正公布版本",
+        "date": "2025-12-19",
+        "effectiveDate": "2026-07-01",
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0060001",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，職業安全衛生法第 22-3 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "職業安全衛生法",
+        "articleNumber": "22-3"
+      }
+    },
+    {
+      "id": "lsa-10-1",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 10-1 條",
+      "articleNumber": "10-1",
+      "categoryIds": [
+        "improper_transfer"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "調動不得違反勞動契約，並須符合經營必要且無不當目的、工資及其他勞動條件不得不利變更、工作可勝任、地點過遠時提供必要協助，以及考量勞工與家庭生活利益等原則。",
+      "caveatsZh": [
+        "跨縣市或職務改變不當然違法；需確認契約、經營理由、薪資、交通協助及家庭影響。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=10-1&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 修正公布版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 10-1 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "10-1"
+      }
+    },
+    {
+      "id": "lsa-11",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 11 條",
+      "articleNumber": "11",
+      "categoryIds": [
+        "forced_resignation",
+        "legal_management"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "雇主須具備法定事由，才能依本條預告終止契約，例如歇業、虧損或業務緊縮，或勞工確不能勝任工作。",
+      "caveatsZh": [
+        "績效未達標不等於已證明「確不能勝任」；須檢視具體工作、評估與終止理由，不能僅憑主管訊息判斷解僱有效。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=11&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 修正公布版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 11 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "11"
+      }
+    },
+    {
+      "id": "lsa-12",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 12 條",
+      "articleNumber": "12",
+      "categoryIds": [
+        "forced_resignation"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "不經預告終止契約限於本條列舉的法定情形，例如違反勞動契約或工作規則且情節重大；部分事由另有雇主知悉後 30 日內行使的限制。",
+      "caveatsZh": [
+        "並非所有失誤、拒絕指示或績效問題都屬情節重大；不要將所有解僱一律寫成須預告或有資遣費。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=12&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 修正公布版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 12 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "12"
+      }
+    },
+    {
+      "id": "lsa-14",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 14 條",
+      "articleNumber": "14",
+      "categoryIds": [
+        "forced_resignation",
+        "illegal_overtime",
+        "workplace_bullying"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "雇主有重大侮辱、未依契約給付報酬或違反勞動契約及勞工法令等本條情形時，勞工可能得不經預告終止契約。第 1 項第 1、6 款的行使期限原則為知悉後 30 日，第 6 款另有知悉損害結果的起算規則。",
+      "caveatsZh": [
+        "是否符合要件、期限及資遣費制度須個案確認；不得自動建議立即離職，或把此種終止與一般自願辭職混為一談。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=14&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 修正公布版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 14 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "14"
+      }
+    },
+    {
+      "id": "lsa-16",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 16 條",
+      "articleNumber": "16",
+      "categoryIds": [
+        "forced_resignation"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "依第 11 條或第 13 條但書終止契約，工作滿 3 個月未滿 1 年、滿 1 年未滿 3 年、滿 3 年以上，分別應提前 10、20、30 日預告；未依法預告者應給付預告期間工資。",
+      "caveatsZh": [
+        "此為特定終止事由的預告規範，不能套用到所有第 12 條懲戒解僱，也不能僅由一則訊息推定年資。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=16&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 修正公布版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 16 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "16"
+      }
+    },
+    {
+      "id": "lsa-17",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 17 條",
+      "articleNumber": "17",
+      "categoryIds": [
+        "forced_resignation"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "適用本條資遣費制度者，原則按同一雇主年資每滿 1 年給付 1 個月平均工資；剩餘年資按法定比例計算，並於終止契約後 30 日內發給。",
+      "caveatsZh": [
+        "這不是所有勞工通用的計算式；勞退新制適用年資應依勞工退休金條例第 12 條，混合年資須分別確認。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=17&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 修正公布版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 17 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "17"
+      }
+    },
+    {
+      "id": "pension-12",
+      "sourceKind": "statute",
+      "officialNameZh": "勞工退休金條例",
+      "articleOrSection": "第 12 條",
+      "articleNumber": "12",
+      "categoryIds": [
+        "forced_resignation"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "適用勞退新制的年資，於本條所列終止事由成立時，資遣費每滿 1 年給付半個月平均工資，未滿 1 年按比例，最高 6 個月，並於終止後 30 日內發給。",
+      "caveatsZh": [
+        "須先確認終止事由與新舊制年資；不能只看到「離職」就認定一定有資遣費。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=12&pcode=N0030020",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2019-05-15 修正公布版本",
+        "date": "2019-05-15",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030020",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞工退休金條例第 12 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "勞工退休金條例",
+        "articleNumber": "12"
+      }
+    },
+    {
+      "id": "lsa-24",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 24 條",
+      "articleNumber": "24",
+      "categoryIds": [
+        "illegal_overtime"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "平日延長工時前 2 小時，時薪至少另加三分之一；再延長 2 小時至少另加三分之二。休息日出勤及第 32 條第 4 項特殊延長工時，另有不同給付規則。",
+      "caveatsZh": [
+        "必須區分平日、休息日及其他假別，核對實際出勤與工資；不可把所有加班一律套同一倍率。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=24&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 修正公布版本",
+        "date": "2024-07-31",
+        "effectiveDate": "2018-03-01",
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 24 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "24"
+      }
+    },
+    {
+      "id": "lsa-30",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 30 條",
+      "articleNumber": "30",
+      "categoryIds": [
+        "illegal_overtime"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "一般正常工時上限為每日 8 小時、每週 40 小時；符合法定條件的指定行業可採彈性工時。雇主須保存 5 年出勤紀錄，逐日記到分鐘，勞工申請副本時不得拒絕。",
+      "caveatsZh": [
+        "晚間收到訊息不必然等於已提供勞務；須確認實際工作、正常班表與工時制度。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=30&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 修正公布版本",
+        "date": "2024-07-31",
+        "effectiveDate": "2016-01-01",
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 30 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "30"
+      }
+    },
+    {
+      "id": "lsa-32",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 32 條",
+      "articleNumber": "32",
+      "categoryIds": [
+        "illegal_overtime"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "延長工時須經工會或無工會時的勞資會議同意。一般情況正常與延長工時合計每日不超過 12 小時，延長工時每月不超過 46 小時；符合例外程序可至每月 54 小時、每 3 個月 138 小時。",
+      "caveatsZh": [
+        "30 人以上採該例外須報主管機關備查；天災、事變、突發事件及特別工時制度須另查，不可將一般上限寫成無例外。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=32&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 修正公布版本",
+        "date": "2024-07-31",
+        "effectiveDate": "2018-03-01",
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 32 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "32"
+      }
+    },
+    {
+      "id": "lsa-32-1",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 32-1 條",
+      "articleNumber": "32-1",
+      "categoryIds": [
+        "illegal_overtime"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "加班或休息日工作後，依勞工意願選擇且雇主同意，才能依工作時數安排補休；期限由雙方協商，到期或契約終止仍未補休，須依原工作日標準發給工資。",
+      "caveatsZh": [
+        "雇主不能單方面用補休取代加班費；也不能把雙方依法同意的補休直接判為未付費加班。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=32-1&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 修正公布版本",
+        "date": "2024-07-31",
+        "effectiveDate": "2018-03-01",
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 32-1 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "32-1"
+      }
+    },
+    {
+      "id": "lsa-42",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 42 條",
+      "articleNumber": "42",
+      "categoryIds": [
+        "illegal_overtime"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "勞工因健康或其他正當理由，無法在正常工作時間外工作時，雇主不得強制。",
+      "caveatsZh": [
+        "須確認所主張的健康或其他正當理由，並搭配實際加班安排；不是所有排班爭議均可由本條單獨判斷。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=42&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 修正公布版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 42 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "42"
+      }
+    },
+    {
+      "id": "lsa-84-1",
+      "sourceKind": "statute",
+      "officialNameZh": "勞動基準法",
+      "articleOrSection": "第 84-1 條",
+      "articleNumber": "84-1",
+      "categoryIds": [
+        "illegal_overtime"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "僅限中央主管機關核定公告的工作者，經勞雇書面約定並報地方主管機關核備後，部分工時及休假規定才得另行約定；約定不得損及健康及福祉。",
+      "caveatsZh": [
+        "公司自行稱「責任制」並不足夠；本條列出的排除規定不包含第 24 條，不能據此宣稱一律免付加班費。"
+      ],
+      "canonicalUrl": "https://law.moj.gov.tw/LawClass/LawSingle.aspx?flno=84-1&pcode=N0030001",
+      "publisherZh": "總統府（公布）；勞動部（主管機關）",
+      "dataProviderZh": "法務部全國法規資料庫",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2024-07-31 修正公布版本",
+        "date": "2024-07-31",
+        "effectiveDate": null,
+        "status": "in_force_as_verified",
+        "evidenceUrl": "https://law.moj.gov.tw/LawClass/LawHistory.aspx?pcode=N0030001",
+        "notesZh": "effectiveDate 為本條已核對的生效日期；null 表示本次僅以已核對版本識別，不把整部法律最後修正日當成各條生效日。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://law.moj.gov.tw/Service/Copyright.aspx",
+        "attributionZh": "法務部全國法規資料庫／勞動部，2026，勞動基準法第 84-1 條；勞權濾網摘要整理。",
+        "notesZh": "法律條文來源另可經 data.gov.tw/dataset/18289 取得；本摘要為衍生整理，保留來源、版本及顯名，不代表機關認可。"
+      },
+      "evidence": {
+        "file": "sources/moj-selected-2026-09-04.json",
+        "lawNameZh": "勞動基準法",
+        "articleNumber": "84-1"
+      }
+    },
+    {
+      "id": "mol-reasonable-management",
+      "sourceKind": "official_guidance",
+      "officialNameZh": "職場霸凌定義",
+      "articleOrSection": "第 3 點：行為逾越業務必要且合理的範圍",
+      "articleNumber": null,
+      "categoryIds": [
+        "legal_management",
+        "workplace_bullying"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "正當合理的業務指導或行政管理，例如要求員工在合理時間內完成工作或達成績效，通常難以認定職場霸凌；不合理高標或不可能完成的時程可能是風險線索。",
+      "caveatsZh": [
+        "本頁「五要件」說明未完整重述情節重大例外，使用時必須同時保留職安法第 22-1 條；無霸凌訊號不代表已全面認證管理合法。"
+      ],
+      "canonicalUrl": "https://www.mol.gov.tw/1607/28690/86099/94219/94225/",
+      "publisherZh": "勞動部職業安全衛生署",
+      "dataProviderZh": "勞動部職業安全衛生署",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2026-07-01 官方網頁版本",
+        "date": "2026-07-01",
+        "effectiveDate": null,
+        "status": "guidance_not_statute",
+        "evidenceUrl": "https://www.mol.gov.tw/1607/28690/86099/94219/94225/",
+        "notesZh": "此為官方說明或指引的版本／發布日期，不是獨立法規生效日；法律要件以現行條文為準。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://www.mol.gov.tw/2578/2584/3276/post",
+        "attributionZh": "勞動部職業安全衛生署，2026，職場霸凌定義；勞權濾網摘要整理。",
+        "notesZh": "依發布網站開放宣告保留顯名；僅整理一般文字說明，未收錄另有權利限制的圖像、影音或第三方專文。"
+      },
+      "evidence": {
+        "file": null,
+        "lawNameZh": null,
+        "articleNumber": null
+      }
+    },
+    {
+      "id": "mol-forced-resignation",
+      "sourceKind": "official_guidance",
+      "officialNameZh": "公司可以要求勞工自願離職嗎？",
+      "articleOrSection": "問答：答案",
+      "articleNumber": null,
+      "categoryIds": [
+        "forced_resignation"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "雇主終止契約須有法定事由，符合應預告及給付資遣費的情形時，不得透過不當手段逼迫勞工自請離職來迴避責任。",
+      "caveatsZh": [
+        "應區分勞工真意辭職、合意終止及雇主單方終止；單則「自己離職」訊息仍需確認完整脈絡與是否施壓。"
+      ],
+      "canonicalUrl": "https://www.mol.gov.tw/1607/28690/2282/2326/2288/82235/",
+      "publisherZh": "勞動部勞動關係司",
+      "dataProviderZh": "勞動部勞動關係司",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "2025-08-13 發布；2025-09-03 更新",
+        "date": "2025-09-03",
+        "effectiveDate": null,
+        "status": "guidance_not_statute",
+        "evidenceUrl": "https://www.mol.gov.tw/1607/28690/2282/2326/2288/82235/",
+        "notesZh": "此為官方說明或指引的版本／發布日期，不是獨立法規生效日；法律要件以現行條文為準。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://www.mol.gov.tw/2578/2584/3276/post",
+        "attributionZh": "勞動部勞動關係司，2025，公司可以要求勞工自願離職嗎？；勞權濾網摘要整理。",
+        "notesZh": "依發布網站開放宣告保留顯名；僅整理一般文字說明，未收錄另有權利限制的圖像、影音或第三方專文。"
+      },
+      "evidence": {
+        "file": null,
+        "lawNameZh": null,
+        "articleNumber": null
+      }
+    },
+    {
+      "id": "osha-bullying-handbook",
+      "sourceKind": "official_guidance",
+      "officialNameZh": "職場霸凌防治措施指導手冊",
+      "articleOrSection": "肆、職場霸凌定義及認定原則；正文第 2–3 頁（PDF 第 6–7 頁）",
+      "articleNumber": null,
+      "categoryIds": [
+        "workplace_bullying",
+        "legal_management"
+      ],
+      "contentKind": "faithful_summary",
+      "summaryZh": "手冊要求考量事件背景、頻率、場所、動機及目的；單次重大事件須綜合侵害強度、權力差距、公開程度、羞辱程度及身心影響。樣態包括社交排斥、職務干預、權力濫用及名譽侵害。",
+      "caveatsZh": [
+        "手冊提供實務參考，不能取代法律及調查；版本只標示月份，不推定精確發布日。"
+      ],
+      "canonicalUrl": "https://www.osha.gov.tw/media/aacliqzi/職場霸凌防治指導手冊.pdf",
+      "publisherZh": "勞動部／職業安全衛生署",
+      "dataProviderZh": "勞動部／職業安全衛生署",
+      "lastVerified": "2026-09-04",
+      "version": {
+        "label": "115 年 6 月版（月精度）",
+        "date": "2026-06",
+        "effectiveDate": null,
+        "status": "guidance_not_statute",
+        "evidenceUrl": "https://www.osha.gov.tw/media/aacliqzi/職場霸凌防治指導手冊.pdf",
+        "notesZh": "此為官方說明或指引的版本／發布日期，不是獨立法規生效日；法律要件以現行條文為準。"
+      },
+      "reuse": {
+        "licenseId": "OGDL-Taiwan-1.0",
+        "licenseUrl": "https://data.gov.tw/license",
+        "declarationUrl": "https://www.osha.gov.tw/48757/48761/60386/",
+        "attributionZh": "勞動部／職業安全衛生署，2026，職場霸凌防治措施指導手冊（115 年 6 月版）；勞權濾網摘要整理。",
+        "notesZh": "依發布網站開放宣告保留顯名；僅整理一般文字說明，未收錄另有權利限制的圖像、影音或第三方專文。"
+      },
+      "evidence": {
+        "file": null,
+        "lawNameZh": null,
+        "articleNumber": null
+      }
+    }
+  ]
+}

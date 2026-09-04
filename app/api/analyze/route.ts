@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { analyzeMessage, AnalysisNotImplementedError } from "@/src/analysis/analyze-message";
+import { analyzeMessage } from "@/src/analysis/analyze-message";
+import { AnalysisError } from "@/src/analysis/errors";
 import { FIXED_DISCLAIMER } from "@/src/analysis/disclaimer";
 import { parseWebAnalyzeRequest } from "@/src/adapters/web";
 
@@ -41,19 +42,10 @@ export async function POST(request: Request) {
     const result = await analyzeMessage(parsed.data);
     return NextResponse.json(result);
   } catch (error) {
-    if (error instanceof AnalysisNotImplementedError) {
-      return NextResponse.json(
-        {
-          error: {
-            code: "ANALYSIS_NOT_IMPLEMENTED",
-            messageZh: "基本架構已連接；分析核心將在下一階段啟用。",
-          },
-          disclaimer: FIXED_DISCLAIMER,
-        },
-        { status: 501 },
-      );
-    }
-
-    throw error;
+    const failure = error instanceof AnalysisError ? error : new AnalysisError("ANALYSIS_UNAVAILABLE");
+    return NextResponse.json(
+      { error: { code: failure.code, messageZh: failure.messageZh }, disclaimer: FIXED_DISCLAIMER },
+      { status: failure.status },
+    );
   }
 }

@@ -1,1 +1,103 @@
-[]
+[
+  {
+    "id": "verbal-bullying",
+    "label": "言語羞辱與排擠",
+    "message": "你真是個沒用的廢物，這點事都做不好。以後部門會議不用參加，大家也不用再把工作資訊傳給你。",
+    "expectedPrimaryCategory": "workplace_bullying",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "osha-22-1",
+        "osha-22-2"
+      ],
+      "explanationZh": "訊息包含人格貶抑及排除必要工作資訊的線索，可能超出合理管理範圍。仍須確認背景、是否反覆發生及身心影響，不能只憑這則訊息認定職場霸凌。",
+      "suggestedReplyZh": "我願意釐清工作上需要改善的具體事項，也需要取得完成工作所需的資訊。請提供具體標準，並協助維持必要的工作溝通。",
+      "nextStepsZh": [
+        "自行保留訊息的時間及前後脈絡，區分工作要求與人格貶抑的內容。",
+        "若情況持續或影響身心，可尋求可信任的人、內部申訴管道或 1955 協助。"
+      ]
+    }
+  },
+  {
+    "id": "unpaid-overtime",
+    "label": "要求無薪加班",
+    "message": "今晚全組下班後再做四小時，先打卡再繼續。公司不付加班費，也不給補休，誰都不能拒絕。",
+    "expectedPrimaryCategory": "illegal_overtime",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "lsa-24",
+        "lsa-30",
+        "lsa-32-1",
+        "lsa-42"
+      ],
+      "explanationZh": "訊息要求打卡後繼續提供勞務，並排除加班費及補休，存在工時紀錄與工資給付風險。仍須確認實際工作、班表與適用工時制度。",
+      "suggestedReplyZh": "請確認今晚實際工作時段、出勤紀錄及加班費如何處理。我希望依實際工作時間登記，並先確認加班安排及相關規定。",
+      "nextStepsZh": [
+        "自行整理實際上下班時間、工作安排與薪資明細。",
+        "請求出勤紀錄副本，若給付或工時有爭議，可向 1955 或地方勞工主管機關諮詢。"
+      ]
+    }
+  },
+  {
+    "id": "unreasonable-transfer",
+    "label": "突然調動與減薪",
+    "message": "明天起從台北調到高雄上班，薪水減一半，不提供交通或住宿協助。你的家庭安排公司不管，沒有討論空間。",
+    "expectedPrimaryCategory": "improper_transfer",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "lsa-10-1"
+      ],
+      "explanationZh": "訊息同時涉及遠距離調動、減薪及未考量家庭利益，可能不符調動原則。需核對勞動契約、企業經營理由、工作內容及可提供的協助。",
+      "suggestedReplyZh": "請提供調動的工作內容、經營理由、薪資條件及交通住宿協助方案。這項安排影響家庭生活，我希望在確認契約與相關條件後討論可行方案。",
+      "nextStepsZh": [
+        "自行比對原契約、原薪資與調動後條件，整理交通及家庭影響。",
+        "在決定是否接受安排前，可先洽 1955 或專業律師確認權益。"
+      ]
+    }
+  },
+  {
+    "id": "forced-resignation",
+    "label": "逼簽自願離職",
+    "message": "今天下班前把自願離職書簽好，公司不會給資遣費。不簽就每天安排你做最差的工作，直到你自己離職。",
+    "expectedPrimaryCategory": "forced_resignation",
+    "minimumRiskLevel": "high",
+    "result": {
+      "riskLevel": "high",
+      "legalSourceIds": [
+        "lsa-11",
+        "lsa-16",
+        "pension-12"
+      ],
+      "explanationZh": "以不利工作安排要求簽署自願離職書，可能涉及逼退及規避終止契約責任。是否屬自願離職、合意終止或雇主終止，須確認真意、完整脈絡及相關文件。",
+      "suggestedReplyZh": "我目前沒有自願離職的意思。請以書面說明公司提出的安排、理由與條件，我需要先了解內容及相關權益，再作回覆。",
+      "nextStepsZh": [
+        "不要在尚未理解內容或不符合真意時倉促簽署文件；自行保留對話及公司提出的條件。",
+        "請向 1955 或專業律師確認終止事由、預告及新舊制年資相關權益。"
+      ]
+    }
+  },
+  {
+    "id": "firm-performance-feedback",
+    "label": "嚴格但合理的績效回饋",
+    "message": "這份報告有三處數據錯誤，品質未達我們事先約定的標準。請在下週五前完成修正，依原有工作時段安排，有資源或時程問題今天提出，我們一起調整。",
+    "expectedPrimaryCategory": "legal_management",
+    "minimumRiskLevel": "none",
+    "result": {
+      "riskLevel": "none",
+      "legalSourceIds": [
+        "mol-reasonable-management"
+      ],
+      "explanationZh": "訊息針對具體工作錯誤、已約定的標準及可討論的合理時程提出改善要求，目前較接近一般管理回饋，未見明確人格羞辱或不當加班要求。仍需考量實際工作量及前後脈絡。",
+      "suggestedReplyZh": "收到，我會先核對三處數據並安排修正。如有資料或時程上的困難，我會今天提出，與您確認優先順序。",
+      "nextStepsZh": [
+        "確認需要修正的項目、驗收標準及可取得的協助。",
+        "若實際工作量與期限不相符，及早提出具體困難並討論調整。"
+      ]
+    }
+  }
+]

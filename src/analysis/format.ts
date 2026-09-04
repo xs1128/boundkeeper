@@ -1,13 +1,7 @@
 import type { AnalyzeResult } from "./types";
+import { analyzeResultSchema } from "./schemas/analyze-result";
 
-export class FormatResultNotImplementedError extends Error {
-  constructor() {
-    super("Result formatting is not implemented yet.");
-    this.name = "FormatResultNotImplementedError";
-  }
-}
-
-export function formatResult(_result: AnalyzeResult): never {
-  void _result;
-  throw new FormatResultNotImplementedError();
+export function formatResult(result: AnalyzeResult): AnalyzeResult {
+  // Parse returns a fresh, JSON-safe object with only the frozen contract fields.
+  return analyzeResultSchema.parse(result);
 }

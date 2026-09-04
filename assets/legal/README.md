@@ -1,5 +1,41 @@
-# Legal assets
+# 官方法律資料 — Workstream A1
 
-此目錄存放經核對的繁體中文法規摘錄與分類定義。
+核對日期：2026-09-04。資料範圍依根目錄 `TASK.md` A1。A2–A4 已接入此資料，分析核心的使用及驗證方式見 `src/analysis/README.md`。
 
-主要功能實作前，需為每份資料記錄法規名稱、條號、來源網址與最後核對日期。
+## 已收錄
+
+- `corpus.zh-TW.json`：19 筆可供後續 rules/prompts 選用的摘要，包含 16 筆法條及 3 筆官方說明／手冊資料。
+- `source-inventory.zh-TW.md`：官方來源、下載入口、版本差異、授權及選用理由。
+- `statute-excerpts.zh-TW.md`：各情境的法條索引及容易誤用的限制。
+- `category-definitions.zh-TW.md`：五類 demo 情境與分類界線。
+- `sources/moj-selected-2026-09-04.json`：法務部 ZIP 中三部法律的 16 條原文與沿革，附原始檔 SHA-256。這是選定條文的證據快照，不是完整資料庫，也不是 runtime prompt。
+- `tools/extract-law-snapshot.py`：從已下載 ZIP 重新抽取同一組條文。無網路呼叫，不產生法律摘要，也不更新核對日期。
+
+## 使用約定
+
+1. 使用摘要時連同 `caveatsZh`、版本、來源及授權顯名一起保留；不要只摘出結論句。
+2. `sourceKind=statute` 才是法律條文，`official_guidance` 是官方說明或指引，不能冒充法條。
+3. `version.date` 是版本日期，可精確到月；`effectiveDate` 只在另行核對後填入。`null` 不等於未生效，而是本次僅確認版本，或指引並無獨立法規生效日。
+4. `lastVerified` 是本次來源核對日期，不是律師審閱、法院認定或未來持續更新的保證。
+5. 法務部下載檔的 `UpdateDate` 為 2026-08-21；本次網頁所載整編截止為 2026-08-28。下載日、資料截止日、修正公布日、生效日不可混用。
+6. 單則訊息只提供風險線索；必須保留職安法第 22-1 條「情節重大者不以持續發生為必要」的例外。一般績效要求的合理性仍需個案脈絡。
+7. 僅需選取與訊息相關的數筆摘要。此階段不建立向量索引、RAG、資料庫或全量法律 prompt。
+
+## 重現資料快照
+
+由 [data.gov.tw 資料集 18289](https://data.gov.tw/dataset/18289) 取得 ZIP，將原始檔保存在工作目錄之外，再執行：
+
+```sh
+curl -L --fail 'https://sendlaw.moj.gov.tw/PublicData/GetFile.ashx?DType=XML&AuData=CF' -o /tmp/moj-laws.zip
+python3 assets/legal/tools/extract-law-snapshot.py /tmp/moj-laws.zip /tmp/moj-selected.json
+```
+
+工具拒絕覆寫既有輸出。相同 ZIP 會產生相同結果；來源端更新後，SHA-256 與內容可能改變。比較新舊快照、官方單條條文及沿革後，再人工修改摘要與 `lastVerified`。不得只下載成功就宣稱法律內容已核對。
+
+## 驗證
+
+```sh
+pnpm test -- tests/analysis/legal-source-metadata.test.ts
+```
+
+測試離線驗證必要 metadata、日期格式、官方來源、分類涵蓋及法條摘要與原文快照的連結。它不驗證個案法律結論，也不取代法規內容審查。原有 `AnalyzeResult` contract 與 `FIXED_DISCLAIMER` 不變。

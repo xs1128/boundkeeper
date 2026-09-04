@@ -4,6 +4,8 @@
 
 ## Repo 現況盤點（2026-09-04）
 
+**Stream A 進度更新：**A1–A4 已實作；官方 corpus、5 組離線 fixtures、分析流程、安全分流及交接資料見 [`src/analysis/README.md`](src/analysis/README.md)。以下清單保留為開工前盤點；真實 OpenAI smoke test 仍需設定 API key 後手動執行，完整 MVP 仍待 B／C 與整合驗收。
+
 目前 repository 是可以 compile 的 scaffold，還不是能實際使用的 MVP。
 
 - `pnpm test`：有通過，但目前只執行 4 個 scaffold assertions，另有 4 個 test files 是 skipped/TODO。

@@ -7,8 +7,15 @@
   --line: #d5dfda;
   --surface: #ffffff;
   --accent: #136c5a;
+  --accent-hover: #0f5849;
   --accent-soft: #e4f2ed;
+  --accent-muted: #c8e4da;
   --background: #f4f7f5;
+  --hero-glow: #dceee7;
+  --shadow: 0 18px 55px rgb(23 51 45 / 8%);
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-pill: 999px;
 }
 
 * {
@@ -17,11 +24,15 @@
 
 body {
   margin: 0;
-  background: var(--background);
+  background:
+    radial-gradient(circle at 12% -8%, var(--hero-glow) 0%, transparent 42%),
+    radial-gradient(circle at 88% 0%, rgb(19 108 90 / 8%) 0%, transparent 36%),
+    var(--background);
   color: var(--ink);
   line-height: 1.65;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
+  font-family: var(--font-noto), "Noto Sans TC", system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 button,
@@ -33,7 +44,74 @@ textarea {
 .shell {
   width: min(100% - 32px, 720px);
   margin: 0 auto;
-  padding: 64px 0 32px;
+  padding: 40px 0 48px;
+}
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.brand-lockup:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.brand-mark {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.brand-name {
+  font-size: 1.05rem;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  color: var(--muted);
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.nav-link:hover {
+  color: var(--accent);
+  background: rgb(255 255 255 / 70%);
+}
+
+.nav-link-active {
+  color: var(--accent);
+  background: var(--surface);
+  border-color: var(--line);
+  box-shadow: 0 4px 14px rgb(23 51 45 / 6%);
 }
 
 .hero {
@@ -46,12 +124,14 @@ textarea {
   font-size: 0.75rem;
   font-weight: 750;
   letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 h1 {
   margin: 0;
   font-size: clamp(2.4rem, 10vw, 4.4rem);
   letter-spacing: -0.06em;
+  line-height: 1.02;
 }
 
 .lede {
@@ -62,12 +142,31 @@ h1 {
   line-height: 1.65;
 }
 
+.hero-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-points li {
+  padding: 8px 14px;
+  border: 1px solid var(--accent-muted);
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 72%);
+  color: var(--ink);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
 .card {
   padding: 24px;
   border: 1px solid var(--line);
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   background: var(--surface);
-  box-shadow: 0 18px 55px rgb(23 51 45 / 8%);
+  box-shadow: var(--shadow);
 }
 
 label {
@@ -82,7 +181,7 @@ textarea {
   resize: vertical;
   padding: 14px;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   color: var(--ink);
   background: #fbfcfb;
   line-height: 1.6;
@@ -113,12 +212,21 @@ textarea:focus {
 button {
   min-height: 44px;
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   padding: 11px 18px;
   background: var(--accent);
   color: white;
   cursor: pointer;
   font-weight: 700;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 button:disabled {
@@ -135,30 +243,10 @@ button:disabled {
 }
 
 .disclaimer {
-  margin-top: 24px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
   line-height: 1.65;
-}
-
-.site-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.site-nav a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 4px 8px;
-  color: var(--accent);
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.site-nav a:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 3px;
 }
 
 .fixture-picker {
@@ -170,7 +258,7 @@ button:disabled {
   margin-top: 8px;
   padding: 10px 12px;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   background: #fbfcfb;
   color: var(--ink);
 }
@@ -186,7 +274,7 @@ button:disabled {
   margin-top: 16px;
   padding: 14px;
   border: 1px solid #efc8c8;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   background: #fff4f4;
   color: #7a2f2f;
   line-height: 1.55;
@@ -203,9 +291,9 @@ button:disabled {
   margin-top: 20px;
   padding: 24px;
   border: 1px solid var(--line);
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   background: var(--surface);
-  box-shadow: 0 18px 55px rgb(23 51 45 / 8%);
+  box-shadow: var(--shadow);
 }
 
 .result h2 {
@@ -229,7 +317,7 @@ button:disabled {
   width: fit-content;
   margin: 0;
   padding: 6px 12px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   font-size: 0.86rem;
   font-weight: 800;
 }
@@ -272,7 +360,7 @@ button:disabled {
 .elements-note {
   margin: 0 0 18px;
   padding: 12px 14px;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   background: var(--accent-soft);
   color: var(--ink);
 }
@@ -281,7 +369,7 @@ button:disabled {
   margin: 18px 0;
   padding: 12px 14px;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
 }
 
 .legal-refs summary {
@@ -300,10 +388,6 @@ button:disabled {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-}
-
-.reply-editor {
-  min-height: 140px;
 }
 
 .inline-status {
@@ -376,11 +460,15 @@ button:disabled {
 
 @media (max-width: 520px) {
   .shell {
-    padding-top: 36px;
+    padding-top: 24px;
   }
 
   .card {
     padding: 18px;
+  }
+
+  .site-header {
+    margin-bottom: 28px;
   }
 }
 
@@ -483,8 +571,18 @@ select {
   font-size: 0.95rem;
 }
 
-.analysis-result textarea + button {
-  margin-top: 12px;
+.improvement-list {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.improvement-list li {
+  padding-left: 4px;
+}
+
+.improvement-list li::marker {
+  color: var(--accent);
+  font-weight: 700;
 }
 
 .error-state {

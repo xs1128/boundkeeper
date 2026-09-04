@@ -1,14 +1,29 @@
 import { generateObject } from "ai";
-import { createOpenAI } from "@ai-sdk/openai";
 import { z } from "zod";
 import type { AnalyzeInput, AnalyzeResult } from "./types";
 import type { RuleHint } from "./rules/prefilter";
 import { AnalysisError } from "./errors";
 import { CATEGORY_IDS, CATEGORY_LABELS, LEGAL_CONTEXT, legalRecords, legalRefFor } from "./legal-context";
 import { SYSTEM_PROMPT_ZH_TW } from "./prompts/system.zh-TW";
+import {
+  assertLiveCredentials,
+  createLanguageModel,
+  DEFAULT_GEMINI_MODEL,
+  DEFAULT_OPENAI_MODEL,
+  DEFAULT_VERTEX_MODEL,
+  LIVE_TIMEOUT_MS,
+  resolveLlmBackend,
+  resolveModel,
+  type LlmBackend,
+} from "./llm-config";
 
-export const DEFAULT_OPENAI_MODEL = "gpt-4.1-mini-2025-04-14";
-export const LIVE_TIMEOUT_MS = 12000;
+export {
+  DEFAULT_GEMINI_MODEL,
+  DEFAULT_OPENAI_MODEL,
+  DEFAULT_VERTEX_MODEL,
+  LIVE_TIMEOUT_MS,
+  type LlmBackend,
+};
 
 // Provider-only shape; the public AnalyzeResult contract stays unchanged.
 export const modelResultSchema = z.object({
@@ -24,23 +39,24 @@ export const modelResultSchema = z.object({
 });
 
 export async function llmAnalyze(input: AnalyzeInput, hints: RuleHint[]): Promise<AnalyzeResult> {
-  const apiKey = process.env.OPENAI_API_KEY?.trim();
-  const model = process.env.OPENAI_MODEL?.trim() || DEFAULT_OPENAI_MODEL;
-  if (!apiKey || !/^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,100}$/.test(model)) {
-    throw new AnalysisError("ANALYSIS_UNAVAILABLE");
-  }
+  const backend = resolveLlmBackend();
+  const model = resolveModel(backend);
+  assertLiveCredentials(backend);
+
   const signal = AbortSignal.timeout(LIVE_TIMEOUT_MS);
   try {
-    const openai = createOpenAI({ apiKey });
+    const languageModel = createLanguageModel(backend, model);
     const { object } = await generateObject({
-      model: openai.chat(model),
+      model: languageModel,
       schema: modelResultSchema,
       system: `${SYSTEM_PROMPT_ZH_TW}\n${JSON.stringify({ categoryIds: CATEGORY_IDS, curatedLegalContext: LEGAL_CONTEXT })}`,
       prompt: JSON.stringify({ untrustedMessage: input.text, untrustedContext: input.context ?? {}, ruleHints: hints }),
       maxOutputTokens: 2200,
       maxRetries: 0,
       abortSignal: signal,
-      providerOptions: { openai: { store: false } },
+      ...(backend === "openai"
+        ? { providerOptions: { openai: { store: false } } }
+        : {}),
       experimental_telemetry: { isEnabled: false, recordInputs: false, recordOutputs: false },
     });
     const parsed = modelResultSchema.safeParse(object);

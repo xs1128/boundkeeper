@@ -12,19 +12,29 @@ export async function copyText(text: string): Promise<boolean> {
     return false;
   }
 
+  const previousFocus = document.activeElement;
   const textarea = document.createElement("textarea");
   textarea.value = text;
   textarea.setAttribute("readonly", "");
   textarea.style.position = "fixed";
+  textarea.style.inset = "0 auto auto 0";
+  textarea.style.width = "1px";
+  textarea.style.height = "1px";
+  textarea.style.minHeight = "0";
+  textarea.style.padding = "0";
+  textarea.style.border = "0";
   textarea.style.opacity = "0";
   document.body.appendChild(textarea);
-  textarea.select();
-
   try {
+    textarea.focus({ preventScroll: true });
+    textarea.select();
     return document.execCommand("copy");
   } catch {
     return false;
   } finally {
     document.body.removeChild(textarea);
+    if (previousFocus instanceof HTMLElement && previousFocus.isConnected) {
+      previousFocus.focus({ preventScroll: true });
+    }
   }
 }

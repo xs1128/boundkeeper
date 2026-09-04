@@ -24,7 +24,7 @@ const fixture = plantedFixtures[0];
 const result = await analyzeMessage({ text: fixture.message, mode: "fixture" });
 ```
 
-`plantedFixtures` retains `id`, `label`, `message`, `expectedPrimaryCategory` and `minimumRiskLevel`. Its additional `result` field contains curated fixture content. The current Web `FixturePicker` expects `text`; map `message` to `text` when connecting it, and send `mode: "fixture"` on selection.
+`plantedFixtures` retains `id`, `label`, `message`, `expectedPrimaryCategory` and `minimumRiskLevel`. Its additional `result` field contains curated fixture content. Server adapters and core tests may use this export. For the Web picker, use the browser-safe `fixtureOptions` export below; its `text` field already matches the existing component.
 
 `assets/fixtures/sanitized-analysis-result.json` is a complete, fictional overtime result for consumer tests. A test compares it with the actual core output. It includes no original message, contact details or identifying information.
 
@@ -43,6 +43,51 @@ The API route received a narrow integration change to remove the obsolete 501 br
 | `ANALYSIS_TIMEOUT` | 504 | Model request exceeded its deadline |
 
 The existing `INVALID_JSON` response remains 400. Every failure response includes the fixed disclaimer. Successes always contain that exact disclaimer; legal references also add source attribution in the disclaimer array and applicable caveats in `elementsNote`.
+
+### Stream B wiring reference
+
+These exports are ready for B; this handoff does not connect or modify the page, components, styles or case log.
+
+```ts
+import { fixtureOptions } from "@/src/analysis/fixtures/options";
+import { analyzeInputSchema } from "@/src/analysis/schemas/analyze-input";
+import { analyzeResultSchema } from "@/src/analysis/schemas/analyze-result";
+import { analyzeFailureSchema } from "@/src/analysis/schemas/analyze-failure";
+import type { AnalyzeInput, AnalyzeResult } from "@/src/analysis/types";
+```
+
+The fixture choices contain `{ id, label, text }` and depend only on the synthetic fixture JSON, not the core, legal context or model SDK. Client components must not import `analyzeMessage`, `llm-analyze` or the server-oriented `plantedFixtures` module. No new endpoint or dependency is required.
+
+Minimal request/response example, to adapt inside B's submit handler:
+
+```ts
+const input: AnalyzeInput = { text: fixtureOptions[0].text, mode: "fixture" };
+const response = await fetch("/api/analyze", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(analyzeInputSchema.parse(input)),
+});
+const body: unknown = await response.json();
+if (!response.ok) {
+  const failure = analyzeFailureSchema.parse(body);
+  // Show failure.error.messageZh and failure.disclaimer in the error state.
+  // Preserve the input. Do not pass this body to the result component.
+} else {
+  const result: AnalyzeResult = analyzeResultSchema.parse(body);
+  // Pass result directly to the result component; there is no { result } wrapper.
+}
+```
+
+The example shows the wire contract only. B owns input-validation messages, pending state, cancellation, retry controls, and handling fetch/JSON/schema failures (a proxy may return non-JSON). Do not log the request, body or caught provider details.
+
+- Pass `fixtureOptions` to `FixturePicker.fixtures`. Selection supplies `text`; submit it with `mode: "fixture"`. An empty selection is not a valid request. If the user edits the message, switch to live mode explicitly; edited text is not guaranteed to match a fixture. Omitted `mode` means live.
+- Fixture analysis needs no OpenAI key or provider access. Calling `/api/analyze` still requires a reachable app server; this is not an airplane-mode Web implementation.
+- The model deadline is 12 seconds, excluding network/cold-start overhead. A browser timeout is a separate transport failure. Do not silently retry or replace a failed live result with demo data.
+- Success uses `disclaimers: string[]`; failure uses `disclaimer: string`. Display every returned success disclaimer, including attribution. Preserve `elementsNote` when present.
+- A crisis is HTTP 200 with category `crisis` and empty `legalRefs`; render its explanation and resources without requiring a legal reference. `other` is also a valid category. Display `categories[].labelZh` from the response; B owns localized risk-level labels.
+- For component tests, import `assets/fixtures/sanitized-analysis-result.json` and parse with `analyzeResultSchema`. Clone before editing test data. B owns rendering tests and user-initiated local save/export; never append the submitted `text` to stored/exported records.
+
+`tests/analysis/web-handoff.test.ts` exercises all five picker options against the actual POST handler without credentials/provider calls, validates success and failure schemas, and covers the crisis response. The original `AnalyzeInput` / `AnalyzeResult` and HTTP response shapes are unchanged.
 
 ## Configuration and privacy
 

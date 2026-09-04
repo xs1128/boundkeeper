@@ -8,7 +8,7 @@ export default function CaseLogPage() {
       <SiteNav />
 
       <header className="hero">
-        <p className="eyebrow">LOCAL CASE LOG</p>
+        <p className="eyebrow">本機案件紀錄</p>
         <h1>案件紀錄</h1>
         <p className="lede">
           僅保存在這台裝置上的分析摘要；不會上傳主管原始訊息。

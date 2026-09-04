@@ -1,91 +1,112 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import type { AnalyzeResult } from "@/src/analysis/types";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { analyzeInputSchema } from "@/src/analysis/schemas/analyze-input";
+import type { AnalyzeResult as AnalyzeResultData } from "@/src/analysis/types";
 import { saveCaseEntry } from "@/src/case-log/store";
 import { hashMessage } from "@/src/case-log/hash";
-import { AnalysisResult } from "./AnalysisResult";
-import { FixturePicker } from "./FixturePicker";
-import { getFixtureOptions } from "./fixture-options";
 import { MessageInput } from "./MessageInput";
+import { FixturePicker } from "./FixturePicker";
+import { AnalysisResult } from "./AnalysisResult";
+import { Disclaimer } from "./Disclaimer";
+import { getFixtureOptions } from "./fixture-options";
 import { parseAnalyzeResponse } from "./parse-analyze-response";
-import { SAMPLE_ANALYZE_RESULT } from "./sample-analyze-result";
 
 const fixtureOptions = getFixtureOptions();
 
+type AnalysisState =
+  | { status: "empty" }
+  | { status: "loading" }
+  | { status: "error"; message: string }
+  | { status: "success"; result: AnalyzeResultData };
+
 export function MessageAnalyzer() {
   const [text, setText] = useState("");
-  const [selectedFixtureId, setSelectedFixtureId] = useState<string | null>(
-    null,
-  );
-  const [result, setResult] = useState<AnalyzeResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [fixtureId, setFixtureId] = useState("");
+  const [state, setState] = useState<AnalysisState>({ status: "empty" });
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState("");
+  const savingRef = useRef(false);
+  const requestRef = useRef<AbortController | null>(null);
+  const isSubmitting = state.status === "loading";
 
-  function handleTextChange(nextText: string) {
-    setText(nextText);
-    if (selectedFixtureId) {
-      const fixture = fixtureOptions.find((item) => item.id === selectedFixtureId);
-      if (!fixture || fixture.text !== nextText) {
-        setSelectedFixtureId(null);
-      }
-    }
+  useEffect(() => () => requestRef.current?.abort(), []);
+
+  function changeText(value: string) {
+    setText(value);
+    setFixtureId("");
+    setState({ status: "empty" });
+    setSaveMessage("");
   }
 
-  function handleFixtureSelect(
-    fixture: { id: string; label: string; text: string } | null,
-  ) {
-    if (!fixture) {
-      setSelectedFixtureId(null);
+  function selectFixture(id: string) {
+    setFixtureId(id);
+    const fixture = fixtureOptions.find((option) => option.id === id);
+    if (fixture) setText(fixture.text);
+    setState({ status: "empty" });
+    setSaveMessage("");
+  }
+
+  async function analyze() {
+    if (requestRef.current || savingRef.current) return;
+    const input = analyzeInputSchema.safeParse({
+      text,
+      mode: fixtureId ? "fixture" : "live",
+    });
+    if (!input.success) {
+      setState({ status: "error", message: "請輸入 1 至 8,000 個字元的訊息（不含前後空白）。" });
       return;
     }
 
-    setSelectedFixtureId(fixture.id);
-    setText(fixture.text);
-    setResult(null);
-    setError(null);
+    const controller = new AbortController();
+    requestRef.current = controller;
+    setState({ status: "loading" });
     setSaveMessage("");
-  }
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setIsSubmitting(true);
-    setResult(null);
-    setError(null);
-    setSaveMessage("");
-
-    const mode = selectedFixtureId ? "fixture" : "live";
+    let timedOut = false;
+    const timeout = setTimeout(() => {
+      timedOut = true;
+      controller.abort();
+    }, 30_000);
 
     try {
       const response = await fetch("/api/analyze", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ text, mode }),
+        body: JSON.stringify(input.data),
+        signal: controller.signal,
       });
       const body: unknown = await response.json();
-      const parsed = parseAnalyzeResponse(body);
+      if (controller.signal.aborted) return;
 
-      if (parsed.ok) {
-        setResult(parsed.result);
-        return;
-      }
-
-      setError(parsed.messageZh);
+      const parsed = parseAnalyzeResponse(body, response.ok);
+      setState(parsed.ok
+        ? { status: "success", result: parsed.result }
+        : { status: "error", message: parsed.messageZh });
     } catch {
-      setError("目前無法連接服務，請稍後再試。");
+      if (!controller.signal.aborted) {
+        setState({ status: "error", message: "目前無法取得分析，請確認連線後重試。" });
+      }
     } finally {
-      setIsSubmitting(false);
+      clearTimeout(timeout);
+      if (timedOut) {
+        setState({ status: "error", message: "分析等待超過 30 秒，請重試。訊息仍保留在輸入框中。" });
+      }
+      if (requestRef.current === controller) requestRef.current = null;
     }
   }
 
-  async function handleSave(analysis: AnalyzeResult) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    void analyze();
+  }
+
+  async function handleSave(analysis: AnalyzeResultData) {
+    if (state.status !== "success" || savingRef.current) return;
+    savingRef.current = true;
     setIsSaving(true);
     setSaveMessage("");
-
     try {
-      const messageHash = text.trim() ? await hashMessage(text) : undefined;
+      const messageHash = await hashMessage(text);
       await saveCaseEntry({
         id: crypto.randomUUID(),
         createdAt: new Date().toISOString(),
@@ -96,63 +117,59 @@ export function MessageAnalyzer() {
     } catch {
       setSaveMessage("無法寫入本機案件紀錄，請檢查瀏覽器儲存權限。");
     } finally {
+      savingRef.current = false;
       setIsSaving(false);
     }
   }
 
-  function handlePreviewSample() {
-    setResult(SAMPLE_ANALYZE_RESULT);
-    setError(null);
-    setSaveMessage("");
-  }
-
   return (
-    <>
-      <section className="card" aria-labelledby="message-label">
-        <FixturePicker fixtures={fixtureOptions} onSelect={handleFixtureSelect} />
-
+    <div className="analysis-journey">
+      <section className="card" aria-labelledby="message-label" aria-busy={isSubmitting}>
+        <FixturePicker
+          fixtures={fixtureOptions}
+          selectedId={fixtureId}
+          disabled={isSubmitting || isSaving}
+          onSelect={selectFixture}
+        />
+        <p className="input-help" id="analysis-privacy">
+          只有按下「檢查這則訊息」後才會分析。預設不會在伺服器儲存訊息。
+          一般分析會將訊息傳送給 AI 服務。
+        </p>
+        <p className="input-help" role="status">
+          {fixtureId
+            ? "目前使用範例情境，不呼叫 AI。修改內容後會切換為一般分析。"
+            : "目前使用一般分析；也可選擇上方範例情境試用。"}
+        </p>
         <MessageInput
           isSubmitting={isSubmitting}
-          onChange={handleTextChange}
+          disabled={isSubmitting || isSaving}
+          onChange={changeText}
           onSubmit={handleSubmit}
           text={text}
         />
-
-        <p className="privacy-note">
-          只有在你按下「檢查這則訊息」後才會送出分析；預設不會在 server 儲存訊息內容。
-        </p>
-
-        {isSubmitting ? (
-          <p className="status" role="status">
-            正在分析中，請稍候…
-          </p>
-        ) : null}
-
-        {error ? (
-          <div className="error-panel" role="alert">
-            <p>{error}</p>
-            {process.env.NODE_ENV === "development" ? (
-              <button
-                className="button-secondary"
-                onClick={handlePreviewSample}
-                type="button"
-              >
-                預覽結果版面（開發用）
-              </button>
-            ) : null}
-          </div>
-        ) : null}
       </section>
-
-      {result ? (
-        <AnalysisResult
-          key={result.explanationZh}
-          isSaving={isSaving}
-          onSave={handleSave}
-          result={result}
-          saveMessage={saveMessage}
-        />
-      ) : null}
-    </>
+      {state.status === "empty" && (
+        <p className="input-help">尚未分析。貼上訊息或選擇範例，再按下檢查即可開始。</p>
+      )}
+      {isSubmitting && <p className="status" role="status">正在分析，請稍候…最多等待 30 秒。</p>}
+      {state.status === "error" && (
+        <section className="card error-state" aria-label="分析未完成">
+          <p role="alert">{state.message}</p>
+          <button type="button" onClick={() => void analyze()}>重試分析</button>
+          <Disclaimer />
+        </section>
+      )}
+      {state.status === "success" && (
+        <>
+          <p className="input-help" role="status">分析完成，請查看下方結果。</p>
+          <AnalysisResult
+            result={state.result}
+            onSave={handleSave}
+            isSaving={isSaving}
+            saveMessage={saveMessage}
+          />
+        </>
+      )}
+    </div>
   );
 }

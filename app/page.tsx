@@ -8,7 +8,7 @@ export default function HomePage() {
       <SiteNav />
 
       <header className="hero">
-        <p className="eyebrow">WORKER-SIDE COPILOT</p>
+        <p className="eyebrow">給工作者的溝通助手</p>
         <h1>勞權濾網</h1>
         <p className="lede">
           看懂主管訊息中的勞權風險，準備冷靜、保留權益的下一步。

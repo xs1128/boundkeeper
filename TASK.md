@@ -6,6 +6,8 @@
 
 **Stream A 進度更新：**A1–A4 已實作；官方 corpus、5 組離線 fixtures、分析流程、安全分流及交接資料見 [`src/analysis/README.md`](src/analysis/README.md)。以下清單保留為開工前盤點；真實 OpenAI smoke test 仍需設定 API key 後手動執行，完整 MVP 仍待 B／C 與整合驗收。
 
+**A／B 接線交接：**A 已提供可供瀏覽器匯入的 `fixtureOptions`（`id`／`label`／`text`）、成功／錯誤驗證格式、共用結果樣本，以及實際 API 的交接測試。B 可依 [Stream B wiring reference](src/analysis/README.md#stream-b-wiring-reference) 接線；頁面、元件、樣式、本機儲存與匯出仍由 B 負責。
+
 目前 repository 是可以 compile 的 scaffold，還不是能實際使用的 MVP。
 
 - `pnpm test`：有通過，但目前只執行 4 個 scaffold assertions，另有 4 個 test files 是 skipped/TODO。
@@ -101,6 +103,12 @@
 
 ### B1. 完成主要 analysis journey
 
+**進度（2026-09-04）：已完成。**已接上五組 `fixtureOptions`、成功／錯誤 schema、完整結果區塊、可編輯回覆與複製回饋、30 秒逾時及手動重試。範例內容修改後會明確切換一般分析；所有狀態保留輸入訊息，送出前不分析，頁面說明伺服器預設不儲存訊息。結果保留法規來源、`elementsNote`、來源聲明及固定免責聲明。
+
+**驗證：**`tests/components/analysis-journey.test.ts` 使用 mocked fetch 與 happy-dom，涵蓋範例選擇、輸入限制、loading、錯誤／重試、逾時、安全分流結果、區塊順序、風險中文標籤、回覆編輯／複製與失敗提示。全套 95 tests、lint、型別檢查、production build 及 diff check 通過。本機瀏覽器完成無薪加班範例、法規展開與編輯／複製，390 px viewport 未水平溢出。未執行真實 OpenAI 分析；B2 完整 polish、B3 儲存／匯出與其餘 B4 驗收仍待後續。
+
+**遠端整合（2026-09-04，`4294266`）：**已整合 remote main 的案件紀錄、JSON 匯出與導覽，保留 B1 的輸入／HTTP schema 驗證、逾時重試、完整聲明及可編輯回覆。共用瀏覽器安全的 fixture export 與風險標籤，移除錯誤畫面上的獨立模擬分析入口；測試樣本改用 analysis core 的 sanitized fixture。儲存時保留編輯後的回覆，僅寫入 analysis snapshot、timestamp、id 與 browser hash；輸入修改會清除舊分析，避免儲存錯配的訊息指紋。全套 109 tests、lint、型別檢查、production build 通過，本機實測範例分析、儲存、案件紀錄及 JSON 下載。B3 功能已隨此次遠端更新接入，完整 B2／B4 驗收仍需依各節確認。
+
 - 將 `FixturePicker` 接上 planted fixture export；選擇 demo fixture 後，送出 `mode: "fixture"`。
 - 將成功的 `/api/analyze` response parse 為 `AnalyzeResult`；transport errors 與 legal results 必須分開呈現。
 - 依指定順序完成所有 result sections：risk/categories、白話解釋、可收合的 legal references、可編輯且有 copy feedback 的 suggested reply、next steps、fixed disclaimer。
@@ -109,6 +117,8 @@
 - 清楚說明只有送出後才會分析，以及預設不會在 server 儲存訊息。
 
 ### B2. 提高 3-minute demo 的穩定度
+
+**已完成（2026-09-04）：**在 B1 上補強導覽、表單與法規展開控制的焦點對比、44 px 操作區、行距與小螢幕換行，保留 reduced-motion 支援。複製失敗時會依序使用瀏覽器備援與手動選取；備援會清除暫存欄位並恢復先前焦點。每筆結果獨立顯示完整固定聲明與其他 caveats。114 tests、lint、typecheck、production build 通過；五組 fixtures 已離線測試，三段展示情境與鍵盤編輯／複製／儲存／JSON 匯出已在 390 CSS px 瀏覽器驗證，分析頁與案件頁皆無水平捲動。展示步驟見 [`docs/web-demo.md`](docs/web-demo.md)。公開部署與真實 AI smoke test 不包含在此次驗證。
 
 - 優先處理 mobile layout、可讀的字體、清楚的 hierarchy、accessible focus states 與 reduced-motion support。
 - 沒有 OpenAI 時，fixture mode 仍必須能完整 demo。Fixture selector 應呈現為「範例情境」，不要像隱藏的 test infrastructure。

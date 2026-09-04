@@ -1,9 +1,5 @@
-import { plantedFixtures } from "@/src/analysis/fixtures/planted";
+import { fixtureOptions } from "@/src/analysis/fixtures/options";
 
 export function getFixtureOptions() {
-  return plantedFixtures.map((fixture) => ({
-    id: fixture.id,
-    label: fixture.label,
-    text: fixture.message,
-  }));
+  return fixtureOptions;
 }

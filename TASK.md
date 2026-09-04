@@ -103,22 +103,20 @@
 
 ### B1. 完成主要 analysis journey
 
-**進度（2026-09-04）：已完成。**已接上五組 `fixtureOptions`、成功／錯誤 schema、完整結果區塊、可編輯回覆與複製回饋、30 秒逾時及手動重試。範例內容修改後會明確切換一般分析；所有狀態保留輸入訊息，送出前不分析，頁面說明伺服器預設不儲存訊息。結果保留法規來源、`elementsNote`、來源聲明及固定免責聲明。
+**進度（2026-09-05）：已完成。** 已接上 `fixtureOptions`（評審展示與其他情境分組）、成功／錯誤 schema、完整結果區塊、改進建議與諮詢摘要複製、30 秒逾時及手動重試。範例內容修改後會切換一般分析；所有狀態保留輸入訊息。選填職務／產業／先前訊息則數只在一般分析送出。結果保留法規來源、`elementsNote`、來源聲明及固定免責聲明。
 
-**驗證：**`tests/components/analysis-journey.test.ts` 使用 mocked fetch 與 happy-dom，涵蓋範例選擇、輸入限制、loading、錯誤／重試、逾時、安全分流結果、區塊順序、風險中文標籤、回覆編輯／複製與失敗提示。全套 95 tests、lint、型別檢查、production build 及 diff check 通過。本機瀏覽器完成無薪加班範例、法規展開與編輯／複製，390 px viewport 未水平溢出。未執行真實 OpenAI 分析；B2 完整 polish、B3 儲存／匯出與其餘 B4 驗收仍待後續。
-
-**遠端整合（2026-09-04，`4294266`）：**已整合 remote main 的案件紀錄、JSON 匯出與導覽，保留 B1 的輸入／HTTP schema 驗證、逾時重試、完整聲明及可編輯回覆。共用瀏覽器安全的 fixture export 與風險標籤，移除錯誤畫面上的獨立模擬分析入口；測試樣本改用 analysis core 的 sanitized fixture。儲存時保留編輯後的回覆，僅寫入 analysis snapshot、timestamp、id 與 browser hash；輸入修改會清除舊分析，避免儲存錯配的訊息指紋。全套 109 tests、lint、型別檢查、production build 通過，本機實測範例分析、儲存、案件紀錄及 JSON 下載。B3 功能已隨此次遠端更新接入，完整 B2／B4 驗收仍需依各節確認。
+**驗證：** `tests/components/analysis-journey.test.ts` 使用 mocked fetch 與 happy-dom，涵蓋範例選擇、輸入限制、loading、錯誤／重試、逾時、安全分流結果、區塊順序、風險中文標籤、複製建議／摘要與失敗提示。儲存時僅寫入 analysis snapshot、timestamp、id 與 browser hash。
 
 - 將 `FixturePicker` 接上 planted fixture export；選擇 demo fixture 後，送出 `mode: "fixture"`。
 - 將成功的 `/api/analyze` response parse 為 `AnalyzeResult`；transport errors 與 legal results 必須分開呈現。
-- 依指定順序完成所有 result sections：risk/categories、白話解釋、可收合的 legal references、可編輯且有 copy feedback 的 suggested reply、next steps、fixed disclaimer。
+- 依指定順序完成所有 result sections：risk/categories、白話解釋、可收合的 legal references、可複製的改進建議、next steps、fixed disclaimer。
 - Risk level 使用繁體中文 label，不可直接向使用者顯示 raw enum value。
 - 完成 loading、timeout/retry、empty、API error 與 success states，而且不能清除使用者已貼上的訊息。
 - 清楚說明只有送出後才會分析，以及預設不會在 server 儲存訊息。
 
 ### B2. 提高 3-minute demo 的穩定度
 
-**已完成（2026-09-04）：**在 B1 上補強導覽、表單與法規展開控制的焦點對比、44 px 操作區、行距與小螢幕換行，保留 reduced-motion 支援。複製失敗時會依序使用瀏覽器備援與手動選取；備援會清除暫存欄位並恢復先前焦點。每筆結果獨立顯示完整固定聲明與其他 caveats。114 tests、lint、typecheck、production build 通過；五組 fixtures 已離線測試，三段展示情境與鍵盤編輯／複製／儲存／JSON 匯出已在 390 CSS px 瀏覽器驗證，分析頁與案件頁皆無水平捲動。展示步驟見 [`docs/web-demo.md`](docs/web-demo.md)。公開部署與真實 AI smoke test 不包含在此次驗證。
+**已完成（2026-09-05）：** 評審展示 fixture 分組、複製改進建議與諮詢摘要（含自動複製失敗時的選取備援）、選填工作背景、儲存後連到案件紀錄、較完整的本機案件卡片。展示步驟見 [`docs/web-demo.md`](docs/web-demo.md)。公開網址為 https://genai-hack-amber.vercel.app。
 
 - 優先處理 mobile layout、可讀的字體、清楚的 hierarchy、accessible focus states 與 reduced-motion support。
 - 沒有 OpenAI 時，fixture mode 仍必須能完整 demo。Fixture selector 應呈現為「範例情境」，不要像隱藏的 test infrastructure。
@@ -141,7 +139,7 @@
 
 **Acceptance Criteria：**
 
-- 使用者可以選 fixture、執行分析、理解 result、編輯／複製 reply、儲存 result、打開 case log，並下載 JSON。
+- 使用者可以選 fixture、執行分析、理解 result、複製改進建議／諮詢摘要、儲存 result、打開 case log，並下載 JSON。
 - 完整 journey 在 390 px viewport 可正常操作，支援 keyboard navigation，且不會水平捲動。
 - Browser 或 server persistence 都不可寫入主管原始訊息。
 - Result component 本身會獨立顯示 fixed disclaimer。

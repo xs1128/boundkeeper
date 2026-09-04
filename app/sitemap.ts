@@ -1,17 +1,18 @@
 import type { MetadataRoute } from "next";
+import { siteUrl } from "./site-url";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://genai-hack.vercel.app";
+const publicSiteUrl = siteUrl();
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: siteUrl,
+      url: publicSiteUrl,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: `${siteUrl}/log`,
+      url: `${publicSiteUrl}/log`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.6,

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_TC } from "next/font/google";
 import { StructuredData } from "@/components/StructuredData";
+import { siteUrl } from "./site-url";
 import "./globals.css";
 
 const notoSansTc = Noto_Sans_TC({
@@ -10,14 +11,14 @@ const notoSansTc = Noto_Sans_TC({
   variable: "--font-noto",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://genai-hack.vercel.app";
+const publicSiteUrl = siteUrl();
 
 const title = "勞權濾網";
 const description =
   "台灣勞工專用的主管訊息分析工具。貼上訊息即可取得風險提示、法規參考、回覆改進建議與本機案件紀錄。一般資訊，非法律意見。";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(publicSiteUrl),
   title: {
     default: title,
     template: `%s · ${title}`,
@@ -51,7 +52,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "zh_TW",
-    url: siteUrl,
+    url: publicSiteUrl,
     siteName: title,
     title,
     description,

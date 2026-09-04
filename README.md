@@ -2,13 +2,13 @@
 
 看懂主管訊息中的勞權風險，準備冷靜、保留權益的下一步。
 
-界線守門員是一款面向台灣受雇勞工的職場溝通輔助工具，規劃讓使用者貼上收到的主管訊息，取得風險提示、法規參考與建議回覆，並自行保存諮詢紀錄。
+界線守門員是一款面向台灣受雇勞工的職場溝通輔助工具，讓使用者貼上收到的主管訊息，取得風險提示、法規參考與回覆改進建議，並自行保存諮詢紀錄。
 
 本專案參與 **FUTUREMODE BUILDMODE — Track 03 Future of Work**。
 
-> **開發狀態：基礎架構階段。** 網頁表單、輸入驗證及健康檢查已建立；分析核心尚未實作，有效的分析請求目前會回傳 HTTP `501`。設定 API 金鑰也不會啟用 AI 分析。
+> **開發狀態：Web MVP 可展示。** 可貼上訊息或使用範例情境完成分析、複製諮詢摘要、儲存本機案件紀錄並匯出 JSON。範例情境不需模型金鑰。一般分析需設定 Gemini／Vertex 或 OpenAI 憑證。LINE／Gmail 仍為延伸項目。
 
-既有規格、介面及程式識別仍使用舊名「勞權濾網／Labor Filter」。本 README 採用新名稱「界線守門員」；產品規格與技術設計分別見根目錄 [SPEC.md](SPEC.md) 與 [ARCHITECTURE.md](ARCHITECTURE.md)。
+既有規格、介面及程式識別仍使用舊名「勞權濾網／Labor Filter」。本 README 採用新名稱「界線守門員」；產品規格與技術設計分別見根目錄 [SPEC.md](SPEC.md) 與 [ARCHITECTURE.md](ARCHITECTURE.md)。展示步驟見 [docs/web-demo.md](docs/web-demo.md)。
 
 ## 問題與目標
 
@@ -20,21 +20,18 @@
 
 ### 已建立
 
-- 繁體中文訊息輸入頁面，可送出訊息至 `POST /api/analyze`。
-- API 輸入驗證，接受 1 至 8,000 個字元的訊息，拒絕空白或格式錯誤的輸入。
+- 繁體中文分析頁：貼上訊息或選擇「範例情境」，送出至 `POST /api/analyze`。
+- 離線範例分析（`mode: "fixture"`）與一般分析（Gemini／Vertex，OpenAI 為備援）。
+- 風險等級、白話解釋、可展開法規來源、回覆改進建議、下一步與固定免責聲明。
+- 可選工作背景（職務、產業、先前訊息則數），僅用於一般分析的脈絡提示。
+- 複製改進建議或諮詢摘要；明確儲存後寫入瀏覽器 IndexedDB，可匯出 JSON。
+- 危機字詞改提供 1925／1995／1955 等資源，不進行一般法律分析。
 - `GET /api/health` 健康檢查。
-- 分析結果型別、Zod schema、固定免責聲明及通道介面。
-- 官方法規來源、摘要與版本資料，整理於 [assets/legal/](assets/legal/README.md)，尚未接入分析流程。
+- 官方法規來源、摘要與版本資料，見 [assets/legal/](assets/legal/README.md)。
 
-### MVP 規劃
+### 展示用範例
 
-- **風險辨識：** 提示職場霸凌、加班、調動、逼退等可能風險，區分合理但嚴厲的管理回饋。
-- **解釋與回覆：** 提供白話說明、法規參考、繁體中文建議回覆及後續行動。
-- **本機案件紀錄：** 由使用者選擇保存至瀏覽器 IndexedDB，並匯出 JSON 諮詢摘要。
-- **示範模式：** 使用預植訊息與規則或 mock，在不呼叫外部模型的情況下驗證分類。
-- **危機分流：** 偵測自傷或傷人訊息後停止法律分析，改提供求助資源。
-
-上述 MVP 流程仍待實作；`/log` 目前為提示頁，預植訊息資料目前為空。
+評審展示組：言語羞辱與排擠、要求無薪加班、突然調動與減薪、逼簽自願離職、嚴格但合理的績效回饋。請勿修改範例原文，否則會切換成一般分析。
 
 ## 系統架構
 
@@ -42,29 +39,32 @@
 
 ```mermaid
 flowchart TD
-    A[瀏覽器：貼上主管訊息] --> B[Next.js POST /api/analyze]
+    A[瀏覽器：貼上主管訊息或選範例] --> B[Next.js POST /api/analyze]
     B --> C[Web adapter 與 Zod 輸入驗證]
-    C --> D[analyzeMessage：目前回傳未實作錯誤]
-    D -. 待實作 .-> E[正規化、危機檢查、規則提示]
-    E -.-> F[OpenAI 模型與結構化輸出]
-    F -.-> G[結果驗證與固定免責聲明]
-    G -.-> H[風險、法規參考、建議回覆]
-    H -. 使用者選擇保存 .-> I[瀏覽器 IndexedDB]
-    I -.-> J[JSON 匯出]
-    K[LINE / Gmail：延伸規劃] -.-> D
+    C --> D[analyzeMessage]
+    D --> E[正規化、危機檢查、規則提示]
+    E --> F{範例或一般分析}
+    F -->|fixture| G[預植結果]
+    F -->|live| H[Gemini／OpenAI 結構化輸出]
+    G --> I[結果驗證與固定免責聲明]
+    H --> I
+    I --> J[風險、法規參考、改進建議]
+    J -->|使用者選擇保存| K[瀏覽器 IndexedDB]
+    K --> L[JSON 匯出]
+    M[LINE / Gmail：延伸規劃] -.-> D
 ```
 
-目前沒有後端資料庫，也未呼叫外部模型。規劃中的即時分析會將訊息送往伺服器及模型服務處理，但不將訊息本文寫入伺服器資料庫；案件紀錄預計只在使用者裝置保存。這不代表未來即時分析完全在本機執行。
+目前沒有後端資料庫。範例分析不呼叫外部模型。一般分析會將訊息送往伺服器及模型服務，但不將訊息本文寫入伺服器資料庫；案件紀錄只在使用者明確儲存後留在裝置上，且不含主管原始訊息。
 
 ```text
 app/                 頁面、分析 API、健康檢查及 webhook 骨架
-components/          訊息輸入、結果與免責聲明元件
-src/analysis/        共用分析核心、schema、規則與提示詞骨架
+components/          訊息輸入、結果、複製與案件紀錄介面
+src/analysis/        共用分析核心、schema、規則與提示詞
 src/adapters/        Web 輸入處理及 LINE、Gmail 介面
-src/case-log/        本機案件紀錄與匯出骨架
+src/case-log/        本機案件紀錄與 JSON 匯出
 assets/legal/        官方法規來源、摘要與版本資訊
-assets/fixtures/     預植訊息資料位置
-tests/               輸入、骨架與法律資料 metadata 測試
+assets/fixtures/     預植訊息
+tests/               分析、介面與案件紀錄測試
 ```
 
 ## 使用技術
@@ -75,33 +75,34 @@ tests/               輸入、骨架與法律資料 metadata 測試
 | 後端 | Next.js Route Handlers | 分析入口、驗證及健康檢查 |
 | 型別與驗證 | TypeScript、Zod 4 | 輸入與分析結果契約 |
 | 測試 | Vitest、ESLint | 單元測試與靜態檢查 |
-| AI 模型（規劃） | OpenAI、Vercel AI SDK | 結構化分析；尚未安裝 SDK 或串接，模型待定 |
-| 本機儲存（規劃） | IndexedDB | 使用者自選保存案件，不需後端資料庫 |
-| 部署／Sponsor 技術（規劃） | Vercel | Next.js 託管與公開展示；尚未提供部署連結 |
+| AI 模型 | Gemini／Vertex、OpenAI、Vercel AI SDK | 一般分析的結構化輸出；範例情境不呼叫模型 |
+| 本機儲存 | IndexedDB | 使用者自選保存案件，不需後端資料庫 |
+| 部署 | Vercel | https://genai-hack-amber.vercel.app |
 
 ## 安裝與執行
 
-先下載或 clone 此儲存庫，進入專案根目錄。開發環境可使用 Node.js 24 與專案指定的 pnpm `11.9.0`。
+先下載或 clone 此儲存庫，進入專案根目錄。開發環境可使用 Node.js 24 與專案指定的 pnpm `9.15.0`。
 
 ```bash
 # 已有相容版本時可略過安裝。
-npm install --global pnpm@11.9.0
+npm install --global pnpm@9.15.0
 
 pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-開啟 [http://localhost:3000](http://localhost:3000)。目前可操作訊息表單並查看「分析核心將在下一階段啟用」提示。
+開啟 [http://localhost:3000](http://localhost:3000)。可選擇「評審展示」範例並按下「檢查這則訊息」，無需模型金鑰。
 
 ### 環境變數
 
-目前啟動網站及執行測試均不需要金鑰。後續串接服務時，可建立本機設定檔：
+目前啟動網站及執行測試均不需要金鑰。一般分析需本機或部署環境的模型憑證：
 
 ```bash
 cp .env.example .env.local
 ```
 
-- `OPENAI_API_KEY`：預留給未來的即時分析。
+- `GOOGLE_SERVICE_ACCOUNT_JSON`、`GOOGLE_CLOUD_PROJECT` 或 `GOOGLE_GENERATIVE_AI_API_KEY`：一般分析（Gemini／Vertex）。
+- `OPENAI_API_KEY`：可選備援。
 - `LINE_CHANNEL_ACCESS_TOKEN`、`LINE_CHANNEL_SECRET`、`LINE_LIFF_ID`：預留給 LINE 延伸整合。
 
 不要提交 `.env.local`、金鑰或 Token；範例變數請維護於 [.env.example](.env.example)。
@@ -116,7 +117,7 @@ pnpm build
 pnpm start
 ```
 
-`pnpm start` 需先完成 `pnpm build`。現有測試不需 OpenAI；預植訊息分類、合理管理負例與案件儲存測試仍為待辦，測試通過不代表分析能力已完成。
+`pnpm start` 需先完成 `pnpm build`。預設測試不需模型金鑰，涵蓋預植情境、合理管理負例、危機分流、本機儲存與匯出。
 
 服務啟動後，可檢查 API：
 
@@ -126,27 +127,25 @@ curl http://localhost:3000/api/health
 
 curl -i http://localhost:3000/api/analyze \
   -H 'Content-Type: application/json' \
-  -d '{"text":"請明天準時到班。"}'
-# 目前預期：HTTP 501，error.code 為 ANALYSIS_NOT_IMPLEMENTED
+  -d '{"text":"你真是個沒用的廢物，這點事都做不好。以後部門會議不用參加，大家也不用再把工作資訊傳給你。","mode":"fixture"}'
+# 預期：HTTP 200，riskLevel 為 high，主分類為 workplace_bullying
 ```
 
-無效 JSON 或不符合輸入條件的請求會回傳 HTTP `400`。
+無效 JSON 或不符合輸入條件的請求會回傳 HTTP `400`。未設定模型憑證的一般分析會回傳 HTTP `503`。
 
 ## 作品展示
 
-- 作品展示網址：尚未提供。
+- 作品展示網址：https://genai-hack-amber.vercel.app
 - 評選影片：尚未提供。
-- 目前可重現：啟動網站、貼上訊息、確認 API 未啟用提示及健康檢查。
-- 完整展示規劃：依序呈現霸凌風險、加班要求、合理管理負例，再保存與匯出諮詢摘要。詳見 [SPEC.md §10](SPEC.md#10-demo-script-3-min)，待核心功能完成後執行。
+- 目前可重現：開啟網站、選評審展示範例、檢查訊息、複製諮詢摘要、儲存並下載 JSON。步驟見 [docs/web-demo.md](docs/web-demo.md)。
 
 ## 限制與未來工作
 
-- **尚未提供實際分析：** 分析核心、模型呼叫、規則與危機檢查目前為未實作骨架。
-- **尚未完成保存與匯出：** IndexedDB、JSON 與 PDF 匯出均不可用；優先完成 JSON。
-- **示範可靠性待驗證：** 需補齊預植訊息與分類測試，尤其是合理但嚴厲的管理回饋負例。
+- **不代寫完整回覆：** 提供改進建議與諮詢摘要，不輸出可直接貼上的回覆草稿。
 - **判斷範圍有限：** 產品定位為單則訊息的風險提示，個案認定仍需情境與證據，不提供違法判決或勝訴保證。
-- **整合與上線待完成：** LINE、Gmail、瀏覽器擴充功能、PDF、RAG 與多訊息模式均屬後續方向；公開部署前仍需完成服務防護與驗證。
-- **名稱待同步：** 介面、固定聲明與規格仍保留「勞權濾網」，後續可統一產品名稱。
+- **PDF 尚未提供：** JSON 匯出為目前唯一匯出路徑。
+- **延伸整合未完成：** LINE、Gmail、瀏覽器擴充功能、RAG 與多訊息模式均屬後續方向。
+- **名稱待同步：** 介面、固定聲明與規格仍保留「勞權濾網」，README 使用「界線守門員」。
 
 本工具不提供雇主監控、員工評分或自動申訴。現行規格要求保留以下固定聲明，原文沿用舊名稱：
 
@@ -156,8 +155,8 @@ curl -i http://localhost:3000/api/analyze \
 
 - **官方法律資料：** 來源包含法務部全國法規資料庫、勞動部與職業安全衛生署。各筆來源連結、版本及授權紀錄見 [官方來源清單](assets/legal/source-inventory.zh-TW.md)，使用方式見 [法律資料說明](assets/legal/README.md)。依該清單記錄，使用資料須保留政府資料開放授權條款第 1 版等適用條件與來源顯名；個別素材限制以來源聲明為準。
 - **開源依賴：** Next.js、React、Tailwind CSS、Zod、TypeScript、Vitest 與 ESLint 等，版本見 [package.json](package.json) 與 [pnpm-lock.yaml](pnpm-lock.yaml)。各套件依其隨附 LICENSE 使用，不由本專案統一變更授權。
-- **外部服務（規劃）：** OpenAI 模型服務、Vercel 託管及 LINE／Gmail 整合，須依各服務條款與 API 權限使用；目前分析核心尚未串接外部服務。
-- **示範訊息：** 預計使用人工編寫的情境，不提交真實主管訊息或可識別個人資料；目前 fixture 清單尚未填入。
+- **外部服務：** 一般分析使用 Google Gemini／Vertex 或 OpenAI；網站部署於 Vercel。LINE／Gmail 整合尚未啟用。
+- **示範訊息：** 使用人工編寫的合成情境，不提交真實主管訊息或可識別個人資料。
 
 ## 團隊成員
 

@@ -3,9 +3,20 @@ import { analyzeResultSchema } from "./schemas/analyze-result";
 
 export const CONVERSATION_SESSION_KEY = "labor-filter:conversation:v1";
 
+export const EMPTY_CONTEXT = {
+  workerRole: "",
+  industry: "",
+  messageCountFromSender: "",
+};
+
 const conversationSchema = z.object({
   text: z.string(),
   fixtureId: z.string(),
+  context: z.object({
+    workerRole: z.string().max(100),
+    industry: z.string().max(100),
+    messageCountFromSender: z.string().max(4),
+  }).default(EMPTY_CONTEXT),
   completed: z.object({
     sourceText: z.string(),
     result: analyzeResultSchema,
@@ -14,7 +25,16 @@ const conversationSchema = z.object({
 
 export type Conversation = z.infer<typeof conversationSchema>;
 
-export const EMPTY_CONVERSATION: Conversation = { text: "", fixtureId: "", completed: null };
+export const EMPTY_CONVERSATION: Conversation = {
+  text: "",
+  fixtureId: "",
+  context: EMPTY_CONTEXT,
+  completed: null,
+};
+
+function hasContext(context: Conversation["context"]): boolean {
+  return Boolean(context.workerRole || context.industry || context.messageCountFromSender);
+}
 
 export function readConversation(): { conversation: Conversation; available: boolean } {
   try {
@@ -35,7 +55,7 @@ export function readConversation(): { conversation: Conversation; available: boo
 
 export function writeConversation(conversation: Conversation): boolean {
   try {
-    if (!conversation.text && !conversation.fixtureId && !conversation.completed) {
+    if (!conversation.text && !conversation.fixtureId && !conversation.completed && !hasContext(conversation.context)) {
       sessionStorage.removeItem(CONVERSATION_SESSION_KEY);
     } else {
       sessionStorage.setItem(CONVERSATION_SESSION_KEY, JSON.stringify(conversation));

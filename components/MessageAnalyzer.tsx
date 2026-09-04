@@ -2,12 +2,13 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { analyzeInputSchema } from "@/src/analysis/schemas/analyze-input";
-import type { AnalyzeResult as AnalyzeResultData } from "@/src/analysis/types";
+import type { AnalyzeInput, AnalyzeResult as AnalyzeResultData } from "@/src/analysis/types";
 import { EMPTY_CONVERSATION, readConversation, writeConversation, type Conversation } from "@/src/analysis/conversation-session";
 import { saveCaseEntry } from "@/src/case-log/store";
 import { hashMessage } from "@/src/case-log/hash";
 import { MessageInput } from "./MessageInput";
 import { FixturePicker } from "./FixturePicker";
+import { ContextFields } from "./ContextFields";
 import { AnalysisResult } from "./AnalysisResult";
 import { Disclaimer } from "./Disclaimer";
 import { getFixtureOptions } from "./fixture-options";
@@ -20,11 +21,36 @@ type AnalysisState =
   | { status: "loading" }
   | { status: "error"; message: string };
 
+function buildAnalyzeInput(conversation: Conversation): AnalyzeInput | string {
+  const { text, fixtureId, context } = conversation;
+  if (fixtureId) {
+    const parsed = analyzeInputSchema.safeParse({ text, mode: "fixture" });
+    return parsed.success ? parsed.data : "請輸入 1 至 8,000 個字元的訊息（不含前後空白）。";
+  }
+
+  const liveContext: NonNullable<AnalyzeInput["context"]> = {};
+  if (context.workerRole.trim()) liveContext.workerRole = context.workerRole.trim();
+  if (context.industry.trim()) liveContext.industry = context.industry.trim();
+  if (context.messageCountFromSender.trim()) {
+    if (!/^\d+$/.test(context.messageCountFromSender.trim())) {
+      return "先前訊息則數須為 0 以上的整數。";
+    }
+    liveContext.messageCountFromSender = Number(context.messageCountFromSender.trim());
+  }
+
+  const parsed = analyzeInputSchema.safeParse({
+    text,
+    mode: "live",
+    ...(Object.keys(liveContext).length > 0 ? { context: liveContext } : {}),
+  });
+  return parsed.success ? parsed.data : "請輸入 1 至 8,000 個字元的訊息（不含前後空白）。";
+}
+
 export function MessageAnalyzer() {
   const [conversation, setConversation] = useState<Conversation>(EMPTY_CONVERSATION);
   const [sessionReady, setSessionReady] = useState(false);
   const [storageAvailable, setStorageAvailable] = useState(true);
-  const { text, fixtureId, completed } = conversation;
+  const { text, fixtureId, context, completed } = conversation;
   const [state, setState] = useState<AnalysisState>({ status: "empty" });
   const [isSaving, setIsSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState("");
@@ -75,14 +101,15 @@ export function MessageAnalyzer() {
     setSaveMessage("");
   }
 
+  function changeContext(field: keyof Conversation["context"], value: string) {
+    updateConversation({ ...conversation, context: { ...context, [field]: value } });
+  }
+
   async function analyze() {
     if (!sessionReady || requestRef.current || savingRef.current) return;
-    const input = analyzeInputSchema.safeParse({
-      text,
-      mode: fixtureId ? "fixture" : "live",
-    });
-    if (!input.success) {
-      setState({ status: "error", message: "請輸入 1 至 8,000 個字元的訊息（不含前後空白）。" });
+    const input = buildAnalyzeInput(conversation);
+    if (typeof input === "string") {
+      setState({ status: "error", message: input });
       return;
     }
 
@@ -100,7 +127,7 @@ export function MessageAnalyzer() {
       const response = await fetch("/api/analyze", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(input.data),
+        body: JSON.stringify(input),
         signal: controller.signal,
       });
       const body: unknown = await response.json();
@@ -153,13 +180,15 @@ export function MessageAnalyzer() {
     }
   }
 
+  const formLocked = !sessionReady || isSubmitting || isSaving;
+
   return (
     <div className="analysis-journey">
       <section className="card" aria-labelledby="message-label" aria-busy={isSubmitting}>
         <FixturePicker
           fixtures={fixtureOptions}
           selectedId={fixtureId}
-          disabled={!sessionReady || isSubmitting || isSaving}
+          disabled={formLocked}
           onSelect={selectFixture}
         />
         <p className="input-help" id="analysis-privacy">
@@ -174,9 +203,17 @@ export function MessageAnalyzer() {
         {!storageAvailable && (
           <p className="input-help" role="alert">瀏覽器暫存無法使用，切頁或重新整理可能遺失內容；清除也可能無法移除先前暫存。</p>
         )}
+        <ContextFields
+          workerRole={context.workerRole}
+          industry={context.industry}
+          messageCountFromSender={context.messageCountFromSender}
+          disabled={formLocked}
+          fixtureSelected={Boolean(fixtureId)}
+          onChange={changeContext}
+        />
         <MessageInput
           isSubmitting={isSubmitting}
-          disabled={!sessionReady || isSubmitting || isSaving}
+          disabled={formLocked}
           onChange={changeText}
           onSubmit={handleSubmit}
           text={text}

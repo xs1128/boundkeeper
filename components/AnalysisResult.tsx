@@ -1,8 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import type { AnalyzeResult as AnalyzeResultData } from "@/src/analysis/types";
 import { FIXED_DISCLAIMER } from "@/src/analysis/disclaimer";
+import { formatConsultationSummary, formatImprovementTips } from "./consultation-summary";
 import { Disclaimer } from "./Disclaimer";
+import { CopyButton } from "./CopyButton";
 import { CONFIDENCE_LABELS, riskLevelLabel } from "./risk-labels";
 
 type AnalysisResultProps = {
@@ -23,6 +26,8 @@ function sourceUrl(value?: string) {
 }
 
 export function AnalysisResult({ result, onSave, isSaving = false, saveMessage }: AnalysisResultProps) {
+  const saved = saveMessage?.includes("已儲存") ?? false;
+
   return (
     <section className="card analysis-result" aria-label="分析結果">
       <div className="result-section">
@@ -58,7 +63,10 @@ export function AnalysisResult({ result, onSave, isSaving = false, saveMessage }
             })}</ul>}
       </details>
       <div className="result-section">
-        <h2>改進建議</h2>
+        <div className="section-heading">
+          <h2>改進建議</h2>
+          <CopyButton label="複製改進建議" text={formatImprovementTips(result.inputImprovementZh)} />
+        </div>
         <p className="input-help" id="improvement-help">
           以下說明如何補充脈絡、釐清要求與調整回應方向，不是可直接複製貼上的回覆草稿。
         </p>
@@ -76,15 +84,28 @@ export function AnalysisResult({ result, onSave, isSaving = false, saveMessage }
           <p className="disclaimer" key={index}>{text}</p>
         ))}
       </div>
-      {onSave && (
-        <div className="result-actions">
-          <p className="input-help">按下儲存後，分析摘要只會保存在這台裝置，不含主管原始訊息。</p>
-          <button type="button" disabled={isSaving} onClick={() => void onSave(result)}>
-            {isSaving ? "儲存中…" : "儲存到案件紀錄"}
-          </button>
-          {saveMessage && <p className="inline-status" role="status">{saveMessage}</p>}
+      <div className="result-actions">
+        <p className="input-help">諮詢摘要不含主管原始訊息。按下儲存後，分析摘要只會保存在這台裝置。</p>
+        <div className="result-action-row">
+          <CopyButton label="複製諮詢摘要" text={formatConsultationSummary(result)} />
+          {onSave && (
+            <button type="button" aria-label="儲存到案件紀錄" disabled={isSaving} onClick={() => void onSave(result)}>
+              {isSaving ? "儲存中…" : "儲存到案件紀錄"}
+            </button>
+          )}
         </div>
-      )}
+        {saveMessage && (
+          <p className="inline-status" role="status">
+            {saveMessage}
+            {saved && (
+              <>
+                {" "}
+                <Link href="/log">查看案件紀錄</Link>
+              </>
+            )}
+          </p>
+        )}
+      </div>
     </section>
   );
 }

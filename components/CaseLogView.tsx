@@ -1,11 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { CaseLogEntry } from "@/src/case-log/types";
 import { listCaseEntries } from "@/src/case-log/store";
 import { exportCaseLogAsJson } from "@/src/case-log/export";
-import { riskLevelLabel } from "@/components/risk-labels";
+import { formatConsultationSummary } from "./consultation-summary";
+import { CONFIDENCE_LABELS, riskLevelLabel } from "@/components/risk-labels";
 import { FIXED_DISCLAIMER } from "@/src/analysis/disclaimer";
+import { CopyButton } from "./CopyButton";
 
 type ViewState = "loading" | "empty" | "ready" | "error";
 
@@ -62,6 +65,9 @@ export function CaseLogView() {
     return (
       <section className="card empty-state">
         <p>目前沒有已儲存的案件。請先在分析頁完成一次分析並按下「儲存到案件紀錄」。</p>
+        <p>
+          <Link href="/">回到分析訊息</Link>
+        </p>
       </section>
     );
   }
@@ -69,7 +75,7 @@ export function CaseLogView() {
   return (
     <section className="case-log">
       <div className="case-log-toolbar">
-        <button onClick={handleExport} type="button">
+        <button aria-label="下載 JSON" onClick={handleExport} type="button">
           下載 JSON
         </button>
         {exportMessage ? (
@@ -90,10 +96,28 @@ export function CaseLogView() {
                 {riskLevelLabel(entry.analysis.riskLevel)}
               </p>
             </header>
+            <ul className="category-list" aria-label="風險類別">
+              {entry.analysis.categories.map((category, index) => (
+                <li key={`${entry.id}-${category.id}-${index}`}>
+                  <span>{category.labelZh}</span>
+                  <span className="category-confidence">信心：{CONFIDENCE_LABELS[category.confidence]}</span>
+                </li>
+              ))}
+            </ul>
             <p>{entry.analysis.explanationZh}</p>
+            <details>
+              <summary>改進建議與下一步</summary>
+              <ol className="improvement-list">
+                {entry.analysis.inputImprovementZh.map((tip, index) => <li key={`tip-${index}`}>{tip}</li>)}
+              </ol>
+              <ol>
+                {entry.analysis.nextStepsZh.map((step, index) => <li key={`step-${index}`}>{step}</li>)}
+              </ol>
+            </details>
             {entry.messageHash ? (
-              <p className="hash-note">訊息指紋：{entry.messageHash.slice(0, 12)}…</p>
+              <p className="hash-note">訊息指紋：{entry.messageHash.slice(0, 12)}…（不含原始訊息）</p>
             ) : null}
+            <CopyButton label="複製諮詢摘要" text={formatConsultationSummary(entry.analysis)} />
             <footer className="result-disclaimer">{FIXED_DISCLAIMER}</footer>
           </li>
         ))}

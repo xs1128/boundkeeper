@@ -40,9 +40,10 @@ async function revisit() {
 }
 
 async function edit(value: string, selector = "#manager-message") {
-  const field = query<HTMLTextAreaElement>(selector);
+  const field = query<HTMLInputElement | HTMLTextAreaElement>(selector);
+  const prototype = field instanceof HTMLTextAreaElement ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
   await act(async () => {
-    Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, "value")!.set!.call(field, value);
+    Object.getOwnPropertyDescriptor(prototype, "value")!.set!.call(field, value);
     field.dispatchEvent(new Event("input", { bubbles: true }));
   });
 }
@@ -222,7 +223,7 @@ describe("B1 analysis journey", () => {
     await submit();
     expect(container.querySelector('[role="alert"]')).toBeNull();
     expect(query('[aria-label="分析結果"]').textContent).toContain("1925、1995、1955");
-    expect(query('details').textContent).toContain("本次結果未列出法規參考");
+    expect(query('details.legal-references').textContent).toContain("本次結果未列出法規參考");
   });
 });
 
@@ -335,7 +336,7 @@ describe("merged case-log integration", () => {
     await edit("主管原文唯一標記");
     await submit();
     expect(saveCaseEntry).not.toHaveBeenCalled();
-    await click('.result-actions button');
+    await click('[aria-label="儲存到案件紀錄"]');
     await waitForSave(1);
     expect(saveCaseEntry).toHaveBeenCalledTimes(1);
     const entry = vi.mocked(saveCaseEntry).mock.calls[0][0];
@@ -346,10 +347,11 @@ describe("merged case-log integration", () => {
     expect(serializeCaseLogExport([entry])).not.toContain("主管原文唯一標記");
     expect(serializeCaseLogExport([entry])).toContain(entry.analysis.inputImprovementZh[0]);
     expect(container.textContent).toContain("已儲存到本機案件紀錄");
+    expect(query<HTMLAnchorElement>('a[href="/log"]').textContent).toContain("查看案件紀錄");
     await edit("下一則訊息");
     expect(container.querySelector('.result-actions')).not.toBeNull();
     expect(container.textContent).not.toContain("已儲存到本機案件紀錄");
-    await click('.result-actions button');
+    await click('[aria-label="儲存到案件紀錄"]');
     await waitForSave(2);
     expect(vi.mocked(saveCaseEntry).mock.calls[1][0].messageHash).toBe(await hashMessage("主管原文唯一標記"));
   });
@@ -360,12 +362,13 @@ describe("merged case-log integration", () => {
     await render();
     await select(fixtureOptions[0].id);
     await submit();
-    await click('.result-actions button');
+    await click('[aria-label="儲存到案件紀錄"]');
     await waitForSave(1);
-    expect(query<HTMLButtonElement>('.result-actions button').disabled).toBe(true);
+    expect(query<HTMLButtonElement>('[aria-label="儲存到案件紀錄"]').disabled).toBe(true);
+    expect(query<HTMLButtonElement>('[aria-label="複製諮詢摘要"]').disabled).toBe(false);
     expect(query<HTMLTextAreaElement>('#manager-message').disabled).toBe(true);
     expect(query<HTMLSelectElement>('select').disabled).toBe(true);
-    await click('.result-actions button');
+    await click('[aria-label="儲存到案件紀錄"]');
     await submit();
     expect(saveCaseEntry).toHaveBeenCalledTimes(1);
     expect(fetchMock).toHaveBeenCalledTimes(1);
@@ -378,11 +381,11 @@ describe("merged case-log integration", () => {
     await render();
     await select(fixtureOptions[0].id);
     await submit();
-    await click('.result-actions button');
+    await click('[aria-label="儲存到案件紀錄"]');
     await waitForSave(1);
     expect(container.textContent).toContain("無法寫入本機案件紀錄");
     expect(container.querySelector('.analysis-result')).not.toBeNull();
-    await click('.result-actions button');
+    await click('[aria-label="儲存到案件紀錄"]');
     await waitForSave(2);
     expect(saveCaseEntry).toHaveBeenCalledTimes(2);
     expect(container.textContent).toContain("已儲存到本機案件紀錄");
@@ -401,10 +404,10 @@ describe("B1 result", () => {
     result.inputImprovementZh.forEach((tip) => expect(container.textContent).toContain(tip));
     result.nextStepsZh.forEach((step) => expect(container.textContent).toContain(step));
     result.disclaimers.forEach((disclaimer) => expect(container.textContent).toContain(disclaimer));
-    expect(query<HTMLDetailsElement>('details').open).toBe(false);
-    expect(query<HTMLAnchorElement>('details a').href).toBe(result.legalRefs[0].url);
-    await click('summary');
-    expect(query<HTMLDetailsElement>('details').open).toBe(true);
+    expect(query<HTMLDetailsElement>('details.legal-references').open).toBe(false);
+    expect(query<HTMLAnchorElement>('details.legal-references a').href).toBe(result.legalRefs[0].url);
+    await click('details.legal-references summary');
+    expect(query<HTMLDetailsElement>('details.legal-references').open).toBe(true);
   });
 
   it.each([
@@ -423,5 +426,82 @@ describe("B1 result", () => {
     expect(container.textContent).toContain(FIXED_DISCLAIMER);
     expect(container.textContent).toContain("來源名稱");
     expect(container.querySelector('a')).toBeNull();
+  });
+});
+
+describe("B2 copy, context, and demo picker", () => {
+  it("groups the 3-minute fixtures under 評審展示", async () => {
+    await render();
+    expect([...container.querySelectorAll("optgroup")].map((group) => group.label)).toEqual(["評審展示", "其他情境"]);
+    expect(container.querySelector('optgroup[label="評審展示"] option[value="verbal-bullying"]')).not.toBeNull();
+    expect(container.querySelector('optgroup[label="評審展示"] option[value="firm-performance-feedback"]')).not.toBeNull();
+  });
+
+  it("sends optional live context and omits it for fixtures", async () => {
+    await render();
+    await edit("一般主管訊息");
+    await edit("工程師", "#worker-role");
+    await edit("製造", "#worker-industry");
+    await edit("3", "#message-count");
+    await submit();
+    expect(JSON.parse(fetchMock.mock.calls[0][1]!.body as string)).toEqual({
+      text: "一般主管訊息",
+      mode: "live",
+      context: { workerRole: "工程師", industry: "製造", messageCountFromSender: 3 },
+    });
+    await select(fixtureOptions[0].id);
+    await submit();
+    expect(JSON.parse(fetchMock.mock.calls[1][1]!.body as string)).toEqual({
+      text: fixtureOptions[0].text,
+      mode: "fixture",
+    });
+  });
+
+  it("rejects a non-integer prior message count without sending", async () => {
+    await render();
+    await edit("一般主管訊息");
+    await edit("兩則", "#message-count");
+    await submit();
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(query('[role="alert"]').textContent).toContain("先前訊息則數");
+    expect(query<HTMLTextAreaElement>("#manager-message").value).toBe("一般主管訊息");
+  });
+
+  it("restores optional context with the draft", async () => {
+    await render();
+    await edit("尚未送出的訊息");
+    await edit("倉管", "#worker-role");
+    await revisit();
+    expect(query<HTMLTextAreaElement>("#manager-message").value).toBe("尚未送出的訊息");
+    expect(query<HTMLInputElement>("#worker-role").value).toBe("倉管");
+  });
+
+  it("copies improvement tips and a consultation summary without the original message", async () => {
+    const writeText = vi.spyOn(navigator.clipboard, "writeText").mockResolvedValue();
+    await render();
+    await edit("主管原文唯一標記");
+    await submit();
+    await click('[aria-label="複製改進建議"]');
+    expect(writeText.mock.calls[0][0]).toContain(result.inputImprovementZh[0]);
+    expect(writeText.mock.calls[0][0]).not.toContain("主管原文唯一標記");
+    await click('[aria-label="複製諮詢摘要"]');
+    expect(writeText.mock.calls[1][0]).toContain("勞權濾網諮詢摘要");
+    expect(writeText.mock.calls[1][0]).toContain(result.explanationZh);
+    expect(writeText.mock.calls[1][0]).toContain(FIXED_DISCLAIMER);
+    expect(writeText.mock.calls[1][0]).not.toContain("主管原文唯一標記");
+    expect(container.textContent).toContain("已複製到剪貼簿");
+  });
+
+  it("selects fallback text when automatic copy fails", async () => {
+    vi.spyOn(navigator.clipboard, "writeText").mockRejectedValue(new Error("Denied"));
+    Object.defineProperty(document, "execCommand", { configurable: true, value: () => false });
+    try {
+      await render(createElement(AnalysisResult, { result }));
+      await click('[aria-label="複製諮詢摘要"]');
+      expect(container.textContent).toContain("無法自動複製");
+      expect(query<HTMLTextAreaElement>(".copy-fallback").value).toContain("勞權濾網諮詢摘要");
+    } finally {
+      Reflect.deleteProperty(document, "execCommand");
+    }
   });
 });

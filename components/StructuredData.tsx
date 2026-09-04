@@ -1,4 +1,6 @@
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://genai-hack.vercel.app";
+import { siteUrl as resolveSiteUrl } from "@/app/site-url";
+
+const siteUrl = resolveSiteUrl();
 
 const faqItems = [
   {

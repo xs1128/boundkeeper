@@ -6,7 +6,7 @@
 
 本專案參與 **FUTUREMODE BUILDMODE — Track 03 Future of Work**。
 
-> **開發狀態：Web MVP 可展示。** 可貼上訊息或使用範例情境完成分析、複製諮詢摘要、儲存本機案件紀錄並匯出 JSON。範例情境不需模型金鑰。一般分析需設定 Gemini／Vertex 或 OpenAI 憑證。LINE／Gmail 仍為延伸項目。
+> **開發狀態：Web MVP 可展示；LINE bot 已接上共用分析核心。** 可貼上訊息或使用範例情境完成分析、複製諮詢摘要、儲存本機案件紀錄並匯出 JSON。範例情境不需模型金鑰。一般分析需設定 Gemini／Vertex 或 OpenAI 憑證。LINE 需官方帳號與 webhook，步驟見 [docs/line-integration.md](docs/line-integration.md)。Gmail 仍為延伸項目。
 
 既有規格、介面及程式識別仍使用舊名「勞權濾網／Labor Filter」。本 README 採用新名稱「界線守門員」；產品規格與技術設計分別見根目錄 [SPEC.md](SPEC.md) 與 [ARCHITECTURE.md](ARCHITECTURE.md)。展示步驟見 [docs/web-demo.md](docs/web-demo.md)。
 
@@ -51,16 +51,18 @@ flowchart TD
     I --> J[風險、法規參考、改進建議]
     J -->|使用者選擇保存| K[瀏覽器 IndexedDB]
     K --> L[JSON 匯出]
-    M[LINE / Gmail：延伸規劃] -.-> D
+    M[LINE webhook：轉傳文字] --> N[驗簽與 Reply API]
+    N --> D
+    O[Gmail：延伸規劃] -.-> D
 ```
 
 目前沒有後端資料庫。範例分析不呼叫外部模型。一般分析會將訊息送往伺服器及模型服務，但不將訊息本文寫入伺服器資料庫；案件紀錄只在使用者明確儲存後留在裝置上，且不含主管原始訊息。
 
 ```text
-app/                 頁面、分析 API、健康檢查及 webhook 骨架
+app/                 頁面、分析 API、健康檢查及 LINE webhook
 components/          訊息輸入、結果、複製與案件紀錄介面
 src/analysis/        共用分析核心、schema、規則與提示詞
-src/adapters/        Web 輸入處理及 LINE、Gmail 介面
+src/adapters/        Web 輸入處理、LINE Messaging API、Gmail 介面
 src/case-log/        本機案件紀錄與 JSON 匯出
 assets/legal/        官方法規來源、摘要與版本資訊
 assets/fixtures/     預植訊息
@@ -103,7 +105,7 @@ cp .env.example .env.local
 
 - `GOOGLE_SERVICE_ACCOUNT_JSON`、`GOOGLE_CLOUD_PROJECT` 或 `GOOGLE_GENERATIVE_AI_API_KEY`：一般分析（Gemini／Vertex）。
 - `OPENAI_API_KEY`：可選備援。
-- `LINE_CHANNEL_ACCESS_TOKEN`、`LINE_CHANNEL_SECRET`、`LINE_LIFF_ID`：預留給 LINE 延伸整合。
+- `LINE_CHANNEL_ACCESS_TOKEN`、`LINE_CHANNEL_SECRET`：LINE Messaging API bot。設定步驟見 [LINE 整合](docs/line-integration.md)。
 
 不要提交 `.env.local`、金鑰或 Token；範例變數請維護於 [.env.example](.env.example)。
 
@@ -144,7 +146,7 @@ curl -i http://localhost:3000/api/analyze \
 - **不代寫完整回覆：** 提供改進建議與諮詢摘要，不輸出可直接貼上的回覆草稿。
 - **判斷範圍有限：** 產品定位為單則訊息的風險提示，個案認定仍需情境與證據，不提供違法判決或勝訴保證。
 - **PDF 尚未提供：** JSON 匯出為目前唯一匯出路徑。
-- **延伸整合未完成：** LINE、Gmail、瀏覽器擴充功能、RAG 與多訊息模式均屬後續方向。
+- **延伸整合：** LINE Messaging API bot 已可轉傳文字並回覆分析；Gmail、瀏覽器擴充功能、RAG 與多訊息模式仍屬後續方向。
 - **名稱待同步：** 介面、固定聲明與規格仍保留「勞權濾網」，README 使用「界線守門員」。
 
 本工具不提供雇主監控、員工評分或自動申訴。現行規格要求保留以下固定聲明，原文沿用舊名稱：
@@ -155,7 +157,7 @@ curl -i http://localhost:3000/api/analyze \
 
 - **官方法律資料：** 來源包含法務部全國法規資料庫、勞動部與職業安全衛生署。各筆來源連結、版本及授權紀錄見 [官方來源清單](assets/legal/source-inventory.zh-TW.md)，使用方式見 [法律資料說明](assets/legal/README.md)。依該清單記錄，使用資料須保留政府資料開放授權條款第 1 版等適用條件與來源顯名；個別素材限制以來源聲明為準。
 - **開源依賴：** Next.js、React、Tailwind CSS、Zod、TypeScript、Vitest 與 ESLint 等，版本見 [package.json](package.json) 與 [pnpm-lock.yaml](pnpm-lock.yaml)。各套件依其隨附 LICENSE 使用，不由本專案統一變更授權。
-- **外部服務：** 一般分析使用 Google Gemini／Vertex 或 OpenAI；網站部署於 Vercel。LINE／Gmail 整合尚未啟用。
+- **外部服務：** 一般分析使用 Google Gemini／Vertex 或 OpenAI；網站部署於 Vercel。LINE Messaging API 為選用通道；Gmail 尚未啟用。
 - **示範訊息：** 使用人工編寫的合成情境，不提交真實主管訊息或可識別個人資料。
 
 ## 團隊成員

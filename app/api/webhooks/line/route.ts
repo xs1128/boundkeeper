@@ -1,13 +1,20 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
+import { handleLineWebhook } from "@/src/adapters/line";
 
-export async function POST() {
-  return NextResponse.json(
-    {
-      error: {
-        code: "LINE_ADAPTER_NOT_IMPLEMENTED",
-        message: "LINE adapter is a stretch-goal placeholder.",
-      },
-    },
-    { status: 501 },
-  );
+export const maxDuration = 60;
+
+export async function POST(request: Request) {
+  const rawBody = await request.text();
+  const signature = request.headers.get("x-line-signature");
+  const outcome = handleLineWebhook(rawBody, signature);
+
+  if (outcome.work) {
+    try {
+      after(() => outcome.work);
+    } catch {
+      await outcome.work;
+    }
+  }
+
+  return NextResponse.json(outcome.body, { status: outcome.status });
 }

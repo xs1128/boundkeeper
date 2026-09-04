@@ -139,7 +139,7 @@ curl -i http://localhost:3000/api/analyze \
 
 - 作品展示網址：https://genai-hack-amber.vercel.app
 - 評選影片：尚未提供。
-- 目前可重現：開啟網站、選評審展示範例、檢查訊息、複製諮詢摘要、儲存並下載 JSON。步驟見 [docs/web-demo.md](docs/web-demo.md)。
+- 目前可重現：開啟網站、選評審展示範例、檢查訊息、複製諮詢摘要、儲存並下載 JSON。步驟見 [docs/web-demo.md](docs/web-demo.md)。LINE bot 測試見 [docs/line-integration.md](docs/line-integration.md)。
 
 ## 限制與未來工作
 

@@ -12,6 +12,7 @@ import { saveCaseEntry } from "@/src/case-log/store";
 import { serializeCaseLogExport } from "@/src/case-log/export";
 import { hashMessage } from "@/src/case-log/hash";
 import { CONVERSATION_SESSION_KEY } from "@/src/analysis/conversation-session";
+import { CLIENT_ANALYZE_TIMEOUT_MS, CLIENT_ANALYZE_TIMEOUT_SECONDS } from "@/src/analysis/timeouts";
 import sanitizedResult from "@/assets/fixtures/sanitized-analysis-result.json";
 
 vi.mock("@/src/case-log/store", () => ({ saveCaseEntry: vi.fn() }));
@@ -193,7 +194,7 @@ describe("B1 analysis journey", () => {
     expect(query<HTMLTextAreaElement>("#manager-message").value).toBe("保留這則訊息");
   });
 
-  it("aborts after 30 seconds and permits manual retry with the original input", async () => {
+  it("aborts after the client timeout and permits manual retry with the original input", async () => {
     vi.useFakeTimers();
     fetchMock.mockImplementationOnce((_url, options) => new Promise((_resolve, reject) => {
       options!.signal!.addEventListener("abort", () => reject(new DOMException("Aborted", "AbortError")));
@@ -201,8 +202,8 @@ describe("B1 analysis journey", () => {
     await render();
     await edit("等待分析的訊息");
     await submit();
-    await act(async () => vi.advanceTimersByTimeAsync(30_000));
-    expect(query('[role="alert"]').textContent).toContain("超過 30 秒");
+    await act(async () => vi.advanceTimersByTimeAsync(CLIENT_ANALYZE_TIMEOUT_MS));
+    expect(query('[role="alert"]').textContent).toContain(`超過 ${CLIENT_ANALYZE_TIMEOUT_SECONDS} 秒`);
     expect(fetchMock.mock.calls[0][1]!.signal!.aborted).toBe(true);
     expect(query<HTMLTextAreaElement>("#manager-message").value).toBe("等待分析的訊息");
     expect(fetchMock).toHaveBeenCalledTimes(1);

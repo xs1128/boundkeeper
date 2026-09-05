@@ -4,9 +4,10 @@ import { createGoogleVertex } from "@ai-sdk/google-vertex";
 import type { LanguageModel } from "ai";
 import { AnalysisError } from "./errors";
 
+export { LIVE_TIMEOUT_MS } from "./timeouts";
+
 export const DEFAULT_GEMINI_MODEL = "gemini-3.7-flash";
 export const DEFAULT_OPENAI_MODEL = "gpt-4.1-mini-2025-04-14";
-export const LIVE_TIMEOUT_MS = 12000;
 
 /** @deprecated use DEFAULT_GEMINI_MODEL */
 export const DEFAULT_VERTEX_MODEL = DEFAULT_GEMINI_MODEL;

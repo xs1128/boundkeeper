@@ -4,7 +4,7 @@ import { AnalysisError } from "@/src/analysis/errors";
 import { FIXED_DISCLAIMER } from "@/src/analysis/disclaimer";
 import { parseWebAnalyzeRequest } from "@/src/adapters/web";
 
-export const maxDuration = 60;
+export const maxDuration = 90;
 
 export async function POST(request: Request) {
   let body: unknown;

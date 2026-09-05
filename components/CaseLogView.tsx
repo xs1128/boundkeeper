@@ -20,21 +20,31 @@ export function CaseLogView() {
   useEffect(() => {
     let active = true;
 
-    listCaseEntries()
-      .then((nextEntries) => {
+    async function load() {
+      if (typeof document !== "undefined" && document.prerendering) {
+        await new Promise<void>((resolve) => {
+          document.addEventListener("prerenderingchange", () => resolve(), { once: true });
+        });
+      }
+      if (!active) {
+        return;
+      }
+
+      try {
+        const nextEntries = await listCaseEntries();
         if (!active) {
           return;
         }
-
         setEntries(nextEntries);
         setViewState(nextEntries.length === 0 ? "empty" : "ready");
-      })
-      .catch(() => {
+      } catch {
         if (active) {
           setViewState("error");
         }
-      });
+      }
+    }
 
+    void load();
     return () => {
       active = false;
     };

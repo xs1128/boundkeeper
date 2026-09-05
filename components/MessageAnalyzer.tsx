@@ -13,6 +13,7 @@ import { AnalysisResult } from "./AnalysisResult";
 import { Disclaimer } from "./Disclaimer";
 import { getFixtureOptions } from "./fixture-options";
 import { parseAnalyzeResponse } from "./parse-analyze-response";
+import { CLIENT_ANALYZE_TIMEOUT_MS, CLIENT_ANALYZE_TIMEOUT_SECONDS } from "@/src/analysis/timeouts";
 
 const fixtureOptions = getFixtureOptions();
 
@@ -121,7 +122,7 @@ export function MessageAnalyzer() {
     const timeout = setTimeout(() => {
       timedOut = true;
       controller.abort();
-    }, 30_000);
+    }, CLIENT_ANALYZE_TIMEOUT_MS);
 
     try {
       const response = await fetch("/api/analyze", {
@@ -147,7 +148,7 @@ export function MessageAnalyzer() {
     } finally {
       clearTimeout(timeout);
       if (timedOut && requestRef.current === controller) {
-        setState({ status: "error", message: "分析等待超過 30 秒，請重試。訊息仍保留在輸入框中。" });
+        setState({ status: "error", message: `分析等待超過 ${CLIENT_ANALYZE_TIMEOUT_SECONDS} 秒，請重試。訊息仍保留在輸入框中。` });
       }
       if (requestRef.current === controller) requestRef.current = null;
     }
@@ -227,7 +228,7 @@ export function MessageAnalyzer() {
       {state.status === "empty" && !completed && (
         <p className="input-help">尚未分析。貼上訊息或選擇範例，再按下檢查即可開始。</p>
       )}
-      {isSubmitting && <p className="status" role="status">正在分析，請稍候…最多等待 30 秒。</p>}
+      {isSubmitting && <p className="status" role="status">正在分析，請稍候…最多等待 {CLIENT_ANALYZE_TIMEOUT_SECONDS} 秒。</p>}
       {state.status === "error" && (
         <section className="card error-state" aria-label="分析未完成">
           <p role="alert">{state.message}</p>

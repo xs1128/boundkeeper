@@ -82,7 +82,7 @@ The example shows the wire contract only. B owns input-validation messages, pend
 
 - Pass `fixtureOptions` to `FixturePicker.fixtures`. Selection supplies `text`; submit it with `mode: "fixture"`. An empty selection is not a valid request. If the user edits the message, switch to live mode explicitly; edited text is not guaranteed to match a fixture. Omitted `mode` means live.
 - Fixture analysis needs no OpenAI key or provider access. Calling `/api/analyze` still requires a reachable app server; this is not an airplane-mode Web implementation.
-- The model deadline is 12 seconds, excluding network/cold-start overhead. A browser timeout is a separate transport failure. Do not silently retry or replace a failed live result with demo data.
+- The model deadline is 45 seconds, excluding network/cold-start overhead. A browser timeout is a separate transport failure. Do not silently retry or replace a failed live result with demo data.
 - Success uses `disclaimers: string[]`; failure uses `disclaimer: string`. Display every returned success disclaimer, including attribution. Preserve `elementsNote` when present.
 - A crisis is HTTP 200 with category `crisis` and empty `legalRefs`; render its explanation and resources without requiring a legal reference. `other` is also a valid category. Display `categories[].labelZh` from the response; B owns localized risk-level labels.
 - For component tests, import `assets/fixtures/sanitized-analysis-result.json` and parse with `analyzeResultSchema`. Clone before editing test data. B owns rendering tests and user-initiated local save/export; never append the submitted `text` to stored/exported records.
@@ -93,7 +93,7 @@ The example shows the wire contract only. B owns input-validation messages, pend
 
 Environment variable names and example values are documented in `.env.example`. The model defaults to the pinned `gpt-4.1-mini-2025-04-14` snapshot and can be overridden. The model must support structured output. Runtime requires Node.js 22 or newer for the installed AI SDK; this work was tested with Node.js 24.
 
-Live requests use a 12-second abort deadline, zero SDK retries and a 2,200-token output limit. Telemetry and input/output recording are disabled, OpenAI request storage is set to false, and the core does not write message bodies, prompts, responses or provider errors to logs or persistence. This is not a claim of zero provider-side retention. There is no automatic switch to fixture data when a live request fails.
+Live requests use a 45-second abort deadline, zero SDK retries and a 2,200-token output limit. Telemetry and input/output recording are disabled, OpenAI request storage is set to false, and the core does not write message bodies, prompts, responses or provider errors to logs or persistence. This is not a claim of zero provider-side retention. There is no automatic switch to fixture data when a live request fails.
 
 ## Verification
 

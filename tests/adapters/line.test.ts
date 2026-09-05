@@ -5,10 +5,13 @@ import {
   LINE_MAX_MESSAGES,
   LINE_REPLY_API_URL,
   LINE_TEXT_LIMIT,
+  SHORT_DISCLAIMER_LINE,
   fitLineText,
   formatLineErrorMessages,
   formatLineReplyMessages,
+  formatLineWelcomeMessages,
   handleLineWebhook,
+  isLineFollowOrJoinEvent,
   isSupportedLineTextEvent,
   lineAdapter,
   LineUnsupportedEventError,
@@ -98,16 +101,16 @@ describe("LINE event parsing", () => {
 });
 
 describe("LINE reply chunking", () => {
-  it("keeps the fixed disclaimer and stays within LINE payload limits", () => {
+  it("keeps the short disclaimer line and stays within LINE payload limits", () => {
     const messages = formatLineReplyMessages(SAMPLE_ANALYZE_RESULT);
     expect(messages.length).toBeGreaterThan(0);
     expect(messages.length).toBeLessThanOrEqual(LINE_MAX_MESSAGES);
-    expect(messages.join("\n")).toContain(FIXED_DISCLAIMER);
+    expect(messages.join("\n")).toContain(SHORT_DISCLAIMER_LINE);
     expect(messages.join("\n")).toContain("加班與工資風險");
     expect(messages.every((text) => text.length <= LINE_TEXT_LIMIT)).toBe(true);
   });
 
-  it("splits long sections and never truncates the required disclaimer", () => {
+  it("splits long sections and never truncates the short disclaimer line", () => {
     const huge: AnalyzeResult = {
       ...SAMPLE_ANALYZE_RESULT,
       explanationZh: "解釋".repeat(4000),
@@ -121,18 +124,35 @@ describe("LINE reply chunking", () => {
     };
     const messages = formatLineReplyMessages(huge);
     expect(messages.length).toBeLessThanOrEqual(LINE_MAX_MESSAGES);
-    expect(messages.some((text) => text.includes(FIXED_DISCLAIMER))).toBe(true);
-    const disclaimerMessage = messages.find((text) => text.includes(FIXED_DISCLAIMER));
-    expect(disclaimerMessage).toContain(FIXED_DISCLAIMER);
-    expect(disclaimerMessage?.includes("…") && disclaimerMessage.indexOf(FIXED_DISCLAIMER) === -1).toBe(false);
+    expect(messages.some((text) => text.includes(SHORT_DISCLAIMER_LINE))).toBe(true);
+    const disclaimerMessage = messages.find((text) => text.includes(SHORT_DISCLAIMER_LINE));
+    expect(disclaimerMessage).toContain(SHORT_DISCLAIMER_LINE);
     expect(messages.every((text) => text.length <= LINE_TEXT_LIMIT)).toBe(true);
     expect(fitLineText("短文")).toBe("短文");
   });
 
-  it("keeps the disclaimer on analysis failures", () => {
+  it("keeps the short disclaimer line on analysis failures", () => {
     const messages = formatLineErrorMessages("目前無法完成分析，請稍後再試，或先使用範例情境。");
-    expect(messages.join("\n")).toContain(FIXED_DISCLAIMER);
+    expect(messages.join("\n")).toContain(SHORT_DISCLAIMER_LINE);
     expect(messages.join("\n")).toContain("分析未完成");
+  });
+
+  it("sends the full fixed disclaimer once in the welcome message", () => {
+    const messages = formatLineWelcomeMessages();
+    expect(messages.join("\n")).toContain(FIXED_DISCLAIMER);
+  });
+});
+
+describe("LINE follow/join event parsing", () => {
+  it("accepts follow and join events with a reply token, rejects everything else", () => {
+    expect(isLineFollowOrJoinEvent({ type: "follow", replyToken: "r" })).toBe(true);
+    expect(isLineFollowOrJoinEvent({ type: "join", replyToken: "r" })).toBe(true);
+    expect(isLineFollowOrJoinEvent({ type: "follow" })).toBe(false);
+    expect(isLineFollowOrJoinEvent({ type: "unfollow", replyToken: "r" })).toBe(false);
+    expect(isLineFollowOrJoinEvent({ type: "message", replyToken: "r" })).toBe(false);
+    expect(
+      isLineFollowOrJoinEvent({ type: "follow", replyToken: "r", deliveryContext: { isRedelivery: true } }),
+    ).toBe(false);
   });
 });
 
@@ -178,8 +198,8 @@ describe("LINE webhook handling", () => {
     const analyze = vi.fn();
     const fetchImpl = vi.fn();
     const body = webhookBody([
-      { type: "follow", replyToken: "follow-token" },
       { type: "unfollow" },
+      { type: "follow", replyToken: "" },
       textEvent({ deliveryContext: { isRedelivery: true } }),
       textEvent({ message: { type: "image", id: "img" } }),
       textEvent({ message: { type: "sticker", id: "sticker" } }),
@@ -193,6 +213,30 @@ describe("LINE webhook handling", () => {
     await result.work;
     expect(analyze).not.toHaveBeenCalled();
     expect(fetchImpl).not.toHaveBeenCalled();
+  });
+
+  it("sends a one-time full-disclaimer welcome reply on follow/join, without analyzing", async () => {
+    const analyze = vi.fn();
+    const fetchImpl = vi.fn<typeof fetch>(async () => new Response("{}", { status: 200 }));
+    const body = webhookBody([
+      { type: "follow", replyToken: "follow-token" },
+      { type: "join", replyToken: "join-token" },
+    ]);
+    const result = handleLineWebhook(body, sign(body), {
+      env: { LINE_CHANNEL_SECRET: FAKE_SECRET, LINE_CHANNEL_ACCESS_TOKEN: FAKE_TOKEN },
+      analyzeMessage: analyze,
+      fetch: fetchImpl,
+    });
+    expect(result.status).toBe(200);
+    await result.work;
+    expect(analyze).not.toHaveBeenCalled();
+    expect(fetchImpl).toHaveBeenCalledTimes(2);
+    const tokens = fetchImpl.mock.calls.map(([, init]) => JSON.parse(String(init?.body)).replyToken);
+    expect(tokens.sort()).toEqual(["follow-token", "join-token"]);
+    for (const [, init] of fetchImpl.mock.calls) {
+      const payload = JSON.parse(String(init?.body));
+      expect(payload.messages[0].text).toContain(FIXED_DISCLAIMER);
+    }
   });
 
   it("analyzes a valid text event once and sends a LINE reply", async () => {
@@ -218,7 +262,9 @@ describe("LINE webhook handling", () => {
     const payload = JSON.parse(String(init?.body));
     expect(payload.replyToken).toBe("reply-token-1");
     expect(payload.messages[0].type).toBe("text");
-    expect(payload.messages.some((message: { text: string }) => message.text.includes(FIXED_DISCLAIMER))).toBe(true);
+    expect(
+      payload.messages.some((message: { text: string }) => message.text.includes(SHORT_DISCLAIMER_LINE)),
+    ).toBe(true);
     expect(JSON.stringify(payload)).not.toContain(FAKE_TOKEN);
   });
 
@@ -255,7 +301,9 @@ describe("LINE webhook handling", () => {
     expect(fetchImpl).toHaveBeenCalledTimes(1);
     const payload = JSON.parse(String(fetchImpl.mock.calls[0][1]?.body));
     expect(payload.messages[0].text).toContain("目前無法完成分析");
-    expect(payload.messages.some((message: { text: string }) => message.text.includes(FIXED_DISCLAIMER))).toBe(true);
+    expect(
+      payload.messages.some((message: { text: string }) => message.text.includes(SHORT_DISCLAIMER_LINE)),
+    ).toBe(true);
   });
 
   it("skips reply when the access token is missing", async () => {

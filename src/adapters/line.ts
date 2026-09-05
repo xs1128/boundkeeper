@@ -18,11 +18,13 @@ const RISK_LABELS: Record<AnalyzeResult["riskLevel"], string> = {
   medium: "中等風險",
   high: "高風險",
 };
-const CONFIDENCE_LABELS: Record<AnalyzeResult["categories"][number]["confidence"], string> = {
-  low: "低",
-  medium: "中",
-  high: "高",
+const RISK_EMOJI: Record<AnalyzeResult["riskLevel"], string> = {
+  none: "🟢",
+  low: "🟡",
+  medium: "🟠",
+  high: "🔴",
 };
+export const SHORT_DISCLAIMER_LINE = "⚠️ 僅供一般資訊，非法律意見；完整聲明見加好友訊息或網站。";
 
 export class LineUnsupportedEventError extends Error {
   constructor() {
@@ -50,6 +52,13 @@ type LineTextEvent = {
   webhookEventId?: string;
   deliveryContext?: { isRedelivery?: boolean };
   message: { type: "text"; text: string };
+};
+
+type LineFollowOrJoinEvent = {
+  type: "follow" | "join";
+  replyToken: string;
+  webhookEventId?: string;
+  deliveryContext?: { isRedelivery?: boolean };
 };
 
 export function verifyLineSignature(
@@ -80,10 +89,6 @@ export function fitLineText(text: string, maxChars = LINE_TEXT_LIMIT): string {
   if (trimmed.length <= maxChars) return trimmed;
   const ellipsis = "…";
   return `${truncateUtf16(trimmed, maxChars - ellipsis.length).trimEnd()}${ellipsis}`;
-}
-
-function numbered(items: string[]): string {
-  return items.map((item, index) => `${index + 1}. ${item}`).join("\n");
 }
 
 function disclaimerSection(result?: AnalyzeResult): string {
@@ -140,32 +145,59 @@ export function packLineMessages(sections: string[], disclaimer: string): string
   return packed.map((text) => fitLineText(text)).filter(Boolean);
 }
 
+function firstSentence(text: string): string {
+  const match = text.match(/^[^。！？\n]*[。！？]/);
+  return match ? match[0] : text;
+}
+
 export function formatLineReplyMessages(result: AnalyzeResult): string[] {
-  const categories = result.categories
-    .map((category) => `${category.labelZh}（信心：${CONFIDENCE_LABELS[category.confidence]}）`)
-    .join("、") || "未分類";
-  const laws = result.legalRefs.length
-    ? result.legalRefs.map((reference) => `・${reference.statute}：${reference.summaryZh}`).join("\n")
-    : "本次結果未列出法規參考。";
+  const primaryCategory = result.categories[0]?.labelZh ?? "未分類";
+  const extraCategories = result.categories.length - 1;
+  const categoryLine = extraCategories > 0 ? `${primaryCategory} 等 ${result.categories.length} 項` : primaryCategory;
+  const headline = firstSentence(result.explanationZh);
+  const actionLine = result.nextStepsZh[0] ? `📌 ${result.nextStepsZh[0]}` : "";
+
+  const topLaw = result.legalRefs[0];
+  const extraLaws = result.legalRefs.length - 1;
+  const lawLine = topLaw
+    ? `📖 ${topLaw.statute}${topLaw.url ? `\n${topLaw.url}` : ""}${extraLaws > 0 ? `（另有 ${extraLaws} 項法規，網站查看）` : ""}`
+    : "";
 
   return packLineMessages(
     [
-      `【風險】${RISK_LABELS[result.riskLevel]}\n【類別】${categories}`,
-      `【白話解釋】\n${result.explanationZh}`,
-      result.elementsNote ? `【提醒】\n${result.elementsNote}` : "",
-      `【可能涉及的法規】\n${laws}`,
-      `【改進建議】\n${numbered(result.inputImprovementZh)}`,
-      `【你可以做的事】\n${numbered(result.nextStepsZh)}`,
+      `${RISK_EMOJI[result.riskLevel]} ${RISK_LABELS[result.riskLevel]}｜${categoryLine}\n${headline}`,
+      actionLine,
+      lawLine,
+      "更多建議與完整分析請至網站查看。",
     ],
-    disclaimerSection(result),
+    SHORT_DISCLAIMER_LINE,
   );
 }
 
 export function formatLineErrorMessages(messageZh: string): string[] {
   return packLineMessages(
     [`【分析未完成】\n${messageZh}`],
+    SHORT_DISCLAIMER_LINE,
+  );
+}
+
+export function formatLineWelcomeMessages(): string[] {
+  return packLineMessages(
+    ["您好，我是勞權濾網。貼上主管訊息，我會分析風險，附上法規來源與回覆建議。"],
     disclaimerSection(),
   );
+}
+
+export function isLineFollowOrJoinEvent(raw: unknown): raw is LineFollowOrJoinEvent {
+  if (!raw || typeof raw !== "object") return false;
+  const event = raw as Record<string, unknown>;
+  if (event.type !== "follow" && event.type !== "join") return false;
+  if (typeof event.replyToken !== "string" || !event.replyToken) return false;
+  const delivery = event.deliveryContext;
+  if (delivery && typeof delivery === "object" && (delivery as { isRedelivery?: unknown }).isRedelivery === true) {
+    return false;
+  }
+  return true;
 }
 
 export function isSupportedLineTextEvent(raw: unknown): raw is LineTextEvent {
@@ -241,6 +273,21 @@ async function sendLineReply(
   }
 }
 
+async function processWelcomeEvent(
+  event: LineFollowOrJoinEvent,
+  deps: { accessToken: string; fetch: typeof fetch },
+): Promise<void> {
+  if (!deps.accessToken) {
+    console.info("[line-webhook] welcome reply skipped: missing access token");
+    return;
+  }
+  try {
+    await sendLineReply(event.replyToken, formatLineWelcomeMessages(), deps.accessToken, deps.fetch);
+  } catch {
+    console.info("[line-webhook] welcome reply request failed");
+  }
+}
+
 async function processSupportedEvent(
   event: LineTextEvent,
   deps: Required<Pick<LineWebhookDeps, "analyzeMessage" | "fetch">> & { accessToken: string },
@@ -299,13 +346,15 @@ export function handleLineWebhook(
   }
 
   const supported = events.filter(isSupportedLineTextEvent);
-  const work = Promise.allSettled(
-    supported.map((event) => processSupportedEvent(event, {
+  const welcomes = events.filter(isLineFollowOrJoinEvent);
+  const work = Promise.allSettled([
+    ...supported.map((event) => processSupportedEvent(event, {
       accessToken,
       analyzeMessage: analyze,
       fetch: fetchImpl,
     })),
-  ).then(() => undefined);
+    ...welcomes.map((event) => processWelcomeEvent(event, { accessToken, fetch: fetchImpl })),
+  ]).then(() => undefined);
 
   return { status: 200, body: { ok: true }, work };
 }

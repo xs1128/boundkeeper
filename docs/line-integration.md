@@ -16,7 +16,7 @@ https://genai-hack-amber.vercel.app/api/webhooks/line
 
 ## 隊友怎麼測（不需要 Vercel 權限）
 
-1. 向有 Developers Console 權限的人要官方帳號 **QR code**（Messaging API 分頁），用自己的 LINE 掃碼加入。
+1. 向有 Developers Console 權限的人要官方帳號 **QR code**（Messaging API 分頁），用自己的 LINE 掃碼加入。加好友當下會先收到一則歡迎訊息＋完整固定聲明（僅此一次）。
 2. 用手機 LINE 傳**文字**。不要傳貼圖／圖片／語音；那些會被忽略且不會回覆。
 3. 不要從 Official Account Manager 的 **聊天** 視窗回訊息，那會用掉 reply token。
 4. 貼上下列**完整原文**，一個字都不要改。與網站範例相同的文字走離線 fixture，不呼叫模型。
@@ -27,7 +27,7 @@ https://genai-hack-amber.vercel.app/api/webhooks/line
 你真是個沒用的廢物，這點事都做不好。以後部門會議不用參加，大家也不用再把工作資訊傳給你。
 ```
 
-預期：高風險、職場霸凌風險、白話解釋、法規、改進建議、固定聲明。可能等幾秒。
+預期：一則精簡訊息——風險燈號＋主分類、白話解釋第一句、一個下一步、一條法規連結、一行極短聲明。可能等幾秒。
 
 **無明顯風險（嚴格但合理的績效回饋）：**
 
@@ -35,7 +35,7 @@ https://genai-hack-amber.vercel.app/api/webhooks/line
 這份報告有三處數據錯誤，品質未達我們事先約定的標準。請在下週五前完成修正，依原有工作時段安排，有資源或時程問題今天提出，我們一起調整。
 ```
 
-預期：無明顯風險或低風險，說明這是合理管理，不是違法判決，並附固定聲明。
+預期：無明顯風險或低風險，說明這是合理管理，不是違法判決，同樣只附一行極短聲明。
 
 只應收到 bot 的分析，不該出現 LINE 預設「感謝您的訊息！本帳號無法個別回覆…」。若出現，見下方「關掉會搶回覆的自動訊息」。
 
@@ -181,15 +181,18 @@ Verify 失敗或訊息沒回覆時：
 | 事件 | 行為 |
 |------|------|
 | Console Verify（`events: []`） | 驗簽後 HTTP 200，不呼叫分析 |
-| 文字訊息 | 呼叫一次 `analyzeMessage()`，以 Reply API 回覆（最多 5 則、每則 ≤ 5000 UTF-16 字元） |
+| 文字訊息 | 呼叫一次 `analyzeMessage()`，以 Reply API 回覆（最多 5 則、每則 ≤ 5000 UTF-16 字元）；每則只附一行極短聲明 |
 | 與網站範例原文相同的文字 | `mode: "fixture"`，不呼叫模型 |
 | 其他文字 | `mode: "live"`，需要模型憑證 |
-| follow / unfollow / 圖片 / 貼圖 / redelivery / standby | 忽略，仍回 200 |
+| follow（加好友）／join（bot 被拉進群組／聊天室） | 不呼叫 `analyzeMessage()`，回一則歡迎訊息＋完整固定聲明（僅此一次） |
+| unfollow / 圖片 / 貼圖 / redelivery / standby | 忽略，仍回 200 |
 | 簽名錯誤或缺簽 | HTTP 401，**不會**呼叫 `analyzeMessage()` |
 | 未設定 `LINE_CHANNEL_SECRET` | HTTP 503 |
-| 分析失敗 | 回「分析未完成」＋固定免責聲明，不洩漏原文 |
+| 分析失敗 | 回「分析未完成」＋極短聲明，不洩漏原文 |
 
 Reply token 約 1 分鐘內有效、只能用一次。Webhook 會先回 200，分析在同一請求的背景工作完成後再呼叫 Reply API。
+
+**聲明呈現方式：**完整固定聲明（`FIXED_DISCLAIMER`）只在加好友／加入群組時的歡迎訊息出現一次；之後每則分析或錯誤回覆只附一行極短提醒（「⚠️ 僅供一般資訊，非法律意見；完整聲明見加好友訊息或網站。」），網站版仍完整顯示固定聲明。這是為了在聊天室裡減少視覺負擔，核心 `analyzeMessage()` 回傳的 `disclaimers` 欄位不受影響，仍照 shared contract 帶有完整 `FIXED_DISCLAIMER`。
 
 日誌只會寫狀態碼這類中繼資料，不會寫訊息本文、raw body、token 或完整分析結果。
 

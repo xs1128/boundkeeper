@@ -21,7 +21,10 @@ export function CaseLogView() {
     let active = true;
 
     async function load() {
-      if (typeof document !== "undefined" && document.prerendering) {
+      const doc = document as Document & {
+        prerendering?: boolean;
+      };
+      if (typeof document !== "undefined" && doc.prerendering) {
         await new Promise<void>((resolve) => {
           document.addEventListener("prerenderingchange", () => resolve(), { once: true });
         });

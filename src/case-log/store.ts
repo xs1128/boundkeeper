@@ -58,14 +58,17 @@ function openDatabase(): Promise<IDBDatabase> {
     request.onsuccess = () => {
       const database = request.result;
       const upgrade = request.transaction;
-      if (upgrade && upgrade.readyState !== "done") {
+      if (upgrade) {
         upgrade.oncomplete = () => succeed(database);
         upgrade.onerror = fail;
         upgrade.onabort = fail;
-        return;
       }
       // WebKit can still miss the store for one turn after first-create onsuccess.
-      queueMicrotask(() => succeed(database));
+      queueMicrotask(() => {
+        if (database.objectStoreNames.contains(STORE_NAME)) {
+          succeed(database);
+        }
+      });
     };
 
     request.onerror = fail;

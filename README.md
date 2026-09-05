@@ -8,7 +8,7 @@
 
 > **開發狀態：Web MVP 可展示；LINE bot 已接上共用分析核心。** 可貼上訊息或使用範例情境完成分析、複製諮詢摘要、儲存本機案件紀錄並匯出 JSON。範例情境不需模型金鑰。一般分析需設定 Gemini／Vertex 或 OpenAI 憑證。LINE 需官方帳號與 webhook，步驟見 [docs/line-integration.md](docs/line-integration.md)。Gmail 仍為延伸項目。
 
-既有規格、介面及程式識別仍使用舊名「勞權濾網／Labor Filter」。本 README 採用新名稱「界線守門員」；產品規格與技術設計分別見根目錄 [SPEC.md](SPEC.md) 與 [ARCHITECTURE.md](ARCHITECTURE.md)。展示步驟見 [docs/web-demo.md](docs/web-demo.md)。
+產品規格與技術設計分別見根目錄 [SPEC.md](SPEC.md) 與 [ARCHITECTURE.md](ARCHITECTURE.md)。展示步驟見 [docs/web-demo.md](docs/web-demo.md)。
 
 ## 問題與目標
 
@@ -164,8 +164,12 @@ curl -i http://localhost:3000/api/analyze \
 
 | 姓名 | 分工 |
 | --- | --- |
-| 待補 | 待團隊確認姓名與實際分工 |
+| 陳芃錡 | Workstream A：分析核心、官方法規語料 |
+| 黃新勝 | Workstream B：Web 產品流程、案件紀錄、LINE Messaging API 整合、部署 |
+| 林威佑 | Workstream C：LINE Messaging API|
+
+分工依 git commit 紀錄與 [TASK.md](TASK.md) 的 workstream 劃分回填，實際協作可能有交疊。
 
 ## License
 
-目前儲存庫尚未提供根目錄 `LICENSE`，程式碼授權待團隊決定。第三方套件與政府資料仍依各自授權條件使用。
+本儲存庫程式碼採 [MIT License](LICENSE)。第三方套件與政府資料仍依各自授權條件使用，見上節「第三方服務、資料與素材」。

@@ -89,7 +89,7 @@ describe("listCaseEntries IndexedDB access", () => {
       value: indexedDB,
     });
 
-    await expect(listCaseEntries()).resolves.toEqual([]);
+    await expect(listCaseEntries()).resolves.toEqual({ entries: [], skippedCount: 0 });
     expect(opens).toBe(2);
   });
 
@@ -106,7 +106,7 @@ describe("listCaseEntries IndexedDB access", () => {
       value: indexedDB,
     });
 
-    await expect(listCaseEntries()).resolves.toEqual([]);
+    await expect(listCaseEntries()).resolves.toEqual({ entries: [], skippedCount: 0 });
     expect(opens).toBeGreaterThan(1);
   });
 });

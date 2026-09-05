@@ -1,4 +1,6 @@
 import type { CaseLogEntry } from "./types";
+import { caseLogEntrySchema } from "./schema";
+import { parseStoredCaseLog, type CaseLogList } from "./validate";
 
 const DB_NAME = "labor-filter-case-log";
 const DB_VERSION = 1;
@@ -145,15 +147,18 @@ async function runTransaction<T>(
     : new CaseLogStorageError("Unable to access local case log.");
 }
 
-export async function listCaseEntries(): Promise<CaseLogEntry[]> {
+export async function listCaseEntries(): Promise<CaseLogList> {
   const entries = await runTransaction("readonly", (store) => store.getAll());
-  return entries.sort((left, right) =>
-    right.createdAt.localeCompare(left.createdAt),
-  );
+  return parseStoredCaseLog(entries);
 }
 
 export async function saveCaseEntry(entry: CaseLogEntry): Promise<void> {
-  await runTransaction("readwrite", (store) => store.put(entry));
+  const parsed = caseLogEntrySchema.safeParse(entry);
+  if (!parsed.success) {
+    throw new CaseLogStorageError("Unable to save an incomplete case log entry.");
+  }
+
+  await runTransaction("readwrite", (store) => store.put(parsed.data));
 }
 
 export async function clearCaseEntries(): Promise<void> {

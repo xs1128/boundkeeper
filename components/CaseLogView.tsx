@@ -14,6 +14,7 @@ type ViewState = "loading" | "empty" | "ready" | "error";
 
 export function CaseLogView() {
   const [entries, setEntries] = useState<CaseLogEntry[]>([]);
+  const [skippedCount, setSkippedCount] = useState(0);
   const [viewState, setViewState] = useState<ViewState>("loading");
   const [exportMessage, setExportMessage] = useState("");
 
@@ -34,12 +35,13 @@ export function CaseLogView() {
       }
 
       try {
-        const nextEntries = await listCaseEntries();
+        const nextLog = await listCaseEntries();
         if (!active) {
           return;
         }
-        setEntries(nextEntries);
-        setViewState(nextEntries.length === 0 ? "empty" : "ready");
+        setEntries(nextLog.entries);
+        setSkippedCount(nextLog.skippedCount);
+        setViewState(nextLog.entries.length === 0 ? "empty" : "ready");
       } catch {
         if (active) {
           setViewState("error");
@@ -77,7 +79,13 @@ export function CaseLogView() {
   if (viewState === "empty") {
     return (
       <section className="card empty-state">
-        <p>目前沒有已儲存的案件。請先在分析頁完成一次分析並按下「儲存到案件紀錄」。</p>
+        {skippedCount > 0 ? (
+          <p role="alert">
+            找到 {skippedCount} 筆無法讀取的舊紀錄（格式已過期或資料不完整）。這些紀錄不會顯示，但不影響新的分析與儲存。
+          </p>
+        ) : (
+          <p>目前沒有已儲存的案件。請先在分析頁完成一次分析並按下「儲存到案件紀錄」。</p>
+        )}
         <p>
           <Link href="/">回到分析訊息</Link>
         </p>
@@ -87,6 +95,11 @@ export function CaseLogView() {
 
   return (
     <section className="case-log">
+      {skippedCount > 0 ? (
+        <p className="input-help" role="status">
+          已略過 {skippedCount} 筆無法讀取的舊紀錄。
+        </p>
+      ) : null}
       <div className="case-log-toolbar">
         <button aria-label="下載 JSON" onClick={handleExport} type="button">
           下載 JSON

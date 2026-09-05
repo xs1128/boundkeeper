@@ -47,12 +47,20 @@ afterEach(async () => {
 
 describe("case log view", () => {
   it("explains the empty state and links back to analysis", async () => {
-    vi.mocked(listCaseEntries).mockResolvedValue([]);
+    vi.mocked(listCaseEntries).mockResolvedValue({ entries: [], skippedCount: 0 });
     await render();
     await act(async () => {
       await vi.waitFor(() => expect(container.textContent).toContain("目前沒有已儲存的案件"));
     });
     expect(container.querySelector('a[href="/"]')).not.toBeNull();
+  });
+
+  it("explains when only unreadable legacy records remain", async () => {
+    vi.mocked(listCaseEntries).mockResolvedValue({ entries: [], skippedCount: 2 });
+    await render();
+    await act(async () => {
+      await vi.waitFor(() => expect(container.textContent).toContain("找到 2 筆無法讀取的舊紀錄"));
+    });
   });
 
   it("shows a storage error without entries", async () => {
@@ -65,7 +73,7 @@ describe("case log view", () => {
   });
 
   it("renders saved analysis without original message text and can export JSON", async () => {
-    vi.mocked(listCaseEntries).mockResolvedValue([entry]);
+    vi.mocked(listCaseEntries).mockResolvedValue({ entries: [entry], skippedCount: 0 });
     await render();
     await act(async () => {
       await vi.waitFor(() => expect(container.textContent).toContain(SAMPLE_ANALYZE_RESULT.explanationZh));

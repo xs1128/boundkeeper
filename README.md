@@ -138,11 +138,11 @@ curl -i http://localhost:3000/api/analyze \
 ## 作品展示
 
 - 作品展示網址：https://genai-hack-amber.vercel.app
-- LINE 官方帳號：https://line.me/R/ti/p/@788hndro（ID `@788hndro`）
+- LINE 官方帳號：https://line.me/R/ti/p/%40031qhelh（ID `@031qhelh`）
 - 評選影片：尚未提供。
 - 目前可重現：開啟網站、選評審展示範例、檢查訊息、複製諮詢摘要、儲存並下載 JSON。步驟見 [docs/web-demo.md](docs/web-demo.md)。LINE bot 測試見 [docs/line-integration.md](docs/line-integration.md)。
 
-[加入界線守門員 LINE 官方帳號](https://line.me/R/ti/p/@788hndro)
+[加入界線守門員 LINE 官方帳號](https://line.me/R/ti/p/%40031qhelh)
 
 ![掃描加入界線守門員 LINE 官方帳號](public/line-oa-qr.jpg)
 

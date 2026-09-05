@@ -14,15 +14,15 @@ https://genai-hack-amber.vercel.app/api/webhooks/line
 
 **加入官方帳號「界線守門員」：**
 
-- 加好友連結：https://line.me/R/ti/p/@788hndro
-- 帳號 ID：`@788hndro`
+- 加好友連結：https://line.me/R/ti/p/%40031qhelh
+- 帳號 ID：`@031qhelh`
 - QR：[`public/line-oa-qr.jpg`](../public/line-oa-qr.jpg)
 
 ---
 
 ## 隊友怎麼測（不需要 Vercel 權限）
 
-1. 用 [加好友連結](https://line.me/R/ti/p/@788hndro) 或掃描 `public/line-oa-qr.jpg` 加入官方帳號。加好友當下會先收到一則歡迎訊息＋完整固定聲明（僅此一次）。
+1. 用 [加好友連結](https://line.me/R/ti/p/%40031qhelh) 或掃描 `public/line-oa-qr.jpg` 加入官方帳號。加好友當下會先收到一則歡迎訊息＋完整固定聲明（僅此一次）。
 2. 用手機 LINE 傳**文字**。不要傳貼圖／圖片／語音；那些會被忽略且不會回覆。
 3. 不要從 Official Account Manager 的 **聊天** 視窗回訊息，那會用掉 reply token。
 4. 貼上下列**完整原文**，一個字都不要改。與網站範例相同的文字走離線 fixture，不呼叫模型。

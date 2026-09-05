@@ -1,4 +1,4 @@
-# SPEC — 勞權濾網 (Labor Filter)
+# SPEC — 界線守門員 (Labor Filter)
 
 Worker-side workplace communication copilot that analyzes **incoming** supervisor messages against Taiwan labor law, flags potential risks, and helps workers respond, document, and escalate safely. It creates a new operating layer for worker–manager communication and worker-support organizations. Optional stretch: connect to LINE, Gmail, or other channels.
 
@@ -23,7 +23,7 @@ Taiwan’s **職場霸凌防治專章** (effective **2026-07-01**) increases awa
 
 ## 2. Product vision
 
-> **「主管傳來的每一句話，先經過你的勞權濾網。」**
+> **「主管傳來的每一句話，先經過你的界線守門員。」**
 
 A privacy-first filter between **higher-ups** and **workers**:
 
@@ -166,7 +166,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) §6 for adapter design.
 
 **Disclaimer (footer, every result):**
 
-> 勞權濾網使用 AI 提供一般性勞動法資訊與溝通建議，不構成法律意見或律師代理。個案認定需綜合情境與證據。如需申訴或法律協助，請洽 1955 勞工諮詢申訴專線或專業律師。
+> 界線守門員使用 AI 提供一般性勞動法資訊與溝通建議，不構成法律意見或律師代理。個案認定需綜合情境與證據。如需申訴或法律協助，請洽 1955 勞工諮詢申訴專線或專業律師。
 
 **Category definitions:** maintain in `assets/legal/category-definitions.zh-TW.md` when implemented.
 

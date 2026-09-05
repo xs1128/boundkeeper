@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { PRODUCT_NAME_ZH } from "@/src/product";
 
 const links = [
   { href: "/", label: "分析訊息" },
@@ -21,7 +22,7 @@ export function SiteNav() {
             <path d="M15 21.5h18M15 25h14M15 28.5h10" stroke="#136c5a" strokeWidth="2.2" strokeLinecap="round"/>
           </svg>
         </span>
-        <span className="brand-name">勞權濾網</span>
+        <span className="brand-name">{PRODUCT_NAME_ZH}</span>
       </Link>
       <nav aria-label="主要導覽" className="site-nav">
         {links.map((link) => {

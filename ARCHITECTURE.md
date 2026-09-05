@@ -1,4 +1,4 @@
-# ARCHITECTURE — 勞權濾網 (Labor Filter)
+# ARCHITECTURE — 界線守門員 (Labor Filter)
 
 Technical architecture for the worker-side Taiwan labor-law message filter. MVP is **paste-in web app**; LINE / Gmail / other channels are **optional adapters** behind a shared analysis core.
 

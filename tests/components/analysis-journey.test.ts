@@ -485,7 +485,7 @@ describe("B2 copy, context, and demo picker", () => {
     expect(writeText.mock.calls[0][0]).toContain(result.inputImprovementZh[0]);
     expect(writeText.mock.calls[0][0]).not.toContain("主管原文唯一標記");
     await click('[aria-label="複製諮詢摘要"]');
-    expect(writeText.mock.calls[1][0]).toContain("勞權濾網諮詢摘要");
+    expect(writeText.mock.calls[1][0]).toContain("界線守門員諮詢摘要");
     expect(writeText.mock.calls[1][0]).toContain(result.explanationZh);
     expect(writeText.mock.calls[1][0]).toContain(FIXED_DISCLAIMER);
     expect(writeText.mock.calls[1][0]).not.toContain("主管原文唯一標記");
@@ -499,7 +499,7 @@ describe("B2 copy, context, and demo picker", () => {
       await render(createElement(AnalysisResult, { result }));
       await click('[aria-label="複製諮詢摘要"]');
       expect(container.textContent).toContain("無法自動複製");
-      expect(query<HTMLTextAreaElement>(".copy-fallback").value).toContain("勞權濾網諮詢摘要");
+      expect(query<HTMLTextAreaElement>(".copy-fallback").value).toContain("界線守門員諮詢摘要");
     } finally {
       Reflect.deleteProperty(document, "execCommand");
     }

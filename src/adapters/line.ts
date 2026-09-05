@@ -1,6 +1,7 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { analyzeMessage } from "../analysis/analyze-message";
 import { FIXED_DISCLAIMER } from "../analysis/disclaimer";
+import { PRODUCT_NAME_ZH } from "../product";
 import { AnalysisError } from "../analysis/errors";
 import { plantedFixtures } from "../analysis/fixtures/planted";
 import { normalizeMessage } from "../analysis/normalize";
@@ -183,7 +184,7 @@ export function formatLineErrorMessages(messageZh: string): string[] {
 
 export function formatLineWelcomeMessages(): string[] {
   return packLineMessages(
-    ["您好，我是勞權濾網。貼上主管訊息，我會分析風險，附上法規來源與回覆建議。"],
+    [`您好，我是${PRODUCT_NAME_ZH}。貼上主管訊息，我會分析風險，附上法規來源與回覆建議。`],
     disclaimerSection(),
   );
 }

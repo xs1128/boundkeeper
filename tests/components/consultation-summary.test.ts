@@ -7,7 +7,7 @@ import { SAMPLE_ANALYZE_RESULT } from "../../components/sample-analyze-result";
 describe("consultation summary", () => {
   it("formats a shareable handoff without requiring the original message", () => {
     const summary = formatConsultationSummary(SAMPLE_ANALYZE_RESULT);
-    expect(summary).toContain("勞權濾網諮詢摘要");
+    expect(summary).toContain("界線守門員諮詢摘要");
     expect(summary).toContain("高風險");
     expect(summary).toContain(SAMPLE_ANALYZE_RESULT.explanationZh);
     expect(summary).toContain(formatImprovementTips(SAMPLE_ANALYZE_RESULT.inputImprovementZh));

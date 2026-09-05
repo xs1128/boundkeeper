@@ -1,4 +1,4 @@
-# Repository Guidelines — 勞權濾網 (Labor Filter)
+# Repository Guidelines — 界線守門員 (Labor Filter)
 
 Worker-side Taiwan labor-law message filter. Analyzes **incoming** supervisor messages, flags risks, suggests replies. MVP = paste-in web app; stretch = LINE / Gmail adapters.
 
@@ -10,7 +10,7 @@ Worker-side Taiwan labor-law message filter. Analyzes **incoming** supervisor me
 
 | Item | Value |
 |------|--------|
-| Codename | Labor Filter / 勞權濾網 |
+| Codename | Labor Filter / 界線守門員 |
 | Track | FUTUREMODE BUILDMODE — Track 03 Future of Work |
 | Host | Vercel |
 | MVP | Paste message → analyze → risk + law refs + suggested reply |

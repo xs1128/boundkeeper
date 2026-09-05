@@ -1,6 +1,6 @@
 # Superseded — Decision Ledger
 
-> **Team pivot:** Canonical architecture is now **[../ARCHITECTURE.md](../ARCHITECTURE.md)** (勞權濾網 / Labor Filter).  
+> **Team pivot:** Canonical architecture is now **[../ARCHITECTURE.md](../ARCHITECTURE.md)** (界線守門員 / Labor Filter).  
 > Product spec: **[../SPEC.md](../SPEC.md)**.
 
 ---

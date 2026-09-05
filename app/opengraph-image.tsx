@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
+import { PRODUCT_NAME_ZH } from "@/src/product";
 
-export const alt = "勞權濾網 — 台灣勞工主管訊息分析助手";
+export const alt = `${PRODUCT_NAME_ZH} — 台灣勞工主管訊息分析助手`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -47,7 +48,7 @@ export default function OpenGraphImage() {
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", fontSize: 92, fontWeight: 800, letterSpacing: "-0.04em", lineHeight: 1.05 }}>
-            勞權濾網
+            {PRODUCT_NAME_ZH}
           </div>
           <div style={{ display: "flex", marginTop: 24, maxWidth: 820, fontSize: 34, lineHeight: 1.45, color: "#5f716c" }}>
             看懂主管訊息中的勞權風險 · 法規參考 · 回覆改進建議

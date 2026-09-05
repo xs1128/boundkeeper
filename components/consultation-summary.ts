@@ -1,6 +1,7 @@
 import { FIXED_DISCLAIMER } from "@/src/analysis/disclaimer";
 import type { AnalyzeResult } from "@/src/analysis/types";
 import { EXPORT_NOTICE_ZH } from "@/src/case-log/export";
+import { PRODUCT_NAME_ZH } from "@/src/product";
 import { CONFIDENCE_LABELS, riskLevelLabel } from "./risk-labels";
 
 export function formatImprovementTips(tips: string[]): string {
@@ -16,7 +17,7 @@ export function formatConsultationSummary(analysis: AnalyzeResult): string {
     : "本次結果未列出法規參考。";
   const extraDisclaimers = analysis.disclaimers.filter((text) => text !== FIXED_DISCLAIMER);
   const parts = [
-    "勞權濾網諮詢摘要",
+    `${PRODUCT_NAME_ZH}諮詢摘要`,
     `風險：${riskLevelLabel(analysis.riskLevel)}`,
     `類別：${categories}`,
     "",

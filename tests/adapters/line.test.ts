@@ -139,6 +139,7 @@ describe("LINE reply chunking", () => {
 
   it("sends the full fixed disclaimer once in the welcome message", () => {
     const messages = formatLineWelcomeMessages();
+    expect(messages.join("\n")).toContain("您好，我是界線守門員。");
     expect(messages.join("\n")).toContain(FIXED_DISCLAIMER);
   });
 });

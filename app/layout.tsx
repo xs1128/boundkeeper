@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_TC } from "next/font/google";
 import { StructuredData } from "@/components/StructuredData";
+import { PRODUCT_NAME_ZH } from "@/src/product";
 import { siteUrl } from "./site-url";
 import "./globals.css";
 
@@ -13,7 +14,7 @@ const notoSansTc = Noto_Sans_TC({
 
 const publicSiteUrl = siteUrl();
 
-const title = "勞權濾網";
+const title = PRODUCT_NAME_ZH;
 const description =
   "台灣勞工專用的主管訊息分析工具。貼上訊息即可取得風險提示、法規參考、回覆改進建議與本機案件紀錄。一般資訊，非法律意見。";
 
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
   },
   description,
   keywords: [
-    "勞權濾網",
+    PRODUCT_NAME_ZH,
     "勞動法",
     "職場霸凌",
     "加班",
@@ -35,8 +36,8 @@ export const metadata: Metadata = {
     "1955",
     "勞基法",
   ],
-  authors: [{ name: "勞權濾網" }],
-  creator: "勞權濾網",
+  authors: [{ name: PRODUCT_NAME_ZH }],
+  creator: PRODUCT_NAME_ZH,
   category: "productivity",
   robots: {
     index: true,

@@ -1,4 +1,4 @@
-# Build Plan — 勞權濾網
+# Build Plan — 界線守門員
 
 這份計畫把 hackathon 開發拆成三條可以獨立進行的 workstream。需求一律以 [`SPEC.md`](SPEC.md) 與 [`ARCHITECTURE.md`](ARCHITECTURE.md) 為準；`docs/` 裡已淘汰的 Decision Ledger 文件不可作為實作依據。
 

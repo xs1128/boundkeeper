@@ -138,8 +138,13 @@ curl -i http://localhost:3000/api/analyze \
 ## 作品展示
 
 - 作品展示網址：https://genai-hack-amber.vercel.app
+- LINE 官方帳號：https://line.me/R/ti/p/@788hndro（ID `@788hndro`）
 - 評選影片：尚未提供。
 - 目前可重現：開啟網站、選評審展示範例、檢查訊息、複製諮詢摘要、儲存並下載 JSON。步驟見 [docs/web-demo.md](docs/web-demo.md)。LINE bot 測試見 [docs/line-integration.md](docs/line-integration.md)。
+
+[加入界線守門員 LINE 官方帳號](https://line.me/R/ti/p/@788hndro)
+
+![掃描加入界線守門員 LINE 官方帳號](public/line-oa-qr.jpg)
 
 ## 限制與未來工作
 
@@ -147,11 +152,10 @@ curl -i http://localhost:3000/api/analyze \
 - **判斷範圍有限：** 產品定位為單則訊息的風險提示，個案認定仍需情境與證據，不提供違法判決或勝訴保證。
 - **PDF 尚未提供：** JSON 匯出為目前唯一匯出路徑。
 - **延伸整合：** LINE Messaging API bot 已可轉傳文字並回覆分析；Gmail、瀏覽器擴充功能、RAG 與多訊息模式仍屬後續方向。
-- **名稱待同步：** 介面、固定聲明與規格仍保留「勞權濾網」，README 使用「界線守門員」。
 
-本工具不提供雇主監控、員工評分或自動申訴。現行規格要求保留以下固定聲明，原文沿用舊名稱：
+本工具不提供雇主監控、員工評分或自動申訴。固定聲明：
 
-> 勞權濾網使用 AI 提供一般性勞動法資訊與溝通建議，不構成法律意見或律師代理。個案認定需綜合情境與證據。如需申訴或法律協助，請洽 1955 勞工諮詢申訴專線或專業律師。
+> 界線守門員使用 AI 提供一般性勞動法資訊與溝通建議，不構成法律意見或律師代理。個案認定需綜合情境與證據。如需申訴或法律協助，請洽 1955 勞工諮詢申訴專線或專業律師。
 
 ## 第三方服務、資料與素材
 

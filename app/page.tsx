@@ -1,6 +1,8 @@
 import { MessageAnalyzer } from "@/components/MessageAnalyzer";
+import { LineOfficialAccount } from "@/components/LineOfficialAccount";
 import { Disclaimer } from "@/components/Disclaimer";
 import { SiteNav } from "@/components/SiteNav";
+import { PRODUCT_NAME_ZH } from "@/src/product";
 
 export default function HomePage() {
   return (
@@ -9,7 +11,7 @@ export default function HomePage() {
 
       <header className="hero">
         <p className="eyebrow">給工作者的溝通助手</p>
-        <h1>勞權濾網</h1>
+        <h1>{PRODUCT_NAME_ZH}</h1>
         <p className="lede">
           貼上主管訊息，取得風險提示、法規參考與回覆改進建議。由你決定如何回應，我們不代寫完整回覆。
         </p>
@@ -21,6 +23,8 @@ export default function HomePage() {
       </header>
 
       <MessageAnalyzer />
+
+      <LineOfficialAccount />
 
       <Disclaimer />
     </main>

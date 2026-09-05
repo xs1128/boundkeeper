@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { HardNavLink } from "@/components/HardNavLink";
 import { PRODUCT_NAME_ZH } from "@/src/product";
 
 const links = [
@@ -27,12 +28,27 @@ export function SiteNav() {
       <nav aria-label="主要導覽" className="site-nav">
         {links.map((link) => {
           const active = pathname === link.href;
+          const className = active ? "nav-link nav-link-active" : "nav-link";
+
+          if (link.href === "/log") {
+            return (
+              <HardNavLink
+                key={link.href}
+                href={link.href}
+                aria-current={active ? "page" : undefined}
+                className={className}
+              >
+                {link.label}
+              </HardNavLink>
+            );
+          }
+
           return (
             <Link
               key={link.href}
               href={link.href}
               aria-current={active ? "page" : undefined}
-              className={active ? "nav-link nav-link-active" : "nav-link"}
+              className={className}
             >
               {link.label}
             </Link>

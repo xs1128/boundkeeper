@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_TC } from "next/font/google";
+import { NavigationRecovery } from "@/components/NavigationRecovery";
 import { StructuredData } from "@/components/StructuredData";
 import { PRODUCT_NAME_ZH } from "@/src/product";
 import { siteUrl } from "./site-url";
@@ -72,6 +73,7 @@ export default function RootLayout({
   return (
     <html lang="zh-Hant" className={notoSansTc.variable}>
       <body>
+        <NavigationRecovery />
         <StructuredData />
         {children}
       </body>

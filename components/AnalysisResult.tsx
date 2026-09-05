@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import type { AnalyzeResult as AnalyzeResultData } from "@/src/analysis/types";
+import { HardNavLink } from "@/components/HardNavLink";
 import { FIXED_DISCLAIMER } from "@/src/analysis/disclaimer";
 import { formatConsultationSummary, formatImprovementTips } from "./consultation-summary";
 import { Disclaimer } from "./Disclaimer";
@@ -100,7 +100,7 @@ export function AnalysisResult({ result, onSave, isSaving = false, saveMessage }
             {saved && (
               <>
                 {" "}
-                <Link href="/log">查看案件紀錄</Link>
+                <HardNavLink href="/log">查看案件紀錄</HardNavLink>
               </>
             )}
           </p>
